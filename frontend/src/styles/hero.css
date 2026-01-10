@@ -1,6 +1,6 @@
-:root {
+/* :root {
   --hero-h: 100vh;
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -14,7 +14,7 @@ body {
 
 .hero {
   position: relative;
-  height: var(--hero-h);
+  height: 100vh;
   width: 100%;
   overflow: hidden;
   background: #fff;
@@ -96,4 +96,84 @@ body {
 .hero-hint .pct {
   margin-left: 10px;
   font-weight: 700;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Keep system cursor hidden on canvas */
+.hero-canvas {
+  cursor: none;
+}
+
+/* Custom eraser cursor */
+.hero-eraser-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-9999px, -9999px);
+  transition: opacity 180ms ease;
+}
+
+.hero-eraser-cursor.is-visible {
+  opacity: 1;
+}
+
+.hero-eraser-ring {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.75);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.hero-eraser-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.8);
+  transform: translate(-50%, -50%);
+}
+
+/* press feedback */
+.hero-eraser-cursor.is-down .hero-eraser-ring {
+  transform: scale(0.92);
 }
