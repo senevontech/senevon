@@ -119,3 +119,11 @@
 .corner.tr { right: 10px; top: 10px; border-left: 0; border-bottom: 0; }
 .corner.bl { left: 10px; bottom: 10px; border-right: 0; border-top: 0; }
 .corner.br { right: 10px; bottom: 10px; border-left: 0; border-top: 0; }
+
+
+
+
+.gsap-word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}

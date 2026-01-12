@@ -231,21 +231,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import "./ChainGrids.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const partners = ["Chainlink", "TRON", "BNB", "0x"];
 
-/* ------------------- helpers: split into words ------------------- */
+/* ------------------- helpers: split into words (safe) ------------------- */
 function splitWords(el) {
-  const text = el.textContent || "";
+  // store original text once (so gsap.context revert can restore safely)
+  if (!el.dataset.originalText) el.dataset.originalText = el.textContent || "";
+
+  const text = el.dataset.originalText || "";
   const words = text.trim().split(/\s+/);
 
-  el.innerHTML = words
-    .map((w) => `<span class="gsap-word">${w}&nbsp;</span>`)
-    .join("");
-
+  el.innerHTML = words.map((w) => `<span class="gsap-word">${w}&nbsp;</span>`).join("");
   return el.querySelectorAll(".gsap-word");
 }
 
@@ -254,26 +267,35 @@ export default function ChainLabsGridHero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const targets = scopeRef.current?.querySelectorAll('[data-animate="words"]') || [];
+      const targets =
+        scopeRef.current?.querySelectorAll('[data-animate="words"]') || [];
 
-      const allWords = [];
       targets.forEach((el) => {
-        // skip if empty
-        if (!el.textContent?.trim()) return;
+        // split to words
         const words = splitWords(el);
-        allWords.push(...words);
-      });
+        if (!words?.length) return;
 
-      gsap.set(allWords, { opacity: 0, y: 18, filter: "blur(8px)" });
+        // initial state
+        gsap.set(words, { opacity: 0, y: 18, filter: "blur(8px)" });
 
-      gsap.to(allWords, {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.02,
-        delay: 0.12,
+        // animate when element comes into viewport
+        gsap.to(words, {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.75,
+          ease: "power3.out",
+          stagger: 0.03,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            end: "top 50%",
+            toggleActions: "play none none reverse", // reverse on scroll back up
+            // If you want it to animate ONLY ONCE, change to:
+            // toggleActions: "play none none none",
+            // once: true,
+          },
+        });
       });
     }, scopeRef);
 
@@ -281,11 +303,14 @@ export default function ChainLabsGridHero() {
   }, []);
 
   return (
-    <section ref={scopeRef} className="relative min-h-screen bg-[#d9d9d9] overflow-hidden">
+    <section
+      ref={scopeRef}
+      className="relative min-h-screen bg-[#d9d9d9] overflow-hidden"
+    >
       {/* Subtle page grid lines */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background-image:linear-gradient(to_right,rgba(0,0,0,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.18)_1px,transparent_1px)] [background-size:220px_220px]" />
 
-      {/* RIGHT social bar like screenshot */}
+      {/* RIGHT social bar */}
       <div className="absolute right-6 top-[110px] z-20 hidden w-[44px] overflow-hidden rounded-xl border border-black/25 bg-white/40 backdrop-blur md:block">
         {["◎", "𝕏", "↗", "M", "in"].map((t) => (
           <button
@@ -298,9 +323,7 @@ export default function ChainLabsGridHero() {
       </div>
 
       <div className="mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6">
-        {/* Random-size grid (12 cols) */}
         <div className="grid-auto grid grid-cols-12 gap-0 border border-black/25 bg-[#d9d9d9]">
-          {/* Top-left small utility tile */}
           <Tile className="col-span-12 md:col-span-2 min-h-[84px]">
             <div className="flex h-full items-center justify-start px-4 text-black/70">
               <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/30">
@@ -309,7 +332,6 @@ export default function ChainLabsGridHero() {
             </div>
           </Tile>
 
-          {/* Giant title tile */}
           <Tile className="col-span-12 md:col-span-10 min-h-[320px] md:min-h-[360px]">
             <div className="relative h-full">
               <div className="absolute left-6 top-6 h-3 w-3 bg-[#ff5a12]" />
@@ -326,7 +348,6 @@ export default function ChainLabsGridHero() {
             </div>
           </Tile>
 
-          {/* Left copy / CTA */}
           <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
             <div className="h-full p-6">
               <div
@@ -356,7 +377,6 @@ export default function ChainLabsGridHero() {
             </div>
           </Tile>
 
-          {/* Center image tile */}
           <Tile className="col-span-12 md:col-span-6 min-h-[320px]">
             <div className="relative h-full overflow-hidden">
               <div className="pixel-surface absolute inset-0">
@@ -384,7 +404,6 @@ export default function ChainLabsGridHero() {
                 </div>
               </div>
 
-              {/* Corner markers */}
               <Corner x="12px" y="12px" />
               <Corner x="calc(100% - 12px)" y="12px" />
               <Corner x="12px" y="calc(100% - 12px)" />
@@ -392,7 +411,6 @@ export default function ChainLabsGridHero() {
             </div>
           </Tile>
 
-          {/* Right media tile */}
           <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
             <div className="relative h-full p-6">
               <div className="pixel-box grid h-[160px] w-full place-items-center overflow-hidden rounded-xl border border-black/25 bg-black/70">
@@ -421,7 +439,6 @@ export default function ChainLabsGridHero() {
             </div>
           </Tile>
 
-          {/* Partners strip */}
           {partners.map((p) => (
             <Tile key={p} className="col-span-6 md:col-span-3 min-h-[120px]">
               <div className="grid h-full place-items-center">
