@@ -1,22 +1,15 @@
+
+
 // import React, { useEffect, useRef } from "react";
 // import "../styles/about.css";
 
-// /**
-//  * WaterInteractionSection
-//  * - Dark background section
-//  * - Centered orange card
-//  * - WebGL canvas with interactive ripple distortion
-//  *
-//  * No external libs (pure WebGL).
-//  */
-// export default function WaterInteractionSection() {
+// export default function About() {
 //   const canvasRef = useRef(null);
 
 //   useEffect(() => {
 //     const canvas = canvasRef.current;
 //     if (!canvas) return;
 
-//     // ---------- WebGL helpers ----------
 //     const gl =
 //       canvas.getContext("webgl", { antialias: true, alpha: true }) ||
 //       canvas.getContext("experimental-webgl", { antialias: true, alpha: true });
@@ -58,8 +51,6 @@
 //       return pr;
 //     };
 
-//     // ---------- Shaders ----------
-//     // Fullscreen quad
 //     const VS = `
 //       attribute vec2 aPos;
 //       varying vec2 vUv;
@@ -69,37 +60,34 @@
 //       }
 //     `;
 
-//     // Procedural ripple field using a small list of ripples
-//     // Each ripple: xy center, z startTime, w strength
 //     const MAX_RIPPLES = 24;
 
+//     // ✅ FIX: flip y ONLY in shader so Canvas2D looks correct (no upside-down text)
 //     const FS = `
 //       precision mediump float;
 //       varying vec2 vUv;
 
 //       uniform sampler2D uTex;
-//       uniform vec2 uRes;
 //       uniform float uTime;
 
 //       uniform int uRippleCount;
 //       uniform vec4 uRipples[${MAX_RIPPLES}];
 
-//       // cheap vignette
 //       float vignette(vec2 uv) {
 //         float d = distance(uv, vec2(0.5));
-//         return smoothstep(0.9, 0.35, d);
+//         return smoothstep(0.95, 0.35, d);
 //       }
 
 //       void main(){
-//         vec2 uv = vUv;
+//         // ✅ Flip vUv.y so texture matches Canvas2D orientation
+//         vec2 uv = vec2(vUv.x, 1.0 - vUv.y);
 
-//         // build displacement
 //         vec2 disp = vec2(0.0);
-//         float amp = 0.016;       // overall displacement amount
-//         float freq = 38.0;       // ripple frequency
-//         float speed = 1.65;      // ripple travel speed
-//         float falloff = 8.5;     // spatial falloff
-//         float decay = 1.3;       // time decay
+//         float amp = 0.017;
+//         float freq = 38.0;
+//         float speed = 1.65;
+//         float falloff = 8.5;
+//         float decay = 1.25;
 
 //         for(int i=0; i<${MAX_RIPPLES}; i++){
 //           if(i >= uRippleCount) break;
@@ -112,9 +100,7 @@
 //           float t = max(0.0, uTime - startT);
 //           float d = distance(uv, c);
 
-//           // ring wave traveling outwards
 //           float wave = sin((d * freq) - (t * speed * freq));
-//           // envelope: strong near ring, fading over distance/time
 //           float env = exp(-d * falloff) * exp(-t * decay);
 //           float w = wave * env * strength;
 
@@ -124,12 +110,10 @@
 
 //         vec2 uv2 = uv + disp * amp;
 
-//         // sample
 //         vec4 col = texture2D(uTex, uv2);
 
-//         // subtle highlight + vignette for that premium "glass water" vibe
 //         float vig = vignette(uv);
-//         col.rgb *= (0.92 + 0.12 * vig);
+//         col.rgb *= (0.93 + 0.12 * vig);
 
 //         gl_FragColor = col;
 //       }
@@ -140,19 +124,12 @@
 
 //     gl.useProgram(program);
 
-//     // ---------- Fullscreen quad geometry ----------
+//     // Fullscreen quad
 //     const quad = gl.createBuffer();
 //     gl.bindBuffer(gl.ARRAY_BUFFER, quad);
 //     gl.bufferData(
 //       gl.ARRAY_BUFFER,
-//       new Float32Array([
-//         -1, -1,
-//         1, -1,
-//         -1,  1,
-//         -1,  1,
-//         1, -1,
-//         1,  1,
-//       ]),
+//       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
 //       gl.STATIC_DRAW
 //     );
 
@@ -160,79 +137,14 @@
 //     gl.enableVertexAttribArray(aPos);
 //     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-//     // ---------- Uniforms ----------
 //     const uTex = gl.getUniformLocation(program, "uTex");
-//     const uRes = gl.getUniformLocation(program, "uRes");
 //     const uTime = gl.getUniformLocation(program, "uTime");
 //     const uRippleCount = gl.getUniformLocation(program, "uRippleCount");
 //     const uRipples = gl.getUniformLocation(program, "uRipples[0]");
 
-//     // ---------- Create a texture from an offscreen canvas (orange UI card image) ----------
-//     // This lets you render any UI (text/logo/etc.) and distort it in WebGL.
+//     // Offscreen source canvas (draw UI here -> ripple distorts it)
 //     const sourceCanvas = document.createElement("canvas");
 //     const sctx = sourceCanvas.getContext("2d");
-
-//     const makeSourceTexture = (w, h) => {
-//       sourceCanvas.width = w;
-//       sourceCanvas.height = h;
-
-//       // orange background like reference
-//       const g = sctx.createLinearGradient(0, 0, w, h);
-//       g.addColorStop(0, "#FF6A1A");
-//       g.addColorStop(1, "#F25A0F");
-//       sctx.fillStyle = g;
-//       sctx.fillRect(0, 0, w, h);
-
-//       // Top nav-like hints (subtle)
-//       sctx.globalAlpha = 0.55;
-//       sctx.fillStyle = "#fff";
-//       sctx.font = `${Math.max(12, w * 0.018)}px Inter, system-ui, Arial`;
-//       sctx.fillText("gentlerain", w * 0.04, h * 0.09);
-//       sctx.fillText("Product", w * 0.23, h * 0.09);
-//       sctx.fillText("Concept", w * 0.33, h * 0.09);
-//       sctx.fillText("For business", w * 0.43, h * 0.09);
-//       sctx.globalAlpha = 1;
-
-//       // Big hero word (wavy in reference, here we keep solid)
-//       sctx.fillStyle = "rgba(255,255,255,0.85)";
-//       sctx.font = `900 ${Math.max(56, w * 0.14)}px Inter, system-ui, Arial`;
-//       sctx.fillText("gentlerain", w * 0.07, h * 0.34);
-
-//       // Center icon
-//       sctx.globalAlpha = 0.9;
-//       sctx.beginPath();
-//       sctx.arc(w * 0.5, h * 0.55, Math.max(16, w * 0.035), 0, Math.PI * 2);
-//       sctx.fillStyle = "rgba(255,255,255,0.2)";
-//       sctx.fill();
-//       sctx.globalAlpha = 1;
-
-//       // Bottom-left tagline
-//       sctx.fillStyle = "rgba(255,255,255,0.95)";
-//       sctx.font = `600 ${Math.max(14, w * 0.024)}px Inter, system-ui, Arial`;
-//       sctx.fillText(
-//         "Leverage AI to grow valuable skills through",
-//         w * 0.06,
-//         h * 0.86
-//       );
-//       sctx.fillText(
-//         "immersive realistic role play scenarios",
-//         w * 0.06,
-//         h * 0.91
-//       );
-
-//       // Bottom-right button
-//       const btnW = w * 0.22;
-//       const btnH = h * 0.08;
-//       const bx = w * 0.72;
-//       const by = h * 0.84;
-//       sctx.strokeStyle = "rgba(255,255,255,0.8)";
-//       sctx.lineWidth = 2;
-//       roundRect(sctx, bx, by, btnW, btnH, btnH * 0.5);
-//       sctx.stroke();
-//       sctx.fillStyle = "rgba(255,255,255,0.92)";
-//       sctx.font = `700 ${Math.max(12, w * 0.02)}px Inter, system-ui, Arial`;
-//       sctx.fillText("Contact Sales", bx + btnW * 0.22, by + btnH * 0.62);
-//     };
 
 //     function roundRect(ctx, x, y, w, h, r) {
 //       const rr = Math.min(r, w / 2, h / 2);
@@ -245,7 +157,62 @@
 //       ctx.closePath();
 //     }
 
-//     // Create GL texture
+//     const makeSourceTexture = (w, h) => {
+//       sourceCanvas.width = w;
+//       sourceCanvas.height = h;
+
+//       const g = sctx.createLinearGradient(0, 0, w, h);
+//       g.addColorStop(0, "#FF6A1A");
+//       g.addColorStop(1, "#F25A0F");
+//       sctx.fillStyle = g;
+//       sctx.fillRect(0, 0, w, h);
+
+//       // Top nav
+//       sctx.globalAlpha = 0.6;
+//       sctx.fillStyle = "#fff";
+//       sctx.font = `${Math.max(12, w * 0.018)}px Inter, system-ui, Arial`;
+//       sctx.fillText("SENEVONTECH", w * 0.04, h * 0.09);
+//       sctx.fillText("Product", w * 0.23, h * 0.09);
+//       sctx.fillText("Concept", w * 0.33, h * 0.09);
+//       sctx.fillText("For business", w * 0.43, h * 0.09);
+//       sctx.globalAlpha = 1;
+
+//       // Big word (✅ will not be flipped now)
+//       sctx.fillStyle = "rgba(255,255,255,0.88)";
+//       sctx.font = `900 ${Math.max(56, w * 0.14)}px Inter, system-ui, Arial`;
+//       sctx.fillText("Senevon", w * 0.07, h * 0.34);
+
+//       // Center icon
+//       sctx.globalAlpha = 0.9;
+//       sctx.beginPath();
+//       sctx.arc(w * 0.5, h * 0.55, Math.max(16, w * 0.035), 0, Math.PI * 2);
+//       sctx.fillStyle = "rgba(255,255,255,0.2)";
+//       sctx.fill();
+//       sctx.globalAlpha = 1;
+
+//       // Bottom-left text
+//       sctx.fillStyle = "rgba(255,255,255,0.95)";
+//       sctx.font = `600 ${Math.max(14, w * 0.024)}px Inter, system-ui, Arial`;
+//       sctx.fillText("Leverage AI to grow valuable skills through", w * 0.06, h * 0.86);
+//       sctx.fillText("immersive realistic role play scenarios", w * 0.06, h * 0.91);
+
+//       // Button
+//       const btnW = w * 0.22;
+//       const btnH = h * 0.08;
+//       const bx = w * 0.72;
+//       const by = h * 0.84;
+
+//       sctx.strokeStyle = "rgba(255,255,255,0.85)";
+//       sctx.lineWidth = 2;
+//       roundRect(sctx, bx, by, btnW, btnH, btnH * 0.5);
+//       sctx.stroke();
+
+//       sctx.fillStyle = "rgba(255,255,255,0.95)";
+//       sctx.font = `700 ${Math.max(12, w * 0.02)}px Inter, system-ui, Arial`;
+//       sctx.fillText("Contact Sales", bx + btnW * 0.22, by + btnH * 0.62);
+//     };
+
+//     // GL texture
 //     const tex = gl.createTexture();
 //     gl.activeTexture(gl.TEXTURE0);
 //     gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -256,12 +223,12 @@
 //     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 //     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-//     // ---------- Ripple storage ----------
-//     const ripples = []; // {x,y,start,strength}
+//     // Ripples
+//     const ripples = [];
 //     const pushRipple = (x, y, strength = 1.0) => {
-//       // normalize to UV space (0..1)
+//       // ✅ FIX: DO NOT flip Y here. Shader already flipped.
 //       const uvx = clamp(x, 0, 1);
-//       const uvy = clamp(1 - y, 0, 1); // flip Y for shader UV
+//       const uvy = clamp(y, 0, 1);
 
 //       ripples.unshift({
 //         x: uvx,
@@ -273,7 +240,6 @@
 //       if (ripples.length > MAX_RIPPLES) ripples.length = MAX_RIPPLES;
 //     };
 
-//     // ---------- Resize ----------
 //     const resize = () => {
 //       const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
 //       const rect = canvas.getBoundingClientRect();
@@ -283,12 +249,12 @@
 //       canvas.width = w;
 //       canvas.height = h;
 //       gl.viewport(0, 0, w, h);
-//       gl.uniform2f(uRes, w, h);
 
-//       // Rebuild source texture to match aspect (use lower res for speed)
-//       const sw = Math.floor(rect.width * 1.2);
-//       const sh = Math.floor(rect.height * 1.2);
-//       makeSourceTexture(Math.max(400, sw), Math.max(240, sh));
+//       // source texture resolution
+//       const sw = Math.max(900, Math.floor(rect.width * 1.3));
+//       const sh = Math.max(520, Math.floor(rect.height * 1.3));
+//       makeSourceTexture(sw, sh);
+
 //       gl.bindTexture(gl.TEXTURE_2D, tex);
 //       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceCanvas);
 //     };
@@ -297,7 +263,6 @@
 //     const onResize = () => resize();
 //     window.addEventListener("resize", onResize);
 
-//     // ---------- Pointer interaction ----------
 //     const onMove = (e) => {
 //       const r = canvas.getBoundingClientRect();
 //       const x = (e.clientX - r.left) / r.width;
@@ -315,7 +280,6 @@
 //     canvas.addEventListener("pointermove", onMove, { passive: true });
 //     canvas.addEventListener("pointerdown", onDown, { passive: true });
 
-//     // ---------- Render loop ----------
 //     let raf = 0;
 //     const draw = () => {
 //       raf = requestAnimationFrame(draw);
@@ -323,12 +287,10 @@
 //       const now = performance.now() / 1000;
 //       gl.uniform1f(uTime, now);
 
-//       // decay ripples (remove old ones)
 //       for (let i = ripples.length - 1; i >= 0; i--) {
 //         if (now - ripples[i].start > 2.2) ripples.splice(i, 1);
 //       }
 
-//       // pack to vec4 array: (x,y,start,strength)
 //       const packed = new Float32Array(MAX_RIPPLES * 4);
 //       for (let i = 0; i < ripples.length; i++) {
 //         const r = ripples[i];
@@ -357,16 +319,13 @@
 //     };
 //   }, []);
 
-//   return (
-//     <section className="water-sec">
-//       <div className="water-shell">
-//         <div className="water-card">
-//           <canvas ref={canvasRef} className="water-canvas" />
-//           <div className="water-badge">Water Interaction WebGL</div>
-//         </div>
-//       </div>
-//     </section>
-//   );
+
+
+// return (
+//   <section className="water-sec">
+//     <canvas ref={canvasRef} className="water-canvas" />
+//   </section>
+// );
 // }
 
 
@@ -396,22 +355,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useRef } from "react";
-import "../styles/about.css";
 
 export default function About() {
   const canvasRef = useRef(null);
@@ -472,7 +416,6 @@ export default function About() {
 
     const MAX_RIPPLES = 24;
 
-    // ✅ FIX: flip y ONLY in shader so Canvas2D looks correct (no upside-down text)
     const FS = `
       precision mediump float;
       varying vec2 vUv;
@@ -489,7 +432,7 @@ export default function About() {
       }
 
       void main(){
-        // ✅ Flip vUv.y so texture matches Canvas2D orientation
+        // Flip Y so Canvas2D matches normal orientation
         vec2 uv = vec2(vUv.x, 1.0 - vUv.y);
 
         vec2 disp = vec2(0.0);
@@ -552,7 +495,7 @@ export default function About() {
     const uRippleCount = gl.getUniformLocation(program, "uRippleCount");
     const uRipples = gl.getUniformLocation(program, "uRipples[0]");
 
-    // Offscreen source canvas (draw UI here -> ripple distorts it)
+    // Offscreen source canvas
     const sourceCanvas = document.createElement("canvas");
     const sctx = sourceCanvas.getContext("2d");
 
@@ -567,59 +510,78 @@ export default function About() {
       ctx.closePath();
     }
 
-    const makeSourceTexture = (w, h) => {
+    // Draw your UI on an "artboard" that matches the device shape
+    const drawUI = (w, h) => {
       sourceCanvas.width = w;
       sourceCanvas.height = h;
 
+      // background gradient
       const g = sctx.createLinearGradient(0, 0, w, h);
       g.addColorStop(0, "#FF6A1A");
       g.addColorStop(1, "#F25A0F");
       sctx.fillStyle = g;
       sctx.fillRect(0, 0, w, h);
 
-      // Top nav
-      sctx.globalAlpha = 0.6;
+      const isPortrait = h / w > 1.05;
+      const pad = isPortrait ? w * 0.07 : w * 0.05;
+
+      // top nav (hide items on very small widths)
+      sctx.globalAlpha = 0.62;
       sctx.fillStyle = "#fff";
-      sctx.font = `${Math.max(12, w * 0.018)}px Inter, system-ui, Arial`;
-      sctx.fillText("gentlerain", w * 0.04, h * 0.09);
-      sctx.fillText("Product", w * 0.23, h * 0.09);
-      sctx.fillText("Concept", w * 0.33, h * 0.09);
-      sctx.fillText("For business", w * 0.43, h * 0.09);
+      sctx.textBaseline = "alphabetic";
+      sctx.font = `${Math.max(12, w * 0.02)}px Inter, system-ui, Arial`;
+
+      sctx.fillText("SENEVONTECH", pad, h * 0.085);
+
+      if (w > 700) {
+        sctx.fillText("Product", w * 0.26, h * 0.085);
+        sctx.fillText("Concept", w * 0.36, h * 0.085);
+        sctx.fillText("For business", w * 0.47, h * 0.085);
+      } else {
+        // mobile: keep it clean
+        sctx.fillText("Product", pad, h * 0.12);
+      }
       sctx.globalAlpha = 1;
 
-      // Big word (✅ will not be flipped now)
-      sctx.fillStyle = "rgba(255,255,255,0.88)";
-      sctx.font = `900 ${Math.max(56, w * 0.14)}px Inter, system-ui, Arial`;
-      sctx.fillText("gentlerain", w * 0.07, h * 0.34);
+      // big word
+      sctx.fillStyle = "rgba(255,255,255,0.9)";
+      const titleSize = isPortrait ? Math.max(52, w * 0.14) : Math.max(58, w * 0.11);
+      sctx.font = `900 ${titleSize}px Inter, system-ui, Arial`;
+      sctx.fillText("Senevon", pad, isPortrait ? h * 0.28 : h * 0.34);
 
-      // Center icon
+      // center icon
       sctx.globalAlpha = 0.9;
       sctx.beginPath();
-      sctx.arc(w * 0.5, h * 0.55, Math.max(16, w * 0.035), 0, Math.PI * 2);
+      sctx.arc(w * 0.5, h * 0.52, Math.max(16, w * 0.04), 0, Math.PI * 2);
       sctx.fillStyle = "rgba(255,255,255,0.2)";
       sctx.fill();
       sctx.globalAlpha = 1;
 
-      // Bottom-left text
+      // bottom copy
       sctx.fillStyle = "rgba(255,255,255,0.95)";
-      sctx.font = `600 ${Math.max(14, w * 0.024)}px Inter, system-ui, Arial`;
-      sctx.fillText("Leverage AI to grow valuable skills through", w * 0.06, h * 0.86);
-      sctx.fillText("immersive realistic role play scenarios", w * 0.06, h * 0.91);
+      const bodySize = isPortrait ? Math.max(14, w * 0.035) : Math.max(14, w * 0.026);
+      sctx.font = `600 ${bodySize}px Inter, system-ui, Arial`;
 
-      // Button
-      const btnW = w * 0.22;
-      const btnH = h * 0.08;
-      const bx = w * 0.72;
-      const by = h * 0.84;
+      const textY1 = isPortrait ? h * 0.82 : h * 0.86;
+      const textY2 = isPortrait ? h * 0.87 : h * 0.91;
+
+      sctx.fillText("Leverage AI to grow valuable skills through", pad, textY1);
+      sctx.fillText("immersive realistic role play scenarios", pad, textY2);
+
+      // button (bigger on mobile)
+      const btnW = isPortrait ? w * 0.44 : w * 0.22;
+      const btnH = isPortrait ? h * 0.07 : h * 0.08;
+      const bx = isPortrait ? w * 0.5 - btnW * 0.5 : w * 0.72;
+      const by = isPortrait ? h * 0.90 - btnH : h * 0.84;
 
       sctx.strokeStyle = "rgba(255,255,255,0.85)";
       sctx.lineWidth = 2;
-      roundRect(sctx, bx, by, btnW, btnH, btnH * 0.5);
+      roundRect(sctx, bx, by, btnW, btnH, btnH * 0.55);
       sctx.stroke();
 
       sctx.fillStyle = "rgba(255,255,255,0.95)";
-      sctx.font = `700 ${Math.max(12, w * 0.02)}px Inter, system-ui, Arial`;
-      sctx.fillText("Contact Sales", bx + btnW * 0.22, by + btnH * 0.62);
+      sctx.font = `700 ${Math.max(12, w * 0.026)}px Inter, system-ui, Arial`;
+      sctx.fillText("Contact Sales", bx + btnW * 0.20, by + btnH * 0.63);
     };
 
     // GL texture
@@ -636,7 +598,6 @@ export default function About() {
     // Ripples
     const ripples = [];
     const pushRipple = (x, y, strength = 1.0) => {
-      // ✅ FIX: DO NOT flip Y here. Shader already flipped.
       const uvx = clamp(x, 0, 1);
       const uvy = clamp(y, 0, 1);
 
@@ -651,8 +612,12 @@ export default function About() {
     };
 
     const resize = () => {
-      const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
       const rect = canvas.getBoundingClientRect();
+
+      // use "visual" DPR cap so mobile doesn’t go crazy
+      const rawDpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(2, Math.max(1, rawDpr));
+
       const w = Math.max(2, Math.floor(rect.width * dpr));
       const h = Math.max(2, Math.floor(rect.height * dpr));
 
@@ -660,31 +625,35 @@ export default function About() {
       canvas.height = h;
       gl.viewport(0, 0, w, h);
 
-      // source texture resolution
-      const sw = Math.max(900, Math.floor(rect.width * 1.3));
-      const sh = Math.max(520, Math.floor(rect.height * 1.3));
-      makeSourceTexture(sw, sh);
+      // Choose an artboard based on aspect (THIS fixes the squeezed look)
+      const aspect = rect.height / rect.width;
+      const isPortrait = aspect > 1.05;
+
+      // portrait texture for mobile, landscape for desktop
+      const sw = isPortrait ? 900 : 1400;
+      const sh = isPortrait ? 1600 : 800;
+
+      drawUI(sw, sh);
 
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceCanvas);
     };
 
     resize();
-    const onResize = () => resize();
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", resize);
 
     const onMove = (e) => {
       const r = canvas.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width;
       const y = (e.clientY - r.top) / r.height;
-      pushRipple(x, y, 0.9);
+      pushRipple(x, y, 0.85);
     };
 
     const onDown = (e) => {
       const r = canvas.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width;
       const y = (e.clientY - r.top) / r.height;
-      pushRipple(x, y, 1.25);
+      pushRipple(x, y, 1.2);
     };
 
     canvas.addEventListener("pointermove", onMove, { passive: true });
@@ -720,7 +689,7 @@ export default function About() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerdown", onDown);
       gl.deleteTexture(tex);
@@ -729,20 +698,14 @@ export default function About() {
     };
   }, []);
 
-//   return (
-//     <section className="water-sec">
-//       <div className="water-shell">
-//         <div className="water-card">
-//           <canvas ref={canvasRef} className="water-canvas" />
-//           {/* <div className="water-badge">Water Interaction WebGL</div> */}
-//         </div>
-//       </div>
-//     </section>
-//   );
-
-return (
-  <section className="water-sec">
-    <canvas ref={canvasRef} className="water-canvas" />
-  </section>
-);
+  return (
+    <section className="relative w-screen min-h-[100svh] overflow-hidden bg-[#0b0b0f]">
+      {/* subtle backdrop so edges look premium */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_500px_at_50%_-10%,rgba(255,255,255,0.10),transparent_60%),radial-gradient(700px_350px_at_20%_30%,rgba(255,120,50,0.12),transparent_60%)]" />
+      <canvas
+        ref={canvasRef}
+        className="relative block h-[100svh] w-screen touch-none"
+      />
+    </section>
+  );
 }
