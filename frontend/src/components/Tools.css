@@ -1,0 +1,309 @@
+/* Wrap */
+.ts-wrap {
+  position: relative;
+  width: 100%;
+  background: #d9d9d9;
+  overflow: hidden;
+}
+
+/* Grid background */
+.ts-bgGrid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.18) 1px, transparent 1px);
+  background-size: 220px 220px;
+}
+
+/* Shell */
+.ts-shell {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+  padding: 40px 12px;
+}
+@media (min-width: 768px) {
+  .ts-shell { padding: 56px 24px; }
+}
+
+/* Main grid frame */
+.ts-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: #d9d9d9;
+}
+
+/* Tile */
+.ts-tile {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: #d9d9d9;
+}
+.ts-tile::before{
+  content:"";
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  background: rgba(255,255,255,0.12);
+}
+
+/* Header left/right */
+.ts-headerLeft { grid-column: span 12; min-height: 170px; }
+.ts-headerRight { grid-column: span 12; min-height: 170px; }
+
+@media (min-width: 768px){
+  .ts-headerLeft { grid-column: span 7; }
+  .ts-headerRight { grid-column: span 5; }
+}
+
+.ts-accentDot{
+  position:absolute;
+  left: 24px;
+  top: 24px;
+  width: 10px;
+  height: 10px;
+  background: #ff5a12;
+}
+
+.ts-title{
+  position: relative;
+  padding: 42px 20px 20px 20px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #000;
+  font-size: 38px;
+  line-height: 1.05;
+}
+@media (min-width: 768px){
+  .ts-title{ padding: 56px 40px 30px 40px; font-size: 72px; }
+}
+
+.ts-subtitle{
+  position: relative;
+  padding: 34px 20px 12px 20px;
+  color: rgba(0,0,0,0.75);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+}
+@media (min-width: 768px){
+  .ts-subtitle{ padding: 46px 40px 12px 40px; font-size: 15px; }
+}
+
+.ts-note{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 20px 20px;
+  color: rgba(0,0,0,0.6);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+}
+@media (min-width: 768px){
+  .ts-note{ padding: 0 40px 28px 40px; }
+}
+.ts-noteDot{
+  width: 10px;
+  height: 10px;
+  background: #ff5a12;
+}
+
+/* Rows column */
+.ts-rowsCol { grid-column: span 12; }
+.ts-rows{ position: relative; padding: 14px; }
+@media (min-width: 768px){
+  .ts-rows{ padding: 18px; }
+}
+
+/* Row block (big) */
+.ts-row{
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.22);
+  background: rgba(255,255,255,0.14);
+  margin-bottom: 14px;
+}
+.ts-row:last-child{ margin-bottom: 0; }
+
+.ts-rowHead{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 10px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.18);
+}
+@media (min-width: 768px){
+  .ts-rowHead{ padding: 16px 16px 12px 16px; }
+}
+
+.ts-rowTitle{
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  font-size: 12px;
+  color: rgba(0,0,0,0.75);
+}
+.ts-rowSub{
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(0,0,0,0.55);
+}
+
+/* Marquee */
+.ts-marquee{
+  position: relative;
+  overflow: hidden;
+  padding: 14px;
+}
+@media (min-width: 768px){
+  .ts-marquee{ padding: 16px; }
+}
+
+/* Track */
+.ts-track{
+  display:flex;
+  width: max-content;
+  gap: 10px;
+  will-change: transform;
+  animation-duration: var(--ts-speed, 26s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Direction controls */
+.ts-marquee[data-dir="rtl"] .ts-track{
+  animation-name: ts-marquee-rtl;
+}
+.ts-marquee[data-dir="ltr"] .ts-track{
+  animation-name: ts-marquee-ltr;
+}
+
+/* Pause on hover */
+.ts-row:hover .ts-track{
+  animation-play-state: paused;
+}
+
+/* Keyframes (seamless: move by 50% because we doubled content) */
+@keyframes ts-marquee-rtl{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes ts-marquee-ltr{
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* Chips */
+.ts-chip{
+  flex: 0 0 auto;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.22);
+  background: rgba(255,255,255,0.20);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+.ts-row:hover .ts-chip{
+  transform: translateY(-1px);
+}
+
+.ts-chipIcon{
+  display:grid;
+  place-items:center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.22);
+  background: rgba(255,255,255,0.22);
+}
+.ts-chipIcon svg{
+  width: 15px;
+  height: 15px;
+  color: rgba(0,0,0,0.78);
+}
+.ts-chipText{
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: rgba(0,0,0,0.72);
+  white-space: nowrap;
+}
+
+/* Footer tile */
+.ts-footer{
+  grid-column: span 12;
+  display:flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+}
+@media (min-width: 768px){
+  .ts-footer{
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+  }
+}
+.ts-footKicker{
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+}
+.ts-footText{
+  margin-top: 6px;
+  font-weight: 900;
+  font-size: 16px;
+  color: rgba(0,0,0,0.82);
+}
+
+.ts-footBtns{ display:flex; gap: 10px; flex-wrap: wrap; }
+
+.ts-btnPrimary{
+  border: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #ff5a12;
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  box-shadow: 0 16px 30px rgba(255, 90, 18, 0.24);
+  cursor: pointer;
+}
+.ts-btnPrimary:active{ transform: translateY(1px); }
+
+.ts-btnGhost{
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(0,0,0,0.25);
+  color: rgba(0,0,0,0.72);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  cursor: pointer;
+}
+.ts-btnGhost:hover{ background: rgba(255,255,255,0.45); }
+
+/* letters */
+.ts-letter, .ts-subLetter{
+  display:inline-block;
+  will-change: transform, opacity;
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .ts-track{ animation: none !important; }
+}

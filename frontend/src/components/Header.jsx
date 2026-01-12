@@ -11,10 +11,10 @@ export default function Header() {
           </div>
           <div className="leading-none">
             <div className="text-[12px] font-semibold tracking-wide text-black/70">
-              ChainGPT
+              SENEVON
             </div>
             <div className="text-[20px] font-black tracking-[0.16em] text-black">
-              LABS
+              Tech
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function Header() {
         {/* Right: CTA */}
         <div className="flex items-center justify-end px-6">
           <button className="rounded-xl bg-[#ff5a12] px-6 py-2.5 text-[12px] font-black tracking-widest text-white shadow-[0_16px_32px_rgba(255,90,18,0.25)] hover:brightness-[1.03] active:translate-y-[1px]">
-            APPLY NOW
+            Contact Us
           </button>
         </div>
       </div>
