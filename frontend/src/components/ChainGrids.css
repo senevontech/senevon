@@ -114,3 +114,9 @@
   80%  { clip-path: inset(18% 0 72% 0); }
   100% { clip-path: inset(0 0 88% 0); }
 }
+
+
+.gsap-word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
