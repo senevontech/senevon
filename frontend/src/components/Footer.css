@@ -1,0 +1,201 @@
+/* ========= Base ========= */
+.ft-wrap{
+  position: relative;
+  width: 100%;
+  background: #d9d9d9;
+  overflow: hidden;
+}
+
+/* Background grid (outside the main block too) */
+.ft-bgGrid{
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.18) 1px, transparent 1px);
+  background-size: 220px 220px;
+}
+
+.ft-shell{
+  position: relative;
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 18px 12px 26px;
+}
+
+.ft-grid{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: #d9d9d9;
+}
+
+/* Tiles */
+.ft-tile{
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: rgba(255,255,255,0.14);
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.ft-tile:hover{
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.10);
+}
+
+/* ========= Layout ========= */
+.ft-brandTile{ grid-column: 1 / -1; padding: 18px 16px; }
+.ft-col{ grid-column: 1 / -1; padding: 18px 16px; }
+.ft-metaRow{ grid-column: 1 / -1; padding: 16px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content: space-between; }
+.ft-bigRow{ grid-column: 1 / -1; min-height: 210px; display:grid; place-items:center; background: rgba(255,255,255,0.10); }
+
+/* Desktop columns */
+@media (min-width: 900px){
+  .ft-brandTile{ grid-column: 1 / 4; min-height: 170px; }
+  .ft-col{ min-height: 170px; }
+  .ft-col:nth-of-type(2){ grid-column: 4 / 7; }   /* PRODUCTS */
+  .ft-col:nth-of-type(3){ grid-column: 7 / 9; }   /* COMPANY */
+  .ft-col:nth-of-type(4){ grid-column: 9 / 11; }  /* LEGAL */
+  .ft-socialCol{ grid-column: 11 / 13; }          /* SOCIAL */
+  .ft-metaRow{ grid-column: 1 / -1; }
+  .ft-bigRow{ min-height: 320px; }
+}
+
+/* ========= Brand tile ========= */
+.ft-brandTop{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.ft-accentDot{
+  width: 10px;
+  height: 10px;
+  background: #ff5a12;
+  box-shadow: 0 0 0 6px rgba(255,90,18,0.16);
+}
+.ft-brandName{
+  font-weight: 900;
+  letter-spacing: .18em;
+  font-size: 14px;
+  color: rgba(0,0,0,0.82);
+}
+
+/* Pills */
+.ft-pills{
+  margin-top: 14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.ft-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: rgba(255,90,18,0.16);
+  color: rgba(0,0,0,0.85);
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: 11px;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+  text-decoration:none;
+}
+.ft-pill:hover{
+  background: rgba(255,90,18,0.26);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 30px rgba(255,90,18,0.18);
+}
+
+/* ========= Columns ========= */
+.ft-head{
+  font-weight: 900;
+  letter-spacing: .22em;
+  font-size: 12px;
+  color: rgba(0,0,0,0.65);
+  margin-bottom: 14px;
+}
+.ft-links{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ft-link{
+  display:inline-flex;
+  align-items:center;
+  width: fit-content;
+  text-decoration: none;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.25);
+  background: rgba(255,255,255,0.10);
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.ft-link:hover{
+  background: rgba(255,90,18,0.16);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.10);
+}
+
+/* Letter styling for GSAP (per-char) */
+.ft-letter{
+  display:inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .14em;
+  color: rgba(0,0,0,0.78);
+}
+
+/* Meta */
+.ft-meta{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  letter-spacing: .16em;
+  color: rgba(0,0,0,0.55);
+  font-weight: 800;
+}
+
+/* ========= Big word ========= */
+.ft-bigWord{
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  user-select: none;
+}
+
+.ft-bigLetter{
+  display:inline-block;
+  font-weight: 900;
+  font-size: clamp(88px, 16vw, 210px);
+  letter-spacing: .02em;
+  color: rgba(0,0,0,0.92);
+  /* soft inner fade like reference */
+  filter: drop-shadow(0 24px 70px rgba(0,0,0,0.14));
+}
+
+/* Corner accents */
+.ft-bigCorner{
+  position:absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff5a12;
+}
+.ft-bigCorner.tl{ left: 14px; top: 14px; }
+.ft-bigCorner.tr{ right: 14px; top: 14px; }
+.ft-bigCorner.bl{ left: 14px; bottom: 14px; }
+.ft-bigCorner.br{ right: 14px; bottom: 14px; }
+
+/* Extra hover on big block */
+.ft-bigRow:hover .ft-bigLetter{
+  transform: translateY(-1px);
+  transition: transform .25s ease;
+}

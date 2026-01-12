@@ -7,7 +7,8 @@ import Products from "../components/production";
 import AboutUs from "../components/aboutUs";
 import OurWorks from "../components/ourWorks";
 import Careers from "../components/careers";
-import Tools from "../components/Tools"
+import Tools from "../components/Tools";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <OurWorks />
       <Careers />
       <Tools />
+      <Footer />
 
       {/* <Hero2 /> */}
       {/* <About /> */}
