@@ -88,7 +88,7 @@ export default function ChainLabsGridHero() {
                       </div>
                     </div>
                     <div className="mt-6 text-center font-mono text-[12px] text-black/60">
-                      pixelated / distorted hover tile
+                      Senevon AI
                     </div>
                   </div>
                 </div>
