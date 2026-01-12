@@ -1,0 +1,116 @@
+/* random-grid feel: dense packing + same border lines */
+.grid-auto {
+  grid-auto-flow: dense;
+}
+
+/* ---------------- Pixel / distortion effects (tiles) ---------------- */
+
+/* Pixel + scanline overlay on hover */
+.pixel-surface {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+  will-change: transform, filter;
+}
+.pixel-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.12) 0px,
+      rgba(0,0,0,0.12) 1px,
+      transparent 1px,
+      transparent 7px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(0,0,0,0.08) 0px,
+      rgba(0,0,0,0.08) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+.pixel-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(700px 320px at 50% 45%, rgba(255,90,18,0.18), transparent 60%);
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+.pixel-surface:hover {
+  transform: translateY(-2px) scale(1.01);
+  filter: contrast(1.12) saturate(0.85);
+}
+.pixel-surface:hover::before { opacity: 0.55; }
+.pixel-surface:hover::after  { opacity: 1; }
+
+/* a smaller pixel treatment for right media */
+.pixel-box {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+.pixel-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(255,255,255,0.16) 0 2px,
+      transparent 2px 10px
+    );
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+.pixel-box:hover {
+  transform: translateY(-2px);
+  filter: contrast(1.15);
+}
+.pixel-box:hover::before { opacity: 0.9; }
+
+/* ---------------- Text distortion (glitch) ---------------- */
+
+.glitch {
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
+
+.glitch::before,
+.glitch::after {
+  content: "TOMORROW";
+  position: absolute;
+  inset: 0;
+  opacity: 0.0;
+  pointer-events: none;
+}
+
+.glitch:hover::before {
+  opacity: 0.75;
+  transform: translate(3px, -2px);
+  filter: blur(0.3px);
+  animation: glitchShift 260ms steps(2, end) infinite;
+}
+.glitch:hover::after {
+  opacity: 0.55;
+  transform: translate(-3px, 2px);
+  filter: blur(0.3px);
+  animation: glitchShift 220ms steps(2, end) infinite reverse;
+}
+
+@keyframes glitchShift {
+  0%   { clip-path: inset(0 0 88% 0); }
+  20%  { clip-path: inset(12% 0 65% 0); }
+  40%  { clip-path: inset(42% 0 38% 0); }
+  60%  { clip-path: inset(72% 0 18% 0); }
+  80%  { clip-path: inset(18% 0 72% 0); }
+  100% { clip-path: inset(0 0 88% 0); }
+}

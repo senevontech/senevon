@@ -1,0 +1,90 @@
+/* Lightweight “industry” effects: noise, scanline, subtle jitter */
+
+.fx-noise {
+  position: relative;
+}
+.fx-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.10) 0px,
+      rgba(0,0,0,0.10) 1px,
+      transparent 1px,
+      transparent 9px
+    );
+  transition: opacity 220ms ease;
+}
+.fx-noise:hover::after { opacity: 0.55; }
+
+.fx-scan {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+.fx-scan::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(0,0,0,0.10) 0 2px,
+      transparent 2px 12px
+    );
+  transition: opacity 220ms ease;
+}
+.fx-scan:hover {
+  transform: translateY(-2px);
+  filter: contrast(1.08);
+}
+.fx-scan:hover::before { opacity: 0.75; }
+
+.fx-pixel-card {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+.fx-pixel-card::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    700px 320px at 50% 40%,
+    rgba(255,90,18,0.16),
+    transparent 60%
+  );
+  filter: blur(0.6px);
+  transition: opacity 220ms ease;
+}
+.fx-pixel-card:hover {
+  transform: translateY(-2px);
+  filter: contrast(1.08);
+}
+.fx-pixel-card:hover::after { opacity: 1; }
+
+/* Text “distortion” – subtle jitter on hover (mobile safe) */
+.about-glitch,
+.about-glitch-sm {
+  position: relative;
+  display: inline-block;
+}
+
+.about-glitch:hover,
+.about-glitch-sm:hover {
+  animation: aJitter 240ms steps(2, end) infinite;
+}
+
+@keyframes aJitter {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(1px,-1px); }
+  50%  { transform: translate(-1px,1px); }
+  75%  { transform: translate(2px,0); }
+  100% { transform: translate(0,0); }
+}

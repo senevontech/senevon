@@ -177,3 +177,8 @@ body {
 .hero-eraser-cursor.is-down .hero-eraser-ring {
   transform: scale(0.92);
 }
+
+
+.hero-canvas {
+  touch-action: pan-y; /* ✅ allow vertical swipe to scroll */
+}

@@ -1,0 +1,162 @@
+/* Letters for GSAP */
+.cr-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* subtle jitter on hover (text distortion) */
+.cr-title:hover,
+.cr-sub:hover,
+.cr-jitter:hover {
+  animation: crJitter 240ms steps(2, end) infinite;
+}
+
+@keyframes crJitter {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(1px,-1px); }
+  50%  { transform: translate(-1px,1px); }
+  75%  { transform: translate(2px,0); }
+  100% { transform: translate(0,0); }
+}
+
+/* scanline / pixel-ish hover */
+.fx-scan {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+  will-change: transform, filter;
+}
+
+.fx-scan::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.16) 0px,
+      rgba(255,255,255,0.16) 1px,
+      transparent 1px,
+      transparent 9px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255,255,255,0.10) 0px,
+      rgba(255,255,255,0.10) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  transition: opacity 220ms ease;
+}
+
+.fx-scan::after {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    700px 320px at 50% 40%,
+    rgba(255,255,255,0.18),
+    transparent 60%
+  );
+  filter: blur(0.7px);
+  transition: opacity 220ms ease;
+}
+
+.fx-scan:hover {
+  transform: translateY(-2px);
+  filter: contrast(1.08);
+}
+.fx-scan:hover::before { opacity: 0.65; }
+.fx-scan:hover::after  { opacity: 1; }
+
+/* Modal inputs */
+.cr-input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.40);
+  background: rgba(255,255,255,0.12);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  outline: none;
+}
+
+.cr-input::placeholder {
+  color: rgba(255,255,255,0.65);
+}
+
+.cr-input:focus {
+  border-color: rgba(255,255,255,0.70);
+  background: rgba(255,255,255,0.16);
+}
+
+/* Role tag chips */
+.cr-tag {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.26);
+  backdrop-filter: blur(6px);
+}
+
+
+
+
+/* Role tag chips - now orange on white */
+.cr-tag {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: rgba(255, 90, 18, 0.9);
+  background: rgba(255, 90, 18, 0.08);
+  border: 1px solid rgba(255, 90, 18, 0.22);
+}
+
+/* Scan / pixel hover - adapted for white cards */
+.fx-scan::before {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 90, 18, 0.18) 0px,
+      rgba(255, 90, 18, 0.18) 1px,
+      transparent 1px,
+      transparent 9px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 90, 18, 0.12) 0px,
+      rgba(255, 90, 18, 0.12) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+}
+
+.fx-scan::after {
+  background: radial-gradient(
+    700px 320px at 50% 40%,
+    rgba(255, 90, 18, 0.22),
+    transparent 60%
+  );
+}
+
+/* Button: white bg + orange shadow (as you want) */
+.cr-btnWhite {
+  border: 1px solid rgba(255, 90, 18, 0.22);
+  box-shadow: 0 16px 30px rgba(255, 90, 18, 0.22);
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+.cr-btnWhite:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+  box-shadow: 0 18px 36px rgba(255, 90, 18, 0.26);
+}

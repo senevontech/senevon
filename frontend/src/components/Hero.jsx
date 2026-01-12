@@ -635,7 +635,7 @@ export default function Hero() {
     <section ref={wrapRef} className="hero">
       <video className="hero-video" src="/video/video.mp4" autoPlay muted loop playsInline />
 
-      <canvas
+      {/* <canvas
         ref={canvasRef}
         className="hero-canvas"
         onMouseEnter={onPointerEnter}
@@ -655,7 +655,39 @@ export default function Hero() {
           e.preventDefault();
           onPointerUp();
         }}
-      />
+      /> */}
+
+      <canvas
+  ref={canvasRef}
+  className="hero-canvas"
+  onPointerEnter={onPointerEnter}
+  onPointerLeave={onPointerLeave}
+  onPointerDown={(e) => {
+    // capture pointer so move works even if finger leaves canvas briefly
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+
+    // ✅ only start erasing for mouse OR single-finger touch
+    if (e.pointerType === "touch") {
+      // allow scroll unless user is actually drawing
+      isDownRef.current = true;
+    }
+    onPointerDown(e);
+  }}
+  onPointerMove={(e) => {
+    onPointerMove(e);
+  }}
+  onPointerUp={(e) => {
+    onPointerUp(e);
+    e.currentTarget.releasePointerCapture?.(e.pointerId);
+  }}
+  onPointerCancel={(e) => {
+    onPointerUp(e);
+    e.currentTarget.releasePointerCapture?.(e.pointerId);
+  }}
+/>
+
+
+
 
       {/* ✅ Custom cursor (only for mouse devices) */}
       {!isTouch && (

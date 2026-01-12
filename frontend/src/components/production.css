@@ -1,0 +1,121 @@
+/* ------------------ IMAGE DISTORTION ------------------ */
+.fx-pixelate {
+  position: relative;
+  transition: transform 220ms ease, filter 220ms ease;
+  will-change: transform, filter;
+}
+
+.fx-pixelate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0.18) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.10) 0px,
+      rgba(0, 0, 0, 0.10) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  transition: opacity 220ms ease;
+}
+
+.fx-pixelate::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    700px 320px at 50% 40%,
+    rgba(255, 90, 18, 0.20),
+    transparent 60%
+  );
+  filter: blur(0.5px);
+  transition: opacity 220ms ease;
+}
+
+/* “pixel” feel: nearest-neighbor + contrast */
+.fx-pixelate img {
+  image-rendering: pixelated;
+  transform: scale(1.02);
+  transition: transform 280ms ease, filter 280ms ease;
+}
+
+.fx-pixelate:hover {
+  transform: translateY(-2px);
+  filter: contrast(1.18) saturate(0.85);
+}
+
+.fx-pixelate:hover::before { opacity: 0.65; }
+.fx-pixelate:hover::after  { opacity: 1; }
+.fx-pixelate:hover img {
+  transform: scale(1.08);
+  filter: contrast(1.05) brightness(0.98);
+}
+
+/* ------------------ TEXT DISTORTION (GLITCH) ------------------ */
+.prod-glitch,
+.prod-glitch-sm {
+  position: relative;
+  display: inline-block;
+}
+
+.prod-glitch::before,
+.prod-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prod-glitch {
+  text-shadow: 0 16px 36px rgba(0,0,0,0.18);
+}
+
+/* Use actual text via data-text: we'll set it in JS with CSS trick below */
+.prod-glitch::before,
+.prod-glitch::after,
+.prod-glitch-sm::before,
+.prod-glitch-sm::after {
+  content: "";
+}
+
+/* Hover effect: slice / clip */
+.prod-glitch:hover {
+  animation: gJitter 240ms steps(2, end) infinite;
+}
+.prod-glitch-sm:hover {
+  animation: gJitter 300ms steps(2, end) infinite;
+}
+
+@keyframes gJitter {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(1px,-1px); }
+  50%  { transform: translate(-1px,1px); }
+  75%  { transform: translate(2px,0); }
+  100% { transform: translate(0,0); }
+}
+
+/* ------------------ FRAME CORNERS ------------------ */
+.corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.95);
+  opacity: 0.8;
+}
+.corner.tl { left: 10px; top: 10px; border-right: 0; border-bottom: 0; }
+.corner.tr { right: 10px; top: 10px; border-left: 0; border-bottom: 0; }
+.corner.bl { left: 10px; bottom: 10px; border-right: 0; border-top: 0; }
+.corner.br { right: 10px; bottom: 10px; border-left: 0; border-top: 0; }

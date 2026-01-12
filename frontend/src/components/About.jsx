@@ -699,13 +699,15 @@ export default function About() {
   }, []);
 
   return (
-    <section className="relative w-screen min-h-[100svh] overflow-hidden bg-[#0b0b0f]">
+    <section className="relative h-screen w-full overflow-hidden bg-[#0b0b0f]">
+
       {/* subtle backdrop so edges look premium */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_500px_at_50%_-10%,rgba(255,255,255,0.10),transparent_60%),radial-gradient(700px_350px_at_20%_30%,rgba(255,120,50,0.12),transparent_60%)]" />
       <canvas
-        ref={canvasRef}
-        className="relative block h-[100svh] w-screen touch-none"
-      />
+  ref={canvasRef}
+  className="block h-full w-full touch-none"
+/>
+
     </section>
   );
 }

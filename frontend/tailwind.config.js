@@ -12,8 +12,9 @@ export default {
         accent: "#f97316",    // orange-500
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Poppins", "sans-serif"],
+        brand: ["Pixel"],
+        // sans: ["Inter", "system-ui", "sans-serif"],
+        // display: ["Poppins", "sans-serif"],
       },
       boxShadow: {
         soft: "0 10px 30px rgba(0,0,0,0.08)",
