@@ -746,7 +746,7 @@ export default function WorksSection({
                     key={c.key}
                     onClick={() => setActive(c.key)}
                     className={[
-                      "shrink-0 rounded-full border px-4 py-2 text-[12px] font-black tracking-widest transition",
+                      "shrink-0  border px-4 py-2 text-[12px] font-black tracking-widest transition",
                       on
                         ? "border-black/40 bg-[#ff5a12] text-white shadow-[0_16px_30px_rgba(255,90,18,0.25)]"
                         : "border-black/25 bg-white/20 text-black/70 hover:bg-white/55",

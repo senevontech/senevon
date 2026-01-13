@@ -191,7 +191,6 @@ export default function Header() {
               className="group grid h-11 w-11 place-items-center  border-black/25  shadow-[0_10px_22px_rgba(0,0,0,0.05)]"
             >
               <HamburgerIcon open={open} />
-
             </button>
           </div>
         </div>
@@ -224,9 +223,9 @@ export default function Header() {
                 data-chip
                 href="#ecosystem"
                 onClick={close}
-                className="inline-flex items-center gap-2 border border-black/25 bg-white/45 px-4 py-2 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/70"
+                className="inline-flex items-center  gap-2 border border-black/25 bg-white/45 px-4 py-2 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/70"
               >
-                <span className="grid h-5 w-5 place-items-center border border-black/25 bg-white/55">
+                <span className="grid h-5 w-5 place-items-center rounded-full border border-black/25 bg-white/55">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
                 </span>
                 OUR ECOSYSTEM
@@ -326,7 +325,7 @@ export default function Header() {
               href="#"
               className="group flex items-center gap-2 text-black/80 hover:text-black"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-md border border-black/25 bg-white/40">
+              <span className="grid h-6 w-6 place-items-center rounded-full border border-black/25 bg-white/40">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
               </span>
               Our Ecosystem

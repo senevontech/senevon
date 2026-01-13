@@ -55,6 +55,7 @@ body {
   font-weight: 900;
   letter-spacing: -0.03em;
   font-size: clamp(64px, 10vw, 128px);
+  color: rgb(255, 94, 0) !important;
 }
 
 .hero-subtitle {

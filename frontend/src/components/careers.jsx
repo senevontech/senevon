@@ -1079,7 +1079,7 @@ function RoleCard({ role, onApply }) {
 
         <button
           onClick={onApply}
-          className="cr-btnWhite bg-white px-4 py-2 text-[12px] font-black tracking-widest text-[#ff5a12] active:translate-y-[1px]"
+          className="cr-btnWhite bg-[#ff5a12] px-4 py-2 text-[12px] font-black tracking-widest text-[white] active:translate-y-[1px]"
         >
           <span data-animate="text">APPLY NOW</span>
         </button>
@@ -1160,7 +1160,7 @@ function ApplyModal({ role, onClose }) {
     >
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="relative w-full max-w-[720px] overflow-hidden rounded-3xl border border-white/30 bg-[#ff5a12] shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
+      <div className="relative w-full max-w-[720px] overflow-hidden border border-white/30 bg-[#ff5a12] shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
         <div className="flex items-start justify-between border-b border-white/25 bg-white/10 px-6 py-5">
           <div>
             <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
@@ -1176,7 +1176,7 @@ function ApplyModal({ role, onClose }) {
 
           <button
             onClick={onClose}
-            className="grid h-11 w-11 place-items-center rounded-2xl border border-white/30 bg-white/12 text-white/90 hover:bg-white/22"
+            className="grid h-11 w-11 place-items-center border border-white/30 bg-white/12 text-white/90 hover:bg-white/22"
             aria-label="Close"
           >
             ✕
@@ -1220,13 +1220,13 @@ function ApplyModal({ role, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22"
+              className=" border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22"
             >
               <span data-animate="text">CANCEL</span>
             </button>
             <button
               type="submit"
-              className="rounded-xl bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02]"
+              className=" bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02]"
             >
               <span data-animate="text">SUBMIT</span>
             </button>

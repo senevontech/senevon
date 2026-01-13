@@ -212,14 +212,14 @@
 /* inputs */
 .cr-input {
   width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.12);
+  border-radius:0px;
+  /* border: 1px solid rgba(255,255,255,0.35); */
+  background: rgb(234, 234, 234);
   padding: 12px 14px;
   outline: none;
   color: rgba(255,255,255,0.95);
 }
-.cr-input::placeholder { color: rgba(255,255,255,0.60); }
+.cr-input::placeholder { color: rgba(72, 72, 72, 0.241); }
 
 /* scan / pixel vibe (lightweight) */
 .fx-scan::before{

@@ -10,6 +10,20 @@ const PARTNERS = [
   { name: "0x", mark: "▦" },
 ];
 
+function MiniStat({ label, value }) {
+  return (
+    <div className="rounded-xl border border-black/20 bg-white/45 px-3 py-2">
+      <div className="text-[10px] font-black tracking-[0.22em] text-black/55">
+        {label}
+      </div>
+      <div className="mt-1 text-[13px] font-black text-black/80">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+
 export default function ChainGptHeroSection() {
   return (
     <section className="min-h-screen bg-[#d9d9d9] text-black">
@@ -17,7 +31,7 @@ export default function ChainGptHeroSection() {
       <div className="pointer-events-none fixed inset-0 opacity-[0.45] [background-image:linear-gradient(to_right,rgba(0,0,0,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.16)_1px,transparent_1px)] [background-size:220px_220px]" />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-black/25 bg-[#d9d9d9]/95 backdrop-blur">
+      <header className="top-0 z-50 border-b border-black/25 bg-[#d9d9d9]/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-[1600px] items-stretch px-3 sm:px-4">
           {/* Left brand */}
           <div className="flex items-center gap-3 py-3 pr-3 sm:pr-6">
@@ -39,21 +53,19 @@ export default function ChainGptHeroSection() {
           {/* Right CTA */}
           <div className="ml-auto flex items-center gap-3 py-3 pl-3 sm:pl-6">
 
-            <button className="md:hidden grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/50">
+            <button className="md:hidden grid h-10 w-10 place-items-center rounded-full border border-black/25 bg-white/50">
               <span className="h-2 w-2 rounded-full bg-[#ff5a12]" />
             </button>
 
 
 
             {/* Mobile CTA */}
-            <CornerButton className="sm:hidden px-4 py-2 text-[11px]">
-              APPLY
-            </CornerButton>
+            
           </div>
         </div>
 
         {/* Mobile nav row (simple + clean) */}
-        <div className="md:hidden border-t border-black/20">
+        {/* <div className="md:hidden border-t border-black/20">
           <div className="mx-auto flex max-w-[1600px] items-center gap-4 overflow-x-auto px-3 py-2 sm:px-4">
             {NAV.slice(0, 5).map((t) => (
               <a
@@ -74,12 +86,12 @@ export default function ChainGptHeroSection() {
               Ecosystem
             </a>
           </div>
-        </div>
+        </div> */}
       </header>
 
       {/* Right social rail (desktop) */}
-      <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden rounded-xl border border-black/25 bg-white/45 backdrop-blur md:block">
-        {["◎", "𝕏", "↗", "M", "in"].map((t, i) => (
+      {/* <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden  border border-black/25 bg-white/45 backdrop-blur md:block">
+        {["fb", "𝕏", "Insta", "wp", "in"].map((t, i) => (
           <button
             key={t}
             className={[
@@ -91,7 +103,32 @@ export default function ChainGptHeroSection() {
             {t}
           </button>
         ))}
-      </div>
+      </div> */}
+
+      <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden border border-black/25 bg-white/45 backdrop-blur md:block">
+  {[
+    { label: "fb", href: "https://www.facebook.com/profile.php?id=61585962131769" },
+    { label: "𝕏", href: "https://twitter.com/" },
+    { label: "Insta", href: "https://www.instagram.com/" },
+    { label: "wp", href: "https://wa.me/" },
+    { label: "in", href: "https://www.instagram.com/senevon_tech/" },
+  ].map((item, i) => (
+    <a
+      key={item.label}
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Social ${item.label}`}
+      className={[
+        "grid h-11 w-full place-items-center text-sm font-black text-black/70 hover:bg-white/70 transition",
+        i !== 4 ? "border-b border-black/15" : "",
+      ].join(" ")}
+    >
+      {item.label}
+    </a>
+  ))}
+</div>
+
 
       {/* Main grid */}
       <main className="relative mx-auto w-full max-w-[1600px] px-3 py-4 sm:px-4 sm:py-6">
@@ -211,7 +248,7 @@ export default function ChainGptHeroSection() {
 
 
           {/* Right media + partners header */}
-          <Tile className="col-span-12 md:col-span-3 min-h-[280px] md:min-h-[320px]">
+          {/* <Tile className="col-span-12 md:col-span-3 min-h-[280px] md:min-h-[320px]">
             <div className="h-full p-5 sm:p-6">
               <div className="grid h-[160px] w-full place-items-center overflow-hidden rounded-xl border border-black/25 bg-black/70">
                 <div className="relative grid h-[120px] w-[120px] place-items-center rounded-2xl bg-white/90 shadow-inner">
@@ -235,22 +272,96 @@ export default function ChainGptHeroSection() {
                 </div>
               </div>
             </div>
-          </Tile>
+          </Tile> */}
 
-          
+          <Tile className="col-span-12 md:col-span-3 min-h-[280px] md:min-h-[320px]">
+  <div className="relative h-full p-5 sm:p-6 overflow-hidden">
+
+    {/* Header */}
+    <div className="text-[11px] font-black tracking-[0.22em] text-black/65">
+      ECOSYSTEM PULSE
+    </div>
+
+    <div className="mt-2 text-[13px] font-semibold text-black/60 leading-relaxed">
+      Active builders, protocols, and launches across the Senevon network.
+    </div>
+
+    {/* Pulse bars */}
+    <div className="relative mt-5 h-[120px] rounded-xl border border-black/20 bg-white/40 overflow-hidden">
+      <div className="absolute inset-0 flex items-end justify-between px-4 pb-3 gap-[6px]">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <span
+            key={i}
+            className="
+              w-[6px]
+              bg-[#ff5a12]
+              opacity-80
+              animate-ecosystemPulse
+            "
+            style={{
+              height: `${30 + (i % 5) * 12}px`,
+              animationDelay: `${i * 120}ms`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* soft overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.6),rgba(0,0,0,0.04))]" />
+    </div>
+
+    {/* Stats */}
+    <div className="mt-5 grid grid-cols-3 gap-3">
+      <MiniStat label="Builders" value="42+" />
+      <MiniStat label="Protocols" value="18" />
+      <MiniStat label="Launched" value="9" />
+    </div>
+
+    {/* Footer */}
+    <div className="mt-5 flex items-center justify-between border-t border-black/15 pt-4">
+      <div className="text-[11px] font-black tracking-[0.22em] text-black/60">
+        PARTNER NETWORK
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="h-2 w-2 rounded-full bg-[#ff5a12]" />
+        <span className="text-[11px] font-semibold text-black/55">LIVE</span>
+      </div>
+    </div>
+
+    {/* Corner accents */}
+    <span className="absolute left-3 top-3 h-2 w-2 bg-[#ff5a12]" />
+    <span className="absolute right-3 bottom-3 h-2 w-2 bg-[#ff5a12]" />
+  </div>
+</Tile>
+
+
+
 
           {/* Partners row */}
+          <div className="col-span-12 grid grid-cols-2 md:grid-cols-4 gap-0">
           {PARTNERS.map((p) => (
-            <Tile key={p.name} className="col-span-12 sm:col-span-6 md:col-span-3 min-h-[90px] md:min-h-[120px]">
-              <div className="flex h-full items-center justify-center gap-3 px-4">
-                <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 text-[18px]">
-                  {p.mark}
-                </span>
-                <div className="text-[20px] font-black text-black/80">{p.name}</div>
-              </div>
-            </Tile>
+            // <Tile key={p.name} className="col-span-12 sm:col-span-6 md:col-span-3 min-h-[90px] md:min-h-[120px]">
+            //   <div className="flex h-full items-center justify-center gap-3 px-4">
+            //     <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 text-[18px]">
+            //       {p.mark}
+            //     </span>
+            //     <div className="text-[20px] font-black text-black/80">{p.name}</div>
+            //   </div>
+            // </Tile>
+
+            <Tile key={p.name} className="min-h-[90px] md:min-h-[120px]">
+      <div className="flex h-full items-center justify-center gap-3 px-4">
+        <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 text-[18px]">
+          {p.mark}
+        </span>
+        <div className="text-[20px] font-black text-black/80">{p.name}</div>
+      </div>
+    </Tile>
           ))}
+          </div>
         </div>
+
+        
       </main>
     </section>
   );
