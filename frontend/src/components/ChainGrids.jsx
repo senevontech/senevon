@@ -1,491 +1,301 @@
-// import React from "react";
-// import "./ChainGrids.css";
 
-// const partners = ["Chainlink", "TRON", "BNB", "0x"];
-
-// export default function ChainLabsGridHero() {
-//   return (
-//     // <section className="relative min-h-[calc(100vh-74px)] bg-[#d9d9d9] overflow-hidden">
-//         <section className="relative min-h-screen bg-[#d9d9d9] overflow-hidden">
-//       {/* Subtle page grid lines */}
-//       <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background-image:linear-gradient(to_right,rgba(0,0,0,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.18)_1px,transparent_1px)] [background-size:220px_220px]" />
-
-//       {/* RIGHT social bar like screenshot */}
-//       <div className="absolute right-6 top-[110px] z-20 hidden w-[44px] overflow-hidden rounded-xl border border-black/25 bg-white/40 backdrop-blur md:block">
-//         {["◎", "𝕏", "↗", "M", "in"].map((t) => (
-//           <button
-//             key={t}
-//             className="grid h-11 w-full place-items-center border-b border-black/15 text-sm font-black text-black/70 hover:bg-white/70"
-//           >
-//             {t}
-//           </button>
-//         ))}
-//       </div>
-
-//       <div className="mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6">
-//         {/* Random-size grid (12 cols) */}
-//         <div className="grid-auto grid grid-cols-12 gap-0 border border-black/25 bg-[#d9d9d9]">
-//           {/* Top-left small utility tile */}
-//           <Tile className="col-span-12 md:col-span-2 min-h-[84px]">
-//             <div className="flex h-full items-center justify-start px-4 text-black/70">
-//               <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/30">
-//                 ✕
-//               </div>
-//             </div>
-//           </Tile>
-
-//           {/* Giant title tile (TOMORROW) */}
-//           <Tile className="col-span-12 md:col-span-10 min-h-[320px] md:min-h-[360px]">
-//             <div className="relative h-full">
-//               <div className="absolute left-6 top-6 h-3 w-3 bg-[#ff5a12]" />
-//               <div className="absolute right-6 bottom-6 h-3 w-3 bg-[#ff5a12]" />
-
-//               <div className="flex h-full items-center justify-center px-6">
-//                 <h1 className="glitch text-center text-[64px] font-black tracking-[0.18em] text-black md:text-[110px] lg:text-[150px] font-brand">
-//                   Senevon
-//                 </h1>
-//               </div>
-//             </div>
-//           </Tile>
-
-//           {/* Left copy / CTA */}
-//           <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
-//             <div className="h-full p-6">
-//               <div className="flex items-center gap-6 text-[12px] font-black tracking-[0.2em] text-black/80">
-//                 <span className="flex items-center gap-2">
-//                   <span className="h-2 w-2 bg-[#ff5a12]" /> BACKING
-//                 </span>
-//                 <span>TOMORROW</span>
-//               </div>
-
-//               <p className="mt-6 max-w-[320px] font-mono text-[14px] leading-relaxed text-black/70">
-//                 Backing the very best web3 builders — transforming visionary ideas
-//                 into real-world growth.
-//               </p>
-
-//               <button className="mt-8 w-full rounded-xl bg-[#ff5a12] px-5 py-3 text-[12px] font-black tracking-widest text-white shadow-[0_18px_30px_rgba(255,90,18,0.25)] hover:brightness-[1.04] active:translate-y-[1px]">
-//                 APPLY FOR INCUBATION
-//               </button>
-//             </div>
-//           </Tile>
-
-//           {/* Center “3D bot” image tile */}
-//           <Tile className="col-span-12 md:col-span-6 min-h-[320px]">
-//             <div className="relative h-full overflow-hidden">
-//               {/* Fake 3D bot placeholder (use your image here) */}
-//               <div className="pixel-surface absolute inset-0">
-//                 <div className="absolute inset-0 bg-[radial-gradient(600px_260px_at_50%_40%,rgba(255,255,255,0.75),transparent_65%)]" />
-//                 <div className="absolute inset-0 opacity-[0.55] [background:linear-gradient(180deg,rgba(255,255,255,0.0),rgba(0,0,0,0.06))]" />
-
-//                 <div className="grid h-full place-items-center">
-//                   <div className="relative">
-//                     <div className="absolute -inset-10 rounded-[42px] bg-black/5 blur-2xl" />
-//                     <div className="grid h-[210px] w-[210px] place-items-center rounded-[42px] bg-white/50 border border-black/20 shadow-[0_30px_80px_rgba(0,0,0,0.15)]">
-//                       <div className="grid h-[120px] w-[120px] place-items-center rounded-[30px] bg-white border border-black/15">
-//                         <div className="grid h-[92px] w-[92px] place-items-center rounded-[26px] bg-[#ff5a12]">
-//                           <Face />
-//                         </div>
-//                       </div>
-//                     </div>
-//                     <div className="mt-6 text-center font-mono text-[12px] text-black/60">
-//                       Senevon AI
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Corner markers */}
-//               <Corner x="12px" y="12px" />
-//               <Corner x="calc(100% - 12px)" y="12px" />
-//               <Corner x="12px" y="calc(100% - 12px)" />
-//               <Corner x="calc(100% - 12px)" y="calc(100% - 12px)" />
-//             </div>
-//           </Tile>
-
-//           {/* Right media tile */}
-//           <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
-//             <div className="relative h-full p-6">
-//               <div className="pixel-box grid h-[160px] w-full place-items-center overflow-hidden rounded-xl border border-black/25 bg-black/70">
-//                 {/* replace with real image */}
-//                 <div className="relative h-[120px] w-[120px] rounded-2xl bg-white/90 shadow-inner">
-//                   <div className="absolute inset-0 grid place-items-center text-[40px] font-black text-black/70">
-//                     ✳
-//                   </div>
-//                 </div>
-//               </div>
-
-//               <div className="mt-5 border-t border-black/15 pt-4 text-[12px] font-black tracking-[0.2em] text-black/70">
-//                 OUR PARTNERS :
-//               </div>
-
-//               <div className="mt-3 flex items-center justify-between">
-//                 <button className="grid h-11 w-11 place-items-center rounded-xl border border-black/25 bg-white/40 hover:bg-white/70">
-//                   ‹
-//                 </button>
-//                 <button className="grid h-11 w-11 place-items-center rounded-xl border border-black/25 bg-white/40 hover:bg-white/70">
-//                   ›
-//                 </button>
-//               </div>
-//             </div>
-//           </Tile>
-
-//           {/* Partners strip (bottom row) */}
-//           {partners.map((p) => (
-//             <Tile
-//               key={p}
-//               className="col-span-6 md:col-span-3 min-h-[120px]"
-//             >
-//               <div className="grid h-full place-items-center">
-//                 <div className="flex items-center gap-3 text-[24px] font-black text-black/80">
-//                   <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/40">
-//                     ⬣
-//                   </span>
-//                   {p}
-//                 </div>
-//               </div>
-//             </Tile>
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// function Tile({ className = "", children }) {
-//   return (
-//     <div
-//       className={
-//         "relative border border-black/25 bg-[#d9d9d9] overflow-hidden " + className
-//       }
-//     >
-//       {/* subtle tile inner tint */}
-//       <div className="pointer-events-none absolute inset-0 bg-white/15" />
-//       {children}
-//     </div>
-//   );
-// }
-
-// function Corner({ x, y }) {
-//   return (
-//     <span
-//       className="pointer-events-none absolute h-3 w-3 bg-[#ff5a12]"
-//       style={{ left: x, top: y, transform: "translate(-50%,-50%)" }}
-//     />
-//   );
-// }
-
-// function Face() {
-//   return (
-//     <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-//       <rect x="14" y="20" width="8" height="8" fill="white" opacity="0.95" />
-//       <rect x="42" y="20" width="8" height="8" fill="white" opacity="0.95" />
-//       <rect x="18" y="38" width="28" height="8" rx="4" fill="white" opacity="0.95" />
-//       <rect x="24" y="30" width="6" height="6" fill="white" opacity="0.95" />
-//       <rect x="34" y="30" width="6" height="6" fill="white" opacity="0.95" />
-//     </svg>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-import "./ChainGrids.css";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const partners = ["Chainlink", "TRON", "BNB", "0x"];
-
-/* ------------------- helpers: split into words (safe) ------------------- */
-function splitWords(el) {
-  // store original text once (so gsap.context revert can restore safely)
-  if (!el.dataset.originalText) el.dataset.originalText = el.textContent || "";
-
-  const text = el.dataset.originalText || "";
-  const words = text.trim().split(/\s+/);
-
-  el.innerHTML = words.map((w) => `<span class="gsap-word">${w}&nbsp;</span>`).join("");
-  return el.querySelectorAll(".gsap-word");
-}
-
-export default function ChainLabsGridHero() {
-  const scopeRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const targets =
-        scopeRef.current?.querySelectorAll('[data-animate="words"]') || [];
-
-      targets.forEach((el) => {
-        // split to words
-        const words = splitWords(el);
-        if (!words?.length) return;
-
-        // initial state
-        gsap.set(words, { opacity: 0, y: 18, filter: "blur(8px)" });
-
-        // animate when element comes into viewport
-        gsap.to(words, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.75,
-          ease: "power3.out",
-          stagger: 0.03,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            end: "top 50%",
-            toggleActions: "play none none reverse", // reverse on scroll back up
-            // If you want it to animate ONLY ONCE, change to:
-            // toggleActions: "play none none none",
-            // once: true,
-          },
-        });
-      });
-    }, scopeRef);
-
-    return () => ctx.revert();
-  }, []);
-
+import React from "react";
+import SplineScene from "../components/UI/splineTile";
+const NAV = ["Our Programs", "Portfolio", "Media", "Reviews", "Team", "FAQ", "Blog"];
+
+const PARTNERS = [
+  { name: "Chainlink", mark: "⬡" },
+  { name: "TRON", mark: "△" },
+  { name: "BNB", mark: "⬢" },
+  { name: "0x", mark: "▦" },
+];
+
+export default function ChainGptHeroSection() {
   return (
-    <section
-      ref={scopeRef}
-      className="relative min-h-screen bg-[#d9d9d9] overflow-hidden"
-    >
-      {/* Subtle page grid lines */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background-image:linear-gradient(to_right,rgba(0,0,0,0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.18)_1px,transparent_1px)] [background-size:220px_220px]" />
+    <section className="min-h-screen bg-[#d9d9d9] text-black">
+      {/* Subtle background grid */}
+      <div className="pointer-events-none fixed inset-0 opacity-[0.45] [background-image:linear-gradient(to_right,rgba(0,0,0,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.16)_1px,transparent_1px)] [background-size:220px_220px]" />
 
-      {/* RIGHT social bar */}
-      <div className="absolute right-6 top-[110px] z-20 hidden w-[44px] overflow-hidden rounded-xl border border-black/25 bg-white/40 backdrop-blur md:block">
-        {["◎", "𝕏", "↗", "M", "in"].map((t) => (
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b border-black/25 bg-[#d9d9d9]/95 backdrop-blur">
+        <div className="mx-auto flex w-full max-w-[1600px] items-stretch px-3 sm:px-4">
+          {/* Left brand */}
+          <div className="flex items-center gap-3 py-3 pr-3 sm:pr-6">
+            <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/50 shadow-[0_10px_22px_rgba(0,0,0,0.06)]">
+              <span className="text-lg font-black">⌁</span>
+            </div>
+            <div className="leading-none">
+              <div className="text-[11px] font-semibold tracking-wide text-black/70">
+                SENEVON
+              </div>
+              <div className="text-[18px] font-black tracking-[0.14em] text-black">
+                LABS
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* Right CTA */}
+          <div className="ml-auto flex items-center gap-3 py-3 pl-3 sm:pl-6">
+
+            <button className="md:hidden grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/50">
+              <span className="h-2 w-2 rounded-full bg-[#ff5a12]" />
+            </button>
+
+
+
+            {/* Mobile CTA */}
+            <CornerButton className="sm:hidden px-4 py-2 text-[11px]">
+              APPLY
+            </CornerButton>
+          </div>
+        </div>
+
+        {/* Mobile nav row (simple + clean) */}
+        <div className="md:hidden border-t border-black/20">
+          <div className="mx-auto flex max-w-[1600px] items-center gap-4 overflow-x-auto px-3 py-2 sm:px-4">
+            {NAV.slice(0, 5).map((t) => (
+              <a
+                key={t}
+                href="#"
+                className="whitespace-nowrap text-[12px] font-semibold tracking-wide text-black/65 hover:text-black"
+              >
+                {t}
+              </a>
+            ))}
+            <a
+              href="#"
+              className="ml-auto inline-flex items-center gap-2 whitespace-nowrap text-[12px] font-bold tracking-wide text-black/70"
+            >
+              <span className="grid h-5 w-5 place-items-center rounded-md border border-black/25 bg-white/55">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
+              </span>
+              Ecosystem
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Right social rail (desktop) */}
+      <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden rounded-xl border border-black/25 bg-white/45 backdrop-blur md:block">
+        {["◎", "𝕏", "↗", "M", "in"].map((t, i) => (
           <button
             key={t}
-            className="grid h-11 w-full place-items-center border-b border-black/15 text-sm font-black text-black/70 hover:bg-white/70"
+            className={[
+              "grid h-11 w-full place-items-center text-sm font-black text-black/70 hover:bg-white/70",
+              i !== 4 ? "border-b border-black/15" : "",
+            ].join(" ")}
+            aria-label={`Social ${t}`}
           >
             {t}
           </button>
         ))}
       </div>
 
-      <div className="mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6">
-        <div className="grid-auto grid grid-cols-12 gap-0 border border-black/25 bg-[#d9d9d9]">
-          <Tile className="col-span-12 md:col-span-2 min-h-[84px]">
-            <div className="flex h-full items-center justify-start px-4 text-black/70">
-              <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/30">
+      {/* Main grid */}
+      <main className="relative mx-auto w-full max-w-[1600px] px-3 py-4 sm:px-4 sm:py-6">
+        <div className="grid grid-cols-12 gap-0 border border-black/25 bg-[#d9d9d9]">
+          {/* small left icon tile */}
+          <Tile className="col-span-12 md:col-span-1 min-h-[70px] md:min-h-[84px]">
+            <div className="flex h-full items-center justify-start px-4">
+              <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/40">
                 ✕
               </div>
             </div>
           </Tile>
 
-          <Tile className="col-span-12 md:col-span-10 min-h-[320px] md:min-h-[360px]">
+          {/* Title tile */}
+          <Tile className="col-span-12 md:col-span-11 min-h-[220px] sm:min-h-[260px] md:min-h-[360px]">
             <div className="relative h-full">
-              <div className="absolute left-6 top-6 h-3 w-3 bg-[#ff5a12]" />
-              <div className="absolute right-6 bottom-6 h-3 w-3 bg-[#ff5a12]" />
+              <AccentDot className="left-6 top-6" />
+              <AccentDot className="right-6 bottom-6" />
 
-              <div className="flex h-full items-center justify-center px-6">
-                <h1
-                  data-animate="words"
-                  className="glitch text-center text-[64px] font-black tracking-[0.18em] text-black md:text-[110px] lg:text-[150px] font-brand"
-                >
-                  Senevon
+              <div className="flex h-full items-center justify-center px-5 sm:px-8">
+                <h1 className="text-center font-black tracking-[0.18em] text-black text-[44px] sm:text-[64px] md:text-[110px] lg:text-[140px] font-[tron]">
+                  BACKING TOMORROW
                 </h1>
               </div>
+
+              {/* Small “BACKING TOMORROW” mini row (like screenshot) */}
+              <div className="absolute left-6 bottom-4 hidden items-center gap-6 md:flex">
+                <span className="inline-flex items-center gap-2 text-[11px] font-black tracking-[0.22em] text-black/75">
+                  <span className="h-2 w-2 bg-[#ff5a12]" />
+                  BACKING
+                </span>
+                <span className="text-[11px] font-black tracking-[0.22em] text-black/55">
+                  TOMORROW
+                </span>
+              </div>
             </div>
           </Tile>
 
-          <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
-            <div className="h-full p-6">
-              <div
-                data-animate="words"
-                className="flex items-center gap-6 text-[12px] font-black tracking-[0.2em] text-black/80"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="h-2 w-2 bg-[#ff5a12]" /> BACKING
+          {/* Left copy tile */}
+          <Tile className="col-span-12 md:col-span-3 min-h-[280px] md:min-h-[320px]">
+            <div className="h-full p-5 sm:p-6">
+              <div className="flex items-center gap-6 text-[11px] font-black tracking-[0.22em] text-black/75">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2 w-2 bg-[#ff5a12]" />
+                  BACKING
                 </span>
-                <span>TOMORROW</span>
+                <span className="text-black/55">TOMORROW</span>
               </div>
 
-              <p
-                data-animate="words"
-                className="mt-6 max-w-[320px] font-mono text-[14px] leading-relaxed text-black/70"
-              >
-                Backing the very best web3 builders — transforming visionary ideas
-                into real-world growth.
+              <p className="mt-6 max-w-[330px] font-mono text-[13.5px] leading-relaxed text-black/70">
+                Backing the very best web3 builders — transforming visionary ideas into
+                real-world growth.
               </p>
 
-              <button
-                data-animate="words"
-                className="mt-8 w-full rounded-xl bg-[#ff5a12] px-5 py-3 text-[12px] font-black tracking-widest text-white shadow-[0_18px_30px_rgba(255,90,18,0.25)] hover:brightness-[1.04] active:translate-y-[1px]"
-              >
-                APPLY FOR INCUBATION
-              </button>
+              <div className="mt-7">
+                <CornerButton className="w-full justify-center">
+                  APPLY FOR INCUBATION
+                </CornerButton>
+              </div>
             </div>
           </Tile>
 
-          <Tile className="col-span-12 md:col-span-6 min-h-[320px]">
+          {/* Middle 3D object tile (placeholder) */}
+          {/* <Tile className="col-span-12 md:col-span-6 min-h-[280px] md:min-h-[320px]">
             <div className="relative h-full overflow-hidden">
-              <div className="pixel-surface absolute inset-0">
-                <div className="absolute inset-0 bg-[radial-gradient(600px_260px_at_50%_40%,rgba(255,255,255,0.75),transparent_65%)]" />
-                <div className="absolute inset-0 opacity-[0.55] [background:linear-gradient(180deg,rgba(255,255,255,0.0),rgba(0,0,0,0.06))]" />
+             
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(650px_260px_at_50%_35%,rgba(255,255,255,0.78),transparent_62%)]" />
+              <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background:linear-gradient(180deg,rgba(255,255,255,0),rgba(0,0,0,0.06))]" />
 
-                <div className="grid h-full place-items-center">
-                  <div className="relative">
-                    <div className="absolute -inset-10 rounded-[42px] bg-black/5 blur-2xl" />
-                    <div className="grid h-[210px] w-[210px] place-items-center rounded-[42px] bg-white/50 border border-black/20 shadow-[0_30px_80px_rgba(0,0,0,0.15)]">
-                      <div className="grid h-[120px] w-[120px] place-items-center rounded-[30px] bg-white border border-black/15">
-                        <div className="grid h-[92px] w-[92px] place-items-center rounded-[26px] bg-[#ff5a12]">
-                          <Face />
-                        </div>
+              
+              <div className="grid h-full place-items-center p-6">
+                <div className="relative">
+                  <div className="absolute -inset-10 rounded-[48px] bg-black/5 blur-2xl" />
+                  <div className="relative grid h-[220px] w-[220px] place-items-center rounded-[46px] border border-black/15 bg-white/55 shadow-[0_38px_90px_rgba(0,0,0,0.16)]">
+                    <div className="grid h-[150px] w-[150px] place-items-center rounded-[34px] border border-black/15 bg-white">
+                      <div className="grid h-[110px] w-[110px] place-items-center rounded-[26px] bg-[#ff5a12] shadow-[0_22px_50px_rgba(255,90,18,0.25)]">
+                        <div className="h-[64px] w-[64px] rounded-2xl bg-black/15" />
                       </div>
                     </div>
 
-                    <div
-                      data-animate="words"
-                      className="mt-6 text-center font-mono text-[12px] text-black/60"
-                    >
-                      Senevon AI
-                    </div>
+                  
+                    <div className="absolute right-[-12px] top-1/2 h-10 w-10 -translate-y-1/2 rounded-full border border-black/15 bg-white shadow-[0_12px_28px_rgba(0,0,0,0.10)]" />
                   </div>
                 </div>
               </div>
+            </div>
+          </Tile> */}
 
-              <Corner x="12px" y="12px" />
-              <Corner x="calc(100% - 12px)" y="12px" />
-              <Corner x="12px" y="calc(100% - 12px)" />
-              <Corner x="calc(100% - 12px)" y="calc(100% - 12px)" />
+          {/* Middle tile: Spline Scene (lazy + optimized)  */}
+          <Tile className="col-span-12 md:col-span-6 min-h-[280px] md:min-h-[320px]">
+            <div className="relative h-full overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(650px_260px_at_50%_35%,rgba(255,255,255,0.78),transparent_62%)]" />
+              <div className="pointer-events-none absolute inset-0 opacity-[0.55] [background:linear-gradient(180deg,rgba(255,255,255,0),rgba(0,0,0,0.06))]" />
+
+              <div className="absolute inset-5 sm:inset-6 border border-black/15 bg-white/25">
+                <SplineScene
+                  scene="https://prod.spline.design/cqkCM4wTqKla9twy/scene.splinecode"
+                  className="h-full w-full"
+                />
+              </div>
+              <div
+      className="
+        pointer-events-none
+        absolute
+        bottom-10 right-10
+        z-20
+        bg-[#d9d9d9]
+        w-[140px] h-[44px]
+        sm:w-[160px] sm:h-[48px]
+        md:w-[180px] md:h-[52px]
+      "
+    />
             </div>
           </Tile>
 
-          <Tile className="col-span-12 md:col-span-3 min-h-[320px]">
-            <div className="relative h-full p-6">
-              <div className="pixel-box grid h-[160px] w-full place-items-center overflow-hidden rounded-xl border border-black/25 bg-black/70">
-                <div className="relative h-[120px] w-[120px] rounded-2xl bg-white/90 shadow-inner">
-                  <div className="absolute inset-0 grid place-items-center text-[40px] font-black text-black/70">
+
+
+
+          {/* Right media + partners header */}
+          <Tile className="col-span-12 md:col-span-3 min-h-[280px] md:min-h-[320px]">
+            <div className="h-full p-5 sm:p-6">
+              <div className="grid h-[160px] w-full place-items-center overflow-hidden rounded-xl border border-black/25 bg-black/70">
+                <div className="relative grid h-[120px] w-[120px] place-items-center rounded-2xl bg-white/90 shadow-inner">
+                  <div className="absolute inset-0 grid place-items-center text-[46px] font-black text-black/70">
                     ✳
                   </div>
                 </div>
               </div>
 
-              <div
-                data-animate="words"
-                className="mt-5 border-t border-black/15 pt-4 text-[12px] font-black tracking-[0.2em] text-black/70"
-              >
-                OUR PARTNERS :
-              </div>
-
-              <div className="mt-3 flex items-center justify-between">
-                <button className="grid h-11 w-11 place-items-center rounded-xl border border-black/25 bg-white/40 hover:bg-white/70">
-                  ‹
-                </button>
-                <button className="grid h-11 w-11 place-items-center rounded-xl border border-black/25 bg-white/40 hover:bg-white/70">
-                  ›
-                </button>
+              <div className="mt-5 flex items-center justify-between border-t border-black/15 pt-4">
+                <div className="text-[11px] font-black tracking-[0.22em] text-black/65">
+                  OUR PARTNERS :
+                </div>
+                <div className="flex items-center gap-2">
+                  <button className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 hover:bg-white/70">
+                    ‹
+                  </button>
+                  <button className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 hover:bg-white/70">
+                    ›
+                  </button>
+                </div>
               </div>
             </div>
           </Tile>
 
-          {partners.map((p) => (
-            <Tile key={p} className="col-span-6 md:col-span-3 min-h-[120px]">
-              <div className="grid h-full place-items-center">
-                <div
-                  data-animate="words"
-                  className="flex items-center gap-3 text-[24px] font-black text-black/80"
-                >
-                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/40">
-                    ⬣
-                  </span>
-                  {p}
-                </div>
+          
+
+          {/* Partners row */}
+          {PARTNERS.map((p) => (
+            <Tile key={p.name} className="col-span-12 sm:col-span-6 md:col-span-3 min-h-[90px] md:min-h-[120px]">
+              <div className="flex h-full items-center justify-center gap-3 px-4">
+                <span className="grid h-10 w-10 place-items-center rounded-xl border border-black/25 bg-white/45 text-[18px]">
+                  {p.mark}
+                </span>
+                <div className="text-[20px] font-black text-black/80">{p.name}</div>
               </div>
             </Tile>
           ))}
         </div>
-      </div>
+      </main>
     </section>
   );
 }
 
+/* ---------------- UI helpers ---------------- */
+
 function Tile({ className = "", children }) {
   return (
-    <div className={"relative border border-black/25 bg-[#d9d9d9] overflow-hidden " + className}>
+    <div className={"relative border border-black/25 bg-[#d9d9d9] " + className}>
       <div className="pointer-events-none absolute inset-0 bg-white/15" />
       {children}
     </div>
   );
 }
 
-function Corner({ x, y }) {
-  return (
-    <span
-      className="pointer-events-none absolute h-3 w-3 bg-[#ff5a12]"
-      style={{ left: x, top: y, transform: "translate(-50%,-50%)" }}
-    />
-  );
+function AccentDot({ className = "" }) {
+  return <span className={"absolute h-3 w-3 bg-[#ff5a12] " + className} />;
 }
 
-function Face() {
+/**
+ * Corner bracket button (matches screenshot CTA style)
+ * - Mobile-first sizing
+ * - No pseudo-elements (pure JSX for reliability)
+ */
+function CornerButton({ className = "", children }) {
   return (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-      <rect x="14" y="20" width="8" height="8" fill="white" opacity="0.95" />
-      <rect x="42" y="20" width="8" height="8" fill="white" opacity="0.95" />
-      <rect x="18" y="38" width="28" height="8" rx="4" fill="white" opacity="0.95" />
-      <rect x="24" y="30" width="6" height="6" fill="white" opacity="0.95" />
-      <rect x="34" y="30" width="6" height="6" fill="white" opacity="0.95" />
-    </svg>
+    <button
+      className={[
+        "group relative inline-flex items-center rounded-none bg-[#ff5a12] px-5 py-2.5",
+        "text-[12px] font-black tracking-widest text-white",
+        "shadow-[0_18px_34px_rgba(255,90,18,0.22)]",
+        "hover:brightness-[1.03] active:translate-y-[1px] transition",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#d9d9d9]",
+        className,
+      ].join(" ")}
+      type="button"
+    >
+      {/* corner brackets */}
+      <span className="pointer-events-none absolute -left-2 -top-2 h-4 w-4 border-l-2 border-t-2 border-black/80" />
+      <span className="pointer-events-none absolute -right-2 -top-2 h-4 w-4 border-r-2 border-t-2 border-black/80" />
+      <span className="pointer-events-none absolute -left-2 -bottom-2 h-4 w-4 border-l-2 border-b-2 border-black/80" />
+      <span className="pointer-events-none absolute -right-2 -bottom-2 h-4 w-4 border-r-2 border-b-2 border-black/80" />
+
+      <span className="relative z-10">{children}</span>
+    </button>
   );
 }

@@ -204,3 +204,22 @@
   filter: grayscale(1);
   image-rendering: auto; /* keep it normal; pixel effect comes from overlay */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.gsap-word {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

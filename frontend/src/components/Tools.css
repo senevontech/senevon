@@ -286,7 +286,6 @@
 
 .ts-btnGhost{
   padding: 12px 16px;
-  border-radius: 12px;
   background: rgba(255,255,255,0.25);
   border: 1px solid rgba(0,0,0,0.25);
   color: rgba(0,0,0,0.72);

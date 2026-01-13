@@ -1,0 +1,161 @@
+.snv-btn {
+  --accent: #ff5a12;
+  --bg: rgba(255, 255, 255, 0.25);
+  --border: rgba(0, 0, 0, 0.25);
+  --text: rgba(0, 0, 0, 0.75);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0; /* matches your sharp style */
+  overflow: hidden;
+
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(0);
+  will-change: transform, filter;
+  isolation: isolate;
+
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+
+  transition: transform 140ms ease, filter 200ms ease, background 200ms ease;
+}
+
+.snv-btn:active {
+  transform: translateY(1px);
+}
+
+.snv-btn:disabled,
+.snv-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* sizes (mobile-first — NOT big on mobile) */
+.snv-btn--sm {
+  padding: 0.55rem 0.95rem;
+  font-size: 11px;
+}
+.snv-btn--md {
+  padding: 0.65rem 1.1rem;
+  font-size: 11px;
+}
+.snv-btn--lg {
+  padding: 0.8rem 1.25rem;
+  font-size: 12px;
+}
+
+/* bump slightly on md+ */
+@media (min-width: 768px) {
+  .snv-btn--md {
+    padding: 0.75rem 1.35rem;
+    font-size: 12px;
+  }
+  .snv-btn--lg {
+    padding: 0.9rem 1.6rem;
+    font-size: 12px;
+  }
+}
+
+/* variants */
+.snv-btn--accent {
+  background: var(--accent);
+  color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 30px rgba(255, 90, 18, 0.25);
+}
+.snv-btn--ghost {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* corners like your image */
+.snv-btn__corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+.snv-btn__corner.tl {
+  top: 6px; left: 6px;
+  border-top: 2px solid rgba(0,0,0,0.75);
+  border-left: 2px solid rgba(0,0,0,0.75);
+}
+.snv-btn__corner.tr {
+  top: 6px; right: 6px;
+  border-top: 2px solid rgba(0,0,0,0.75);
+  border-right: 2px solid rgba(0,0,0,0.75);
+}
+.snv-btn__corner.bl {
+  bottom: 6px; left: 6px;
+  border-bottom: 2px solid rgba(0,0,0,0.75);
+  border-left: 2px solid rgba(0,0,0,0.75);
+}
+.snv-btn__corner.br {
+  bottom: 6px; right: 6px;
+  border-bottom: 2px solid rgba(0,0,0,0.75);
+  border-right: 2px solid rgba(0,0,0,0.75);
+}
+
+/* label stays above flip layer */
+.snv-btn__label {
+  position: relative;
+  z-index: 3;
+}
+
+/* ---- UNIQUE HOVER: GRID 3D FLIP OVERLAY ---- */
+.snv-btn__flip {
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  pointer-events: none;
+
+  /* “grid boxes” */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.22) 1px, transparent 1px),
+    radial-gradient(600px 220px at 50% 45%, rgba(255,255,255,0.22), transparent 62%);
+  background-size: 14px 14px, 14px 14px, auto;
+
+  opacity: 0;
+  transform-origin: 50% 50%;
+  transform: perspective(900px) rotateX(70deg) translateY(12px);
+  filter: blur(0.2px);
+}
+
+/* hover only where it makes sense */
+@media (hover:hover) and (pointer:fine) {
+  .snv-btn:hover {
+    filter: brightness(1.03);
+  }
+
+  .snv-btn:hover .snv-btn__flip {
+    opacity: 1;
+    animation: snvGridFlip 700ms cubic-bezier(.2,.8,.2,1) both;
+  }
+}
+
+/* focus */
+.snv-btn:focus-visible {
+  outline: 3px solid rgba(255,90,18,0.35);
+  outline-offset: 3px;
+}
+
+@keyframes snvGridFlip {
+  0% {
+    transform: perspective(900px) rotateX(70deg) translateY(14px);
+  }
+  45% {
+    transform: perspective(900px) rotateX(0deg) translateY(0px);
+  }
+  100% {
+    transform: perspective(900px) rotateX(-18deg) translateY(-2px);
+    opacity: 0.85;
+  }
+}

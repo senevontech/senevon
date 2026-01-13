@@ -88,3 +88,18 @@
   75%  { transform: translate(2px,0); }
   100% { transform: translate(0,0); }
 }
+
+
+
+
+
+
+
+
+
+.gsap-word{
+  display:inline-block;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+

@@ -1,90 +1,10 @@
-// import React from "react";
-
-// export default function Header() {
-//   return (
-//     <header className="sticky top-0 z-50 w-full border-b border-black/25 bg-[#d9d9d9]">
-//       <div className="grid h-[74px] grid-cols-[280px_1fr_260px] items-stretch">
-//         {/* Left: logo block */}
-//         <div className="flex items-center gap-3 border-r border-black/25 px-6">
-//           <div className="grid h-10 w-10 place-items-center rounded-md bg-[#ff5a12] shadow-[0_10px_22px_rgba(255,90,18,0.25)]">
-//             <span className="text-lg font-black text-white">⌁</span>
-//           </div>
-//           <div className="leading-none">
-//             <div className="text-[12px] font-semibold tracking-wide text-black/70">
-//               SENEVON
-//             </div>
-//             <div className="text-[20px] font-black tracking-[0.16em] text-black">
-//               Tech
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Center: nav */}
-//         <nav className="hidden items-center justify-center gap-10 border-r border-black/25 px-6 text-[13px] font-medium tracking-wide text-black/70 md:flex">
-//           {["Our Programs", "Portfolio", "Media", "Reviews", "Team", "FAQ", "Blog"].map(
-//             (t) => (
-//               <a
-//                 key={t}
-//                 href="#"
-//                 className="hover:text-black transition-colors"
-//               >
-//                 {t}
-//               </a>
-//             )
-//           )}
-
-//           <a
-//             href="#"
-//             className="group flex items-center gap-2 text-black/80 hover:text-black"
-//           >
-//             <span className="grid h-6 w-6 place-items-center rounded-md border border-black/25 bg-white/40">
-//               <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
-//             </span>
-//             Our Ecosystem
-//           </a>
-//         </nav>
-
-//         {/* Right: CTA */}
-//         <div className="flex items-center justify-end px-6">
-//           <button className="rounded-xl bg-[#ff5a12] px-6 py-2.5 text-[12px] font-black tracking-widest text-white shadow-[0_16px_32px_rgba(255,90,18,0.25)] hover:brightness-[1.03] active:translate-y-[1px]">
-//             Contact Us
-//           </button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import FlipButton from "../components/UI/UiFlipButton";
+import Logo from "../assets/logo/Logo.png";
+import ContactModal from "../components/UI/ContactModal";
 
 /**
  * Mobile-first Header with GSAP hamburger menu
@@ -100,6 +20,10 @@ export default function Header() {
   const panelRef = useRef(null);
   const backdropRef = useRef(null);
   const tlRef = useRef(null);
+
+
+  // contact modal 
+  const [contactOpen, setContactOpen] = useState(false);
 
   const NAV = [
     "Our Programs",
@@ -214,39 +138,60 @@ export default function Header() {
       <div className="md:hidden">
         <div className="flex h-[70px] items-stretch">
           {/* left */}
-          <div className="flex flex-1 items-center gap-3 px-4">
-            <div className="grid h-10 w-10 place-items-center rounded-md bg-[#ff5a12] shadow-[0_10px_22px_rgba(255,90,18,0.25)]">
-              <span className="text-lg font-black text-white">⌁</span>
-            </div>
-            <div className="leading-none">
-              <div className="text-[11px] font-semibold tracking-wide text-black/70">
-                SENEVON
-              </div>
-              <div className="text-[18px] font-black tracking-[0.14em] text-black">
-                Tech
-              </div>
+          <div className="flex flex-1 items-center px-4">
+            <div className="flex h-full items-center">
+              <img
+                src={Logo}
+                alt="Senevon Tech Logo"
+                className="
+        max-h-[85%]
+        w-auto
+        object-contain
+        scale-[1.08]
+      "
+                draggable={false}
+              />
             </div>
           </div>
 
+
+
           {/* right */}
           <div className="flex items-center gap-3 px-4">
-            <button
-              className="rounded-xl bg-[#ff5a12] px-4 py-2 text-[11px] font-black tracking-widest text-white shadow-[0_14px_28px_rgba(255,90,18,0.22)] active:translate-y-[1px]"
+            {/* <button
+              className=" bg-[#ff5a12] px-4 py-2 text-[11px] font-black tracking-widest text-white shadow-[0_14px_28px_rgba(255,90,18,0.22)] active:translate-y-[1px]"
               onClick={() => {
-                // keep your routing later
+
                 setOpen(false);
               }}
             >
               Contact
-            </button>
+            </button> */}
+            {/* 
+            <FlipButton variant="primary" size="sm" onClick={() => setOpen(false)}>
+              Contact
+            </FlipButton> */}
+
+            <FlipButton
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                setOpen(false);          // close menu if open
+                setContactOpen(true);    // ✅ open modal
+              }}
+            >
+              Contact
+            </FlipButton>
+
 
             <button
               onClick={toggle}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className="group grid h-11 w-11 place-items-center rounded-xl border border-black/25 bg-white/45 shadow-[0_10px_22px_rgba(0,0,0,0.05)]"
+              className="group grid h-11 w-11 place-items-center  border-black/25  shadow-[0_10px_22px_rgba(0,0,0,0.05)]"
             >
               <HamburgerIcon open={open} />
+
             </button>
           </div>
         </div>
@@ -279,9 +224,9 @@ export default function Header() {
                 data-chip
                 href="#ecosystem"
                 onClick={close}
-                className="inline-flex items-center gap-2 rounded-full border border-black/25 bg-white/45 px-4 py-2 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/70"
+                className="inline-flex items-center gap-2 border border-black/25 bg-white/45 px-4 py-2 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/70"
               >
-                <span className="grid h-5 w-5 place-items-center rounded-md border border-black/25 bg-white/55">
+                <span className="grid h-5 w-5 place-items-center border border-black/25 bg-white/55">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
                 </span>
                 OUR ECOSYSTEM
@@ -347,19 +292,26 @@ export default function Header() {
       {/* ===== Desktop Header (md+) ===== */}
       <div className="hidden md:block">
         <div className="grid h-[74px] grid-cols-[280px_1fr_260px] items-stretch">
+
           {/* Left: logo block */}
-          <div className="flex items-center gap-3 border-r border-black/25 px-6">
-            <div className="grid h-10 w-10 place-items-center rounded-md bg-[#ff5a12] shadow-[0_10px_22px_rgba(255,90,18,0.25)]">
-              <span className="text-lg font-black text-white">⌁</span>
+          {/* <div className="flex items-center gap-3 border-r border-black/25 px-6">
+            <div className="flex h-full items-center">
+              <img
+                src={Logo}
+                alt="Senevon Tech Logo"
+                className="h-[54px] w-[54px] object-contain"
+                draggable={true}
+              />
             </div>
-            <div className="leading-none">
-              <div className="text-[12px] font-semibold tracking-wide text-black/70">
-                SENEVON
-              </div>
-              <div className="text-[20px] font-black tracking-[0.16em] text-black">
-                Tech
-              </div>
-            </div>
+          </div> */}
+
+          <div className="flex h-full items-center gap-3 border-r border-black/25 px-6">
+            <img
+              src={Logo}
+              alt="Senevon Tech Logo"
+              className="h-[75px] w-auto object-contain"
+              draggable={false}
+            />
           </div>
 
           {/* Center: nav */}
@@ -383,9 +335,17 @@ export default function Header() {
 
           {/* Right: CTA */}
           <div className="flex items-center justify-end px-6">
-            <button className="bg-[#ff5a12] px-6 py-2.5 text-[12px] font-black tracking-widest text-white shadow-[0_16px_32px_rgba(255,90,18,0.25)] hover:brightness-[1.03] active:translate-y-[1px]">
+
+            {/* <button className="bg-[#ff5a12] px-6 py-2.5 text-[12px] font-black tracking-widest text-white shadow-[0_16px_32px_rgba(255,90,18,0.25)] hover:brightness-[1.03] active:translate-y-[1px]">
               Contact Us
-            </button>
+            </button> */}
+
+            <FlipButton variant="primary" size="sm" onClick={() => setContactOpen(true)}>
+              Contact
+            </FlipButton>
+            <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+
+
           </div>
         </div>
       </div>

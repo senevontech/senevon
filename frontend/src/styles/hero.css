@@ -43,7 +43,7 @@ body {
 .hero-content {
   position: absolute;
   left: clamp(18px, 5vw, 70px);
-  bottom: clamp(26px, 8vh, 80px);
+  bottom: clamp(26px, 18vh, 200px);
   z-index: 3;
   pointer-events: none; /* text won't block erasing */
   color: #000;
