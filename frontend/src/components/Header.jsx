@@ -476,6 +476,7 @@ export default function Header() {
     { label: "About Us", to: "/about" },
     { label: "Team", to: "/#team" },
     { label: "FAQ", to: "/FAQs" },
+    { label: "Admin", to: "/admin" },
   ];
 
   // init timeline once

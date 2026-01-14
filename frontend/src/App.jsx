@@ -37,6 +37,10 @@ import About from "./pages/About";
 import FAQ from "./components/faq";
 import Ecosystem from "./pages/EcoSystem";
 
+// admin 
+import AdminLogin from "./pages/adminLogin.jsx";
+import Admin from "./pages/AdminDashboard";
+
 import Cursor from "./components/CustomCursor";
 
 export default function App() {
@@ -53,6 +57,10 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/FAQs" element={<FAQ />} />
         <Route path="/ecosystem" element={<Ecosystem />} />
+
+        {/* admin  */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<Admin />} />
 
         {/* Optional: 404 fallback */}
         <Route

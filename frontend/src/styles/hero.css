@@ -183,3 +183,153 @@ body {
 .hero-canvas {
   touch-action: pan-y; /* ✅ allow vertical swipe to scroll */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ✅ CHANGE: ripple source on the "O" */
+.hero-letter--ripple {
+  position: relative;
+  display: inline-block;
+  isolation: isolate; /* keeps blend clean */
+}
+
+/* 2 expanding rings (lightweight: no JS, no extra DOM) */
+.hero-letter--ripple::before,
+.hero-letter--ripple::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 0.9em;
+  height: 0.9em;
+  transform: translate(-50%, -50%) scale(0.35);
+  border-radius: 999px;
+
+  /* orange ring */
+  border: 2px solid rgba(255, 90, 18, 0.8);
+
+  /* subtle glow */
+  box-shadow: 0 0 0 rgba(255, 90, 18, 0.0);
+  filter: drop-shadow(0 10px 24px rgba(255, 90, 18, 0.12));
+
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: heroORipple 2.1s ease-out infinite;
+}
+
+/* second ring with delay for continuous pulse */
+.hero-letter--ripple::after {
+  animation-delay: 1.05s;
+  border-color: rgba(255, 90, 18, 0.65);
+}
+
+@keyframes heroORipple {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35);
+    box-shadow: 0 0 0 rgba(255, 90, 18, 0.0);
+  }
+  12% {
+    opacity: 0.95;
+  }
+  70% {
+    opacity: 0.22;
+    box-shadow: 0 18px 55px rgba(255, 90, 18, 0.16);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.35);
+    box-shadow: 0 22px 80px rgba(255, 90, 18, 0.12);
+  }
+}
+
+/* ✅ Mobile tuning: smaller rings so it feels premium, not noisy */
+@media (max-width: 480px) {
+  .hero-letter--ripple::before,
+  .hero-letter--ripple::after {
+    border-width: 1.5px;
+    animation-duration: 2.3s;
+  }
+}
+
+/* ✅ Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-letter--ripple::before,
+  .hero-letter--ripple::after {
+    animation: none;
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+
+
+
+
+
+
+/* =========================
+   FULLSCREEN RIPPLE (FROM "O")
+   ========================= */
+
+.hero-ripple-layer{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2; /* above bg/canvas, below text (adjust if needed) */
+  overflow: hidden;
+}
+
+.hero-ripple-circle{
+  position: absolute;
+  width: 120vmax;
+  height: 120vmax;
+  border-radius: 50%;
+
+  border: 2px solid rgba(255, 90, 18, 0.85);
+  background: radial-gradient(
+    circle,
+    rgba(255, 90, 18, 0.12) 0%,
+    rgba(255, 90, 18, 0.06) 35%,
+    rgba(255, 90, 18, 0.02) 55%,
+    transparent 65%
+  );
+
+  transform: translate(-50%, -50%) scale(0);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px){
+  .hero-ripple-circle{
+    border-width: 1.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-ripple-layer{
+    display: none;
+  }
+}
+
+
+
+
+
+
