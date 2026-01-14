@@ -1,6 +1,16 @@
 
 import React from "react";
 import SplineScene from "../components/UI/splineTile";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedinIn,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
+
+
 const NAV = ["Our Programs", "Portfolio", "Media", "Reviews", "Team", "FAQ", "Blog"];
 
 const PARTNERS = [
@@ -25,6 +35,36 @@ function MiniStat({ label, value }) {
 
 
 export default function ChainGptHeroSection() {
+
+   const socials = [
+    {
+      label: "Facebook",
+      href: "https://www.facebook.com/profile.php?id=61585962131769",
+      icon: FaFacebookF,
+    },
+    {
+      label: "X (Twitter)",
+      href: "https://x.com/senevon_tech",
+      icon: FaXTwitter,
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/senevon_tech/",
+      icon: FaInstagram,
+    },
+    {
+      label: "WhatsApp",
+      href: "https://wa.me/",
+      icon: FaWhatsapp,
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.instagram.com/senevon_tech/",
+      icon: FaLinkedinIn,
+    },
+  ];
+
+
   return (
     <section className="min-h-screen bg-[#d9d9d9] text-black">
       {/* Subtle background grid */}
@@ -63,71 +103,34 @@ export default function ChainGptHeroSection() {
             
           </div>
         </div>
-
-        {/* Mobile nav row (simple + clean) */}
-        {/* <div className="md:hidden border-t border-black/20">
-          <div className="mx-auto flex max-w-[1600px] items-center gap-4 overflow-x-auto px-3 py-2 sm:px-4">
-            {NAV.slice(0, 5).map((t) => (
-              <a
-                key={t}
-                href="#"
-                className="whitespace-nowrap text-[12px] font-semibold tracking-wide text-black/65 hover:text-black"
-              >
-                {t}
-              </a>
-            ))}
-            <a
-              href="#"
-              className="ml-auto inline-flex items-center gap-2 whitespace-nowrap text-[12px] font-bold tracking-wide text-black/70"
-            >
-              <span className="grid h-5 w-5 place-items-center rounded-md border border-black/25 bg-white/55">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a12]" />
-              </span>
-              Ecosystem
-            </a>
-          </div>
-        </div> */}
       </header>
 
       {/* Right social rail (desktop) */}
-      {/* <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden  border border-black/25 bg-white/45 backdrop-blur md:block">
-        {["fb", "𝕏", "Insta", "wp", "in"].map((t, i) => (
-          <button
-            key={t}
-            className={[
-              "grid h-11 w-full place-items-center text-sm font-black text-black/70 hover:bg-white/70",
-              i !== 4 ? "border-b border-black/15" : "",
-            ].join(" ")}
-            aria-label={`Social ${t}`}
-          >
-            {t}
-          </button>
-        ))}
-      </div> */}
 
-      <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden border border-black/25 bg-white/45 backdrop-blur md:block">
-  {[
-    { label: "fb", href: "https://www.facebook.com/profile.php?id=61585962131769" },
-    { label: "𝕏", href: "https://twitter.com/" },
-    { label: "Insta", href: "https://www.instagram.com/" },
-    { label: "wp", href: "https://wa.me/" },
-    { label: "in", href: "https://www.instagram.com/senevon_tech/" },
-  ].map((item, i) => (
-    <a
-      key={item.label}
-      href={item.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Social ${item.label}`}
-      className={[
-        "grid h-11 w-full place-items-center text-sm font-black text-black/70 hover:bg-white/70 transition",
-        i !== 4 ? "border-b border-black/15" : "",
-      ].join(" ")}
-    >
-      {item.label}
-    </a>
-  ))}
-</div>
+      <div className="fixed right-5 top-[130px] z-40 hidden w-[46px] overflow-hidden  border border-black/25 bg-white/45 backdrop-blur md:block">
+      {socials.map((item, i) => {
+        const Icon = item.icon;
+
+        return (
+          <a
+            key={item.label}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={item.label}
+            className={[
+              "group grid h-11 w-full place-items-center",
+              "text-black/70 transition-all duration-300",
+              "hover:bg-white hover:text-[#ff5a12]",
+              "active:scale-[0.96]",
+              i !== socials.length - 1 ? "border-b border-black/15" : "",
+            ].join(" ")}
+          >
+            <Icon className="text-[15px] transition-transform duration-300 group-hover:scale-110" />
+          </a>
+        );
+      })}
+    </div>
 
 
       {/* Main grid */}

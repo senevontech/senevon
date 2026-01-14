@@ -428,7 +428,7 @@ const WORKS = [
   {
     id: "w1",
     category: "websites",
-    title: "Senevon Landing",
+    title: "Senevon",
     subtitle: "Futuristic marketing site",
     tags: ["Next.js", "Tailwind", "GSAP"],
     image:
@@ -437,7 +437,7 @@ const WORKS = [
   {
     id: "w2",
     category: "websites",
-    title: "Yarrowtech Website",
+    title: " Glm+",
     subtitle: "Product + services web presence",
     tags: ["React", "UI System", "SEO"],
     image:
@@ -446,8 +446,8 @@ const WORKS = [
   {
     id: "w3",
     category: "webapps",
-    title: "RMS Inventory",
-    subtitle: "ERP module dashboard",
+    title: "SPorty",
+    subtitle: "Sports management system",
     tags: ["MERN", "Role-based", "Analytics"],
     image:
       "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1600&q=60",
@@ -455,7 +455,7 @@ const WORKS = [
   {
     id: "w4",
     category: "webapps",
-    title: "HireMe Platform",
+    title: "Hsuit Platform",
     subtitle: "HR + payroll SaaS",
     tags: ["React", "Node", "Subscriptions"],
     image:

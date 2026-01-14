@@ -1,13 +1,42 @@
+
+
+
 // import Home from "./pages/Home";
 // import Cursor from "./components/CustomCursor";
+// import Products from "./pages/Products";
 
 // export default function App() {
-//   return <Home />;
+//   return (
+//     <>
+//       <Cursor />
+//       <Home />
+//       <Products />
+//     </>
+//   );
 // }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+import { Routes, Route } from "react-router-dom";
+
 import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Services from "./pages/Services";
+import About from "./pages/About";
+import FAQ from "./components/faq";
+import Ecosystem from "./pages/EcoSystem";
+
 import Cursor from "./components/CustomCursor";
 
 export default function App() {
@@ -16,8 +45,25 @@ export default function App() {
       {/* Global custom cursor */}
       <Cursor />
 
-      {/* App content */}
-      <Home />
+      {/* Routes */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/FAQs" element={<FAQ />} />
+        <Route path="/ecosystem" element={<Ecosystem />} />
+
+        {/* Optional: 404 fallback */}
+        <Route
+          path="*"
+          element={
+            <div className="grid min-h-screen place-items-center text-xl font-black">
+              404 – Page Not Found
+            </div>
+          }
+        />
+      </Routes>
     </>
   );
 }
