@@ -38,7 +38,7 @@ import FAQ from "./components/faq";
 import Ecosystem from "./pages/EcoSystem";
 
 // admin 
-import AdminLogin from "./pages/adminLogin.jsx";
+import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/AdminDashboard";
 
 import Cursor from "./components/CustomCursor";
