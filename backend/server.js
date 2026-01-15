@@ -251,6 +251,31 @@ app.use(express.json({ limit: "50kb" })); // career can have more text
  * - Allows x-admin-key header for admin dashboard
  * - Allows OPTIONS preflight
  */
+
+
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   process.env.FRONTEND_URL, 
+// ].filter(Boolean);
+
+// const corsOptions = {
+//   origin: (origin, cb) => {
+    
+//     if (!origin) return cb(null, true);
+//     if (allowedOrigins.includes(origin)) return cb(null, true);
+//     return cb(new Error(`CORS blocked for origin: ${origin}`));
+//   },
+//   credentials: false,
+//   methods: ["GET", "POST", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "x-admin-key"],
+// };
+
+// app.use(cors(corsOptions));
+
+// app.options(/.*/, cors(corsOptions));
+
+
+
 const allowedOrigins = [
   "http://localhost:5173",
   process.env.FRONTEND_URL, // e.g. https://senevon-ftnl.onrender.com
@@ -258,18 +283,20 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: (origin, cb) => {
-    // allow requests with no origin (Postman/curl)
-    if (!origin) return cb(null, true);
+    if (!origin) return cb(null, true); // Postman/curl
     if (allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(new Error(`CORS blocked for origin: ${origin}`));
+    return cb(null, false); // IMPORTANT: don't throw error (preflight will still respond)
   },
-  credentials: false,
   methods: ["GET", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "x-admin-key"],
+  credentials: false,
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
+app.options(/.*/, cors(corsOptions)); // ✅ Express 5 safe
+
+
 
 /* =========================
    Rate Limit (anti-spam)
