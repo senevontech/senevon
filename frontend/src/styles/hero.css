@@ -332,4 +332,87 @@ body {
 
 
 
+/* optimisation:  */
+/* ---------- PERFORMANCE TWEAKS ---------- */
+.hero-hint {
+  /* was blur(80px) -> heavy on some GPUs */
+  backdrop-filter: blur(20px);
+}
+
+/* Ensure video + layers don’t trigger repaint storms */
+.hero-video,
+.hero-canvas,
+.hero-content,
+.hero-ripple-layer {
+  will-change: transform;
+}
+
+/* ---------- RIPPLE (FULLSCREEN, SLOW, CYCLIC) ---------- */
+.hero {
+  /* JS writes these from the "O" */
+  --ripple-x: 50vw;
+  --ripple-y: 50vh;
+}
+
+.hero-ripple-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2; /* behind text (z=3), above video (z=0) */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-ripple {
+  position: absolute;
+  left: var(--ripple-x);
+  top: var(--ripple-y);
+  width: 12vmax;
+  height: 12vmax;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+
+  /* orange ripple look */
+  border: 2px solid rgba(255, 90, 18, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(255, 90, 18, 0.10),
+    0 28px 90px rgba(255, 90, 18, 0.12);
+
+  animation: heroRipple 7.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.hero-ripple.r2 {
+  animation-delay: 2.2s;
+  border-color: rgba(255, 90, 18, 0.42);
+}
+.hero-ripple.r3 {
+  animation-delay: 4.4s;
+  border-color: rgba(255, 90, 18, 0.32);
+}
+
+@keyframes heroRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.05);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    /* Big enough to cover almost all screens */
+    transform: translate(-50%, -50%) scale(18);
+    opacity: 0;
+  }
+}
+
+/* Respect reduced motion */
+.hero.reduce-motion .hero-ripple {
+  animation: none !important;
+  display: none !important;
+}
+
+
 
