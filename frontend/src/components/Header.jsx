@@ -433,7 +433,7 @@ export default function Header() {
     { label: "Services", to: "/services" },
     { label: "About Us", to: "/about" },
     { label: "Team", to: "/#team" },
-    { label: "FAQ", to: "/FAQs" },
+    { label: "FAQ", to: "/faq" },
     { label: "Admin", to: "/admin" },
   ];
 

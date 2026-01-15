@@ -268,7 +268,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions)); // ✅ Express 5 compatible
+app.options(/.*/, cors(corsOptions)); 
+// app.options("*", cors(corsOptions)); 
 
 
 
