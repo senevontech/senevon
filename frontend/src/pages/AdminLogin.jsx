@@ -313,9 +313,9 @@ export default function AdminLogin() {
             {loading ? "VERIFYING..." : "LOGIN"}
           </button>
 
-          <div className="mt-4 text-[12px] font-semibold text-black/55">
+          {/* <div className="mt-4 text-[12px] font-semibold text-black/55">
             API: <span className="font-black text-black/70">{API_BASE}</span>
-          </div>
+          </div> */}
         </form>
       </div>
     </section>

@@ -434,7 +434,7 @@ export default function Header() {
     { label: "About Us", to: "/about" },
     { label: "Team", to: "/#team" },
     { label: "FAQ", to: "/faq" },
-    { label: "Admin", to: "/admin" },
+    // { label: "Admin", to: "/admin" },
   ];
 
   // ✅ ACTIVE CHECK (kept simple + safe)
