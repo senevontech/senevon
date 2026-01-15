@@ -246,46 +246,20 @@ const app = express();
 app.use(helmet());
 app.use(express.json({ limit: "50kb" })); // career can have more text
 
-/**
- * ✅ CORS FIX (Render + Local)
- * - Allows x-admin-key header for admin dashboard
- * - Allows OPTIONS preflight
- */
 
-
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   process.env.FRONTEND_URL, 
-// ].filter(Boolean);
-
-// const corsOptions = {
-//   origin: (origin, cb) => {
-    
-//     if (!origin) return cb(null, true);
-//     if (allowedOrigins.includes(origin)) return cb(null, true);
-//     return cb(new Error(`CORS blocked for origin: ${origin}`));
-//   },
-//   credentials: false,
-//   methods: ["GET", "POST", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "x-admin-key"],
-// };
-
-// app.use(cors(corsOptions));
-
-// app.options(/.*/, cors(corsOptions));
-
-
+const normalize = (u) => (u ? String(u).trim().replace(/\/+$/, "") : "");
 
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL, // e.g. https://senevon-ftnl.onrender.com
+  normalize(process.env.FRONTEND_URL), // e.g. https://senevon-ftnl.onrender.com
 ].filter(Boolean);
 
 const corsOptions = {
   origin: (origin, cb) => {
     if (!origin) return cb(null, true); // Postman/curl
-    if (allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(null, false); // IMPORTANT: don't throw error (preflight will still respond)
+    const o = normalize(origin);
+    if (allowedOrigins.includes(o)) return cb(null, true);
+    return cb(null, false); // no ACAO header => blocked
   },
   methods: ["GET", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "x-admin-key"],
@@ -294,7 +268,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions)); // ✅ Express 5 safe
+app.options(/.*/, cors(corsOptions)); // ✅ Express 5 compatible
+
 
 
 
