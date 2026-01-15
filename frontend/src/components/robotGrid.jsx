@@ -740,7 +740,7 @@ export default function RobotGrid({ url = "/models/robot.glb", className = "" })
 
           <directionalLight position={[-3.5, 2.0, 2.5]} intensity={0.35} />
 
-          <group position={[0, -0.9, 2]}>
+          <group position={[0, -0.7, 1.5]}>
             <Model
               url={url}
               modelScaleRef={modelScaleRef}
@@ -768,6 +768,6 @@ export default function RobotGrid({ url = "/models/robot.glb", className = "" })
   );
 }
 
-useGLTF.preload("/models/yourModel.glb");
+useGLTF.preload("/models/robot2.glb");
 
 

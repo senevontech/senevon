@@ -157,7 +157,7 @@ export default function ChainGptHeroSection() {
                             <AccentDot className="right-6 bottom-6" />
 
                             <div className="flex h-full items-center justify-center px-5 sm:px-8">
-                                <h1 className="text-center font-black tracking-[0.18em] text-black text-[44px] sm:text-[64px] md:text-[110px] lg:text-[140px] font-[tron]">
+                                <h1 className="text-center font-black tracking-[0.18em] text-black text-[44px] sm:text-[64px] md:text-[110px] lg:text-[140px] font-[blanka]">
                                     BACKING TOMORROW
                                 </h1>
                             </div>
@@ -166,10 +166,10 @@ export default function ChainGptHeroSection() {
                             <div className="absolute left-6 bottom-4 hidden items-center gap-6 md:flex">
                                 <span className="inline-flex items-center gap-2 text-[11px] font-black tracking-[0.22em] text-black/75">
                                     <span className="h-2 w-2 bg-[#ff5a12]" />
-                                    BACKING
+                                    Senevon.in
                                 </span>
                                 <span className="text-[11px] font-black tracking-[0.22em] text-black/55">
-                                    TOMORROW
+                                    
                                 </span>
                             </div>
                         </div>
@@ -258,7 +258,7 @@ export default function ChainGptHeroSection() {
     </div> */}
 
                             <div className="absolute inset-0">
-                                <RobotGrid url="/models/robot.glb" className="h-full w-full" />
+                                <RobotGrid url="/models/robot2.glb" className="h-full w-full" />
                             </div>
 
                         </div>

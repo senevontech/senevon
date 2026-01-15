@@ -143,6 +143,18 @@ button:focus-visible {
   font-display: swap;
 }
 
+@font-face {
+  font-family: "blanka";
+  src: url("./assets/fonts/Blanka.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+
 /* ✅ Fullscreen base reset */
 html,
 body,
