@@ -4,6 +4,8 @@ import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "re
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./careers.css";
+import { supabase } from "../lib/supabaseClient";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -538,7 +540,172 @@ function Pill({ children }) {
   );
 }
 
+
+
+
+// function ApplyModal({ role, onClose }) {
+//   // optional: animate modal content (lightweight)
+//   useEffect(() => {
+//     const reduceMotion =
+//       typeof window !== "undefined" &&
+//       window.matchMedia &&
+//       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+//     if (reduceMotion) return;
+
+//     const root = document.querySelector("[data-career-modal]");
+//     if (!root) return;
+
+//     const textEls = root.querySelectorAll('[data-animate="text"]');
+//     const splitTargets = [];
+//     const simpleTargets = [];
+
+//     textEls.forEach((el) => {
+//       const { words, skipped } = splitWords(el, { maxWords: 55 });
+//       if (!skipped && words.length) splitTargets.push({ el, words });
+//       else simpleTargets.push(el);
+//     });
+
+//     splitTargets.forEach(({ words }) => gsap.set(words, { opacity: 0, y: 10 }));
+//     if (simpleTargets.length) gsap.set(simpleTargets, { opacity: 0, y: 10 });
+
+//     gsap.to(root, { opacity: 1, duration: 0.18, ease: "linear" });
+
+//     splitTargets.forEach(({ words }, i) => {
+//       gsap.to(words, {
+//         opacity: 1,
+//         y: 0,
+//         duration: 0.42,
+//         ease: "power3.out",
+//         stagger: 0.018,
+//         delay: 0.05 + i * 0.03,
+//       });
+//     });
+
+//     if (simpleTargets.length) {
+//       gsap.to(simpleTargets, {
+//         opacity: 1,
+//         y: 0,
+//         duration: 0.35,
+//         ease: "power3.out",
+//         stagger: 0.03,
+//         delay: 0.08,
+//       });
+//     }
+//   }, []);
+
+//   return (
+//     <div
+//       data-career-modal
+//       className="fixed inset-0 z-[999] grid place-items-center p-4"
+//       role="dialog"
+//       aria-modal="true"
+//       aria-label="Apply for role"
+//       onMouseDown={(e) => {
+//         if (e.target === e.currentTarget) onClose();
+//       }}
+//       style={{ opacity: 0 }}
+//     >
+//       <div className="absolute inset-0 bg-black/50" />
+
+//       <div className="relative w-full max-w-[720px] overflow-hidden border border-white/30 bg-[#ff5a12] shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
+//         <div className="flex items-start justify-between border-b border-white/25 bg-white/10 px-6 py-5">
+//           <div>
+//             <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
+//               APPLYING FOR
+//             </div>
+//             <div data-animate="text" className="mt-2 text-[20px] font-black text-white">
+//               {role.title}
+//             </div>
+//             <div data-animate="text" className="mt-1 text-[13px] text-white/85">
+//               {role.type} • {role.location} • {role.level}
+//             </div>
+//           </div>
+
+//           <button
+//             onClick={onClose}
+//             className="grid h-11 w-11 place-items-center border border-white/30 bg-white/12 text-white/90 hover:bg-white/22"
+//             aria-label="Close"
+//           >
+//             ✕
+//           </button>
+//         </div>
+
+//         <form
+//           className="grid gap-4 p-6 md:grid-cols-2"
+//           onSubmit={(e) => {
+//             e.preventDefault();
+//             alert("Application submitted (demo). Connect to backend next.");
+//             onClose();
+//           }}
+//         >
+//           <Field label="Full Name">
+//             <input className="cr-input" required placeholder="Your name" />
+//           </Field>
+
+//           <Field label="Email">
+//             <input className="cr-input" type="email" required placeholder="you@email.com" />
+//           </Field>
+
+//           <Field label="Portfolio / LinkedIn">
+//             <input className="cr-input" placeholder="https://…" />
+//           </Field>
+
+//           <Field label="Location">
+//             <input className="cr-input" placeholder="City, Country" />
+//           </Field>
+
+//           <div className="md:col-span-2">
+//             <Field label="Message">
+//               <textarea
+//                 className="cr-input min-h-[120px] resize-none"
+//                 placeholder="Why are you a fit for this role?"
+//               />
+//             </Field>
+//           </div>
+
+//           <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:justify-end">
+//             <button
+//               type="button"
+//               onClick={onClose}
+//               className=" border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22"
+//             >
+//               <span data-animate="text">CANCEL</span>
+//             </button>
+//             <button
+//               type="submit"
+//               className=" bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02]"
+//             >
+//               <span data-animate="text">SUBMIT</span>
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
 function ApplyModal({ role, onClose }) {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    portfolio: "",
+    location: "",
+    message: "",
+  });
+
+  const [resumeFile, setResumeFile] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
+
+  const update = (key) => (e) => {
+    setForm((s) => ({ ...s, [key]: e.target.value }));
+  };
+
   // optional: animate modal content (lightweight)
   useEffect(() => {
     const reduceMotion =
@@ -588,6 +755,71 @@ function ApplyModal({ role, onClose }) {
     }
   }, []);
 
+  const submit = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
+    setStatus({ type: "", message: "" });
+    setLoading(true);
+
+    try {
+      // ✅ optional: upload resume to Supabase Storage
+      let resume_url = null;
+
+      if (resumeFile) {
+        const ext = resumeFile.name.split(".").pop() || "pdf";
+        const safeName = `${Date.now()}-${Math.random().toString(16).slice(2)}.${ext}`;
+        const filePath = `career/${role?.id || "role"}-${safeName}`;
+
+        const { error: upErr } = await supabase.storage
+          .from("resumes")
+          .upload(filePath, resumeFile, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (upErr) throw upErr;
+
+        // If bucket is private, we store the path, and admins can open using signed URL later.
+        // If bucket is public, you can do getPublicUrl.
+        const { data: pub } = supabase.storage.from("resumes").getPublicUrl(filePath);
+        resume_url = pub?.publicUrl || filePath;
+      }
+
+      // ✅ insert into DB
+      const { error } = await supabase.from("career_applications").insert([
+        {
+          role_id: role?.id || null,
+          role_title: role?.title || null,
+          team: role?.team || null,
+
+          name: form.name,
+          email: form.email,
+          portfolio: form.portfolio || null,
+          location: form.location || null,
+          message: form.message || null,
+
+          resume_url,
+          source: window.location.pathname,
+          user_agent: navigator.userAgent,
+        },
+      ]);
+
+      if (error) throw error;
+
+      setStatus({ type: "success", message: "Application submitted successfully!" });
+      setForm({ name: "", email: "", portfolio: "", location: "", message: "" });
+      setResumeFile(null);
+
+      // Close like your original flow
+      setTimeout(() => onClose(), 600);
+    } catch (err) {
+      setStatus({ type: "error", message: err?.message || "Failed to submit application." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       data-career-modal
@@ -625,28 +857,45 @@ function ApplyModal({ role, onClose }) {
           </button>
         </div>
 
-        <form
-          className="grid gap-4 p-6 md:grid-cols-2"
-          onSubmit={(e) => {
-            e.preventDefault();
-            alert("Application submitted (demo). Connect to backend next.");
-            onClose();
-          }}
-        >
+        {/* ✅ form submit now goes to Supabase */}
+        <form className="grid gap-4 p-6 md:grid-cols-2" onSubmit={submit}>
           <Field label="Full Name">
-            <input className="cr-input" required placeholder="Your name" />
+            <input
+              className="cr-input"
+              required
+              placeholder="Your name"
+              value={form.name}
+              onChange={update("name")}
+            />
           </Field>
 
           <Field label="Email">
-            <input className="cr-input" type="email" required placeholder="you@email.com" />
+            <input
+              className="cr-input"
+              type="email"
+              required
+              placeholder="you@email.com"
+              value={form.email}
+              onChange={update("email")}
+            />
           </Field>
 
           <Field label="Portfolio / LinkedIn">
-            <input className="cr-input" placeholder="https://…" />
+            <input
+              className="cr-input"
+              placeholder="https://…"
+              value={form.portfolio}
+              onChange={update("portfolio")}
+            />
           </Field>
 
           <Field label="Location">
-            <input className="cr-input" placeholder="City, Country" />
+            <input
+              className="cr-input"
+              placeholder="City, Country"
+              value={form.location}
+              onChange={update("location")}
+            />
           </Field>
 
           <div className="md:col-span-2">
@@ -654,23 +903,47 @@ function ApplyModal({ role, onClose }) {
               <textarea
                 className="cr-input min-h-[120px] resize-none"
                 placeholder="Why are you a fit for this role?"
+                value={form.message}
+                onChange={update("message")}
               />
             </Field>
           </div>
+
+          {/* ✅ OPTIONAL resume upload (no design changes, minimal field) */}
+          <div className="md:col-span-2">
+            <Field label="Resume (optional)">
+              <input
+                className="cr-input"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+              />
+            </Field>
+          </div>
+
+          {/* status */}
+          {status.message ? (
+            <div className="md:col-span-2 border border-white/35 bg-white/10 px-4 py-3 text-[12px] font-semibold text-white/90">
+              {status.message}
+            </div>
+          ) : null}
 
           <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={onClose}
-              className=" border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22"
+              disabled={loading}
+              className=" border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22 disabled:opacity-60"
             >
               <span data-animate="text">CANCEL</span>
             </button>
+
             <button
               type="submit"
-              className=" bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02]"
+              disabled={loading}
+              className=" bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02] disabled:opacity-60"
             >
-              <span data-animate="text">SUBMIT</span>
+              <span data-animate="text">{loading ? "SUBMITTING..." : "SUBMIT"}</span>
             </button>
           </div>
         </form>
@@ -678,6 +951,13 @@ function ApplyModal({ role, onClose }) {
     </div>
   );
 }
+
+
+
+
+
+
+
 
 function Field({ label, children }) {
   return (

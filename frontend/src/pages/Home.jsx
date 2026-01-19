@@ -12,6 +12,8 @@ import Careers from "../components/careers";
 import Tools from "../components/Tools";
 import Footer from "../components/Footer";
 
+
+
 export default function Home() {
   return (
     <div>
@@ -22,7 +24,12 @@ export default function Home() {
       <Products />
       <AboutUs />
       <OurWorks />
-      <Careers />
+
+      {/* <Careers /> */}
+      <section id="careers">
+        <Careers />
+      </section>
+
       <Tools />
       <Footer />
 

@@ -36,6 +36,8 @@ import Services from "./pages/Services";
 import About from "./pages/About";
 import FAQ from "./components/faq";
 import Ecosystem from "./pages/EcoSystem";
+import ScrollToHash from "./utils/ScrollToHash";
+
 
 // admin 
 // import AdminLogin from "./pages/AdminLogin";
@@ -51,6 +53,7 @@ export default function App() {
     <>
       {/* Global custom cursor */}
       <Cursor />
+      <ScrollToHash />
 
       {/* Routes */}
       <Routes>

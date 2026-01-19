@@ -1,3 +1,4 @@
+
 // import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import Header from "../components/Header";
@@ -7,7 +8,7 @@
 //   const nav = useNavigate();
 
 //   const [rows, setRows] = useState([]);
-//   const [type, setType] = useState("all"); // all | contact | career
+//   const [type, setType] = useState("all"); 
 //   const [loading, setLoading] = useState(true);
 //   const [err, setErr] = useState("");
 
@@ -28,6 +29,54 @@
 //     return data.session;
 //   };
 
+//   const normalizeContactRow = (r) => ({
+//     id: r.id,
+//     type: "contact",
+//     name: r.name,
+//     email: r.email,
+//     phone: r.phone,
+//     message: r.message,
+//     role: null,
+//     resume_url: null,
+//     created_at: r.created_at || r.createdAt || null,
+//   });
+
+//   // If you have a career table, put it here.
+//   // If you DON'T have it yet, keep it empty and the CAREER tab will show none.
+//   const loadCareer = async () => {
+//     // Example (only if you created a "career_applications" table):
+//     // const { data, error } = await supabase
+//     //   .from("career_applications")
+//     //   .select("*")
+//     //   .order("created_at", { ascending: false })
+//     //   .limit(500);
+//     // if (error) throw error;
+//     // return (data || []).map((r) => ({
+//     //   id: r.id,
+//     //   type: "career",
+//     //   name: r.name,
+//     //   email: r.email,
+//     //   phone: r.phone,
+//     //   message: null,
+//     //   role: r.role,
+//     //   resume_url: r.resume_url,
+//     //   created_at: r.created_at,
+//     // }));
+
+//     return [];
+//   };
+
+//   const loadContact = async () => {
+//     const { data, error } = await supabase
+//       .from("contact_messages")
+//       .select("*")
+//       .order("id", { ascending: false })
+//       .limit(500);
+
+//     if (error) throw error;
+//     return (data || []).map(normalizeContactRow);
+//   };
+
 //   const load = async (t = type) => {
 //     setErr("");
 //     setLoading(true);
@@ -36,20 +85,30 @@
 //       const session = await ensureSession();
 //       if (!session) return;
 
-//       let q = supabase
-//         .from("submissions")
-//         .select("*")
-//         .order("created_at", { ascending: false })
-//         .limit(500);
+//       if (t === "contact") {
+//         setRows(await loadContact());
+//         return;
+//       }
 
-//       if (t !== "all") q = q.eq("type", t);
+//       if (t === "career") {
+//         setRows(await loadCareer());
+//         return;
+//       }
 
-//       const { data, error } = await q;
-//       if (error) throw error;
+//       // t === "all" -> merge
+//       const [contactRows, careerRows] = await Promise.all([
+//         loadContact(),
+//         loadCareer(),
+//       ]);
 
-//       setRows(Array.isArray(data) ? data : []);
+//       const merged = [...contactRows, ...careerRows].sort((a, b) => {
+//         const da = a.created_at ? new Date(a.created_at).getTime() : 0;
+//         const db = b.created_at ? new Date(b.created_at).getTime() : 0;
+//         return db - da;
+//       });
+
+//       setRows(merged);
 //     } catch (e) {
-//       // Most common: user not in admins table OR RLS blocks select
 //       setErr(e?.message || "Failed to load submissions (RLS / admin access / table missing).");
 //       setRows([]);
 //     } finally {
@@ -62,12 +121,19 @@
 //       const session = await ensureSession();
 //       if (!session) return;
 
-//       const { error } = await supabase.from("submissions").delete().eq("id", id);
-//       if (error) throw error;
+//       // delete based on current tab type
+//       if (type === "career") {
+//         // Example if you have career table:
+//         // const { error } = await supabase.from("career_applications").delete().eq("id", id);
+//         // if (error) throw error;
+//       } else {
+//         const { error } = await supabase.from("contact_messages").delete().eq("id", id);
+//         if (error) throw error;
+//       }
 
 //       setRows((p) => p.filter((x) => x.id !== id));
 //     } catch {
-//       // keep silent like your old code
+//       // silent
 //     }
 //   };
 
@@ -76,12 +142,10 @@
 //     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, []);
 
-//   // If session changes, keep behavior stable
 //   useEffect(() => {
 //     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-//       if (!session) nav("/supabase", { replace: true });
+//       if (!session) nav("/admin", { replace: true });
 //     });
-
 //     return () => sub?.subscription?.unsubscribe?.();
 //   }, [nav]);
 
@@ -148,7 +212,7 @@
 //             <div className="p-6 text-[13px] font-semibold text-black/70">
 //               {err}
 //               <div className="mt-2 text-[12px]">
-//                 Tip: Make sure you added your user_id to <b>public.admins</b> and RLS policies are applied.
+//                 Tip: Ensure RLS policies exist for <b>contact_messages</b> too (not only submissions).
 //               </div>
 //             </div>
 //           ) : rows.length === 0 ? (
@@ -196,12 +260,7 @@
 //                             {r.resume_url ? (
 //                               <>
 //                                 • <b>Resume:</b>{" "}
-//                                 <a
-//                                   className="underline"
-//                                   href={r.resume_url}
-//                                   target="_blank"
-//                                   rel="noreferrer"
-//                                 >
+//                                 <a className="underline" href={r.resume_url} target="_blank" rel="noreferrer">
 //                                   link
 //                                 </a>
 //                               </>
@@ -277,6 +336,32 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
@@ -286,7 +371,7 @@ export default function SupabaseAdminDashboard() {
   const nav = useNavigate();
 
   const [rows, setRows] = useState([]);
-  const [type, setType] = useState("all"); 
+  const [type, setType] = useState("all");
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
 
@@ -307,43 +392,38 @@ export default function SupabaseAdminDashboard() {
     return data.session;
   };
 
+  /* ---------------- Normalize Rows ---------------- */
   const normalizeContactRow = (r) => ({
     id: r.id,
+    _table: "contact_messages",
     type: "contact",
     name: r.name,
     email: r.email,
     phone: r.phone,
     message: r.message,
-    role: null,
+    role_title: null,
+    team: null,
+    portfolio: null,
     resume_url: null,
     created_at: r.created_at || r.createdAt || null,
   });
 
-  // If you have a career table, put it here.
-  // If you DON'T have it yet, keep it empty and the CAREER tab will show none.
-  const loadCareer = async () => {
-    // Example (only if you created a "career_applications" table):
-    // const { data, error } = await supabase
-    //   .from("career_applications")
-    //   .select("*")
-    //   .order("created_at", { ascending: false })
-    //   .limit(500);
-    // if (error) throw error;
-    // return (data || []).map((r) => ({
-    //   id: r.id,
-    //   type: "career",
-    //   name: r.name,
-    //   email: r.email,
-    //   phone: r.phone,
-    //   message: null,
-    //   role: r.role,
-    //   resume_url: r.resume_url,
-    //   created_at: r.created_at,
-    // }));
+  const normalizeCareerRow = (r) => ({
+    id: r.id,
+    _table: "career_applications",
+    type: "career",
+    name: r.name,
+    email: r.email,
+    phone: null,
+    message: r.message || null,
+    role_title: r.role_title || null,
+    team: r.team || null,
+    portfolio: r.portfolio || null,
+    resume_url: r.resume_url || null,
+    created_at: r.created_at || r.createdAt || null,
+  });
 
-    return [];
-  };
-
+  /* ---------------- Loaders ---------------- */
   const loadContact = async () => {
     const { data, error } = await supabase
       .from("contact_messages")
@@ -355,6 +435,27 @@ export default function SupabaseAdminDashboard() {
     return (data || []).map(normalizeContactRow);
   };
 
+  const loadCareer = async () => {
+    // ✅ THIS WAS THE MISSING PART
+    const { data, error } = await supabase
+      .from("career_applications")
+      .select("*")
+      .order("id", { ascending: false })
+      .limit(500);
+
+    if (error) throw error;
+    return (data || []).map(normalizeCareerRow);
+  };
+
+  const sortByDate = (arr) =>
+    [...arr].sort((a, b) => {
+      const da = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const db = b.created_at ? new Date(b.created_at).getTime() : 0;
+      if (da !== db) return db - da;
+      // fallback: higher id first
+      return Number(b.id || 0) - Number(a.id || 0);
+    });
+
   const load = async (t = type) => {
     setErr("");
     setLoading(true);
@@ -364,54 +465,41 @@ export default function SupabaseAdminDashboard() {
       if (!session) return;
 
       if (t === "contact") {
-        setRows(await loadContact());
+        setRows(sortByDate(await loadContact()));
         return;
       }
 
       if (t === "career") {
-        setRows(await loadCareer());
+        setRows(sortByDate(await loadCareer()));
         return;
       }
 
-      // t === "all" -> merge
-      const [contactRows, careerRows] = await Promise.all([
-        loadContact(),
-        loadCareer(),
-      ]);
-
-      const merged = [...contactRows, ...careerRows].sort((a, b) => {
-        const da = a.created_at ? new Date(a.created_at).getTime() : 0;
-        const db = b.created_at ? new Date(b.created_at).getTime() : 0;
-        return db - da;
-      });
-
-      setRows(merged);
+      // t === "all"
+      const [contactRows, careerRows] = await Promise.all([loadContact(), loadCareer()]);
+      setRows(sortByDate([...contactRows, ...careerRows]));
     } catch (e) {
-      setErr(e?.message || "Failed to load submissions (RLS / admin access / table missing).");
+      setErr(e?.message || "Failed to load submissions (RLS / table / policy issue).");
       setRows([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const del = async (id) => {
+  /* ---------------- Delete ---------------- */
+  const del = async (row) => {
     try {
       const session = await ensureSession();
       if (!session) return;
 
-      // delete based on current tab type
-      if (type === "career") {
-        // Example if you have career table:
-        // const { error } = await supabase.from("career_applications").delete().eq("id", id);
-        // if (error) throw error;
-      } else {
-        const { error } = await supabase.from("contact_messages").delete().eq("id", id);
-        if (error) throw error;
-      }
+      const table = row?._table || (row?.type === "career" ? "career_applications" : "contact_messages");
 
-      setRows((p) => p.filter((x) => x.id !== id));
-    } catch {
-      // silent
+      const { error } = await supabase.from(table).delete().eq("id", row.id);
+      if (error) throw error;
+
+      setRows((p) => p.filter((x) => !(x._table === table && x.id === row.id)));
+    } catch (e) {
+      // show minimal error (optional)
+      console.error(e);
     }
   };
 
@@ -483,20 +571,17 @@ export default function SupabaseAdminDashboard() {
 
         <div className="mt-4 border border-black/20 bg-white/35 p-3 shadow-[0_16px_40px_rgba(0,0,0,0.06)]">
           {loading ? (
-            <div className="p-6 text-[13px] font-semibold text-black/70">
-              Loading...
-            </div>
+            <div className="p-6 text-[13px] font-semibold text-black/70">Loading...</div>
           ) : err ? (
             <div className="p-6 text-[13px] font-semibold text-black/70">
               {err}
               <div className="mt-2 text-[12px]">
-                Tip: Ensure RLS policies exist for <b>contact_messages</b> too (not only submissions).
+                If this is RLS: allow SELECT for authenticated users (admin),
+                and allow INSERT for anon (public form).
               </div>
             </div>
           ) : rows.length === 0 ? (
-            <div className="p-6 text-[13px] font-semibold text-black/70">
-              No submissions yet.
-            </div>
+            <div className="p-6 text-[13px] font-semibold text-black/70">No submissions yet.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left">
@@ -514,40 +599,60 @@ export default function SupabaseAdminDashboard() {
 
                 <tbody>
                   {rows.map((r) => (
-                    <tr key={r.id} className="border-b border-black/10">
+                    <tr key={`${r._table}-${r.id}`} className="border-b border-black/10">
                       <td className="p-3 text-[12px] font-black tracking-widest text-black/70">
                         {String(r.type || "-").toUpperCase()}
                       </td>
 
-                      <td className="p-3 text-[13px] font-semibold text-black/80">
-                        {r.name}
-                      </td>
+                      <td className="p-3 text-[13px] font-semibold text-black/80">{r.name || "-"}</td>
 
-                      <td className="p-3 text-[13px] font-semibold text-black/70">
-                        {r.email}
-                      </td>
+                      <td className="p-3 text-[13px] font-semibold text-black/70">{r.email || "-"}</td>
 
-                      <td className="p-3 text-[13px] font-semibold text-black/70">
-                        {r.phone || "-"}
-                      </td>
+                      <td className="p-3 text-[13px] font-semibold text-black/70">{r.phone || "-"}</td>
 
                       <td className="p-3 text-[13px] font-semibold text-black/70">
                         {r.type === "career" ? (
-                          <div className="max-w-[420px] truncate">
-                            <b>Role:</b> {r.role || "-"}{" "}
-                            {r.resume_url ? (
-                              <>
-                                • <b>Resume:</b>{" "}
-                                <a className="underline" href={r.resume_url} target="_blank" rel="noreferrer">
-                                  link
-                                </a>
-                              </>
+                          <div className="max-w-[520px]">
+                            <div className="truncate">
+                              <b>Role:</b> {r.role_title || "-"}{" "}
+                              {r.team ? (
+                                <>
+                                  • <b>Team:</b> {r.team}
+                                </>
+                              ) : null}
+                            </div>
+
+                            <div className="mt-1 truncate text-[12px] text-black/60">
+                              {r.portfolio ? (
+                                <>
+                                  <b>Portfolio:</b>{" "}
+                                  <a className="underline" href={r.portfolio} target="_blank" rel="noreferrer">
+                                    {r.portfolio}
+                                  </a>
+                                </>
+                              ) : (
+                                <span>
+                                  <b>Portfolio:</b> -
+                                </span>
+                              )}
+
+                              {r.resume_url ? (
+                                <>
+                                  {" "}
+                                  • <b>Resume:</b>{" "}
+                                  <a className="underline" href={r.resume_url} target="_blank" rel="noreferrer">
+                                    link
+                                  </a>
+                                </>
+                              ) : null}
+                            </div>
+
+                            {r.message ? (
+                              <div className="mt-2 max-w-[520px] truncate">{r.message}</div>
                             ) : null}
                           </div>
                         ) : (
-                          <div className="max-w-[420px] truncate">
-                            {r.message || "-"}
-                          </div>
+                          <div className="max-w-[520px] truncate">{r.message || "-"}</div>
                         )}
                       </td>
 
@@ -557,7 +662,7 @@ export default function SupabaseAdminDashboard() {
 
                       <td className="p-3">
                         <button
-                          onClick={() => del(r.id)}
+                          onClick={() => del(r)}
                           className="border border-black/25 bg-white/55 px-3 py-1.5 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/80 active:translate-y-[1px]"
                         >
                           DELETE
