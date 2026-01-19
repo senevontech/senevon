@@ -10,6 +10,7 @@ import AboutUs from "../components/aboutUs";
 import OurWorks from "../components/ourWorks";
 import Careers from "../components/careers";
 import Tools from "../components/Tools";
+import Testimonial from "../components/Testimonial";
 import Footer from "../components/Footer";
 
 
@@ -31,6 +32,7 @@ export default function Home() {
       </section>
 
       <Tools />
+      <Testimonial />
       <Footer />
 
       {/* <Hero2 /> */}
