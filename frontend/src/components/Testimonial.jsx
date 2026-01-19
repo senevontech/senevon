@@ -423,7 +423,7 @@ export default function TestimonialsSection({
                 <form onSubmit={submit} className="mt-6 grid gap-4 md:grid-cols-2">
                   <Field label="Full Name">
                     <input
-                      className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
                       placeholder="Your name"
                       value={form.name}
                       onChange={update("name")}
@@ -433,7 +433,7 @@ export default function TestimonialsSection({
 
                   <Field label="Rating">
                     <select
-                      className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none"
                       value={form.rating}
                       onChange={update("rating")}
                     >
@@ -447,7 +447,7 @@ export default function TestimonialsSection({
 
                   <Field label="Role (optional)">
                     <input
-                      className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
                       placeholder="Founder / Engineer / Student…"
                       value={form.role}
                       onChange={update("role")}
@@ -456,7 +456,7 @@ export default function TestimonialsSection({
 
                   <Field label="Company (optional)">
                     <input
-                      className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
                       placeholder="Company name"
                       value={form.company}
                       onChange={update("company")}
@@ -466,7 +466,7 @@ export default function TestimonialsSection({
                   <div className="md:col-span-2">
                     <Field label="Message">
                       <textarea
-                        className="w-full min-h-[140px] resize-none rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
+                        className="w-full min-h-[140px] resize-none  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
                         placeholder="What did you like? What improved your workflow? Keep it real."
                         value={form.message}
                         onChange={update("message")}
@@ -475,7 +475,7 @@ export default function TestimonialsSection({
                     </Field>
                   </div>
 
-                  <div className="md:col-span-2">
+                  {/* <div className="md:col-span-2">
                     <Field label="Website (optional)">
                       <input
                         className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
@@ -484,7 +484,7 @@ export default function TestimonialsSection({
                         onChange={update("website")}
                       />
                     </Field>
-                  </div>
+                  </div> */}
 
                   {(submitState.ok || submitState.err) ? (
                     <div className="md:col-span-2 border border-white/35 bg-white/10 px-4 py-3 text-[12px] font-semibold text-white/90">
