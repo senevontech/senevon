@@ -38,8 +38,11 @@ import FAQ from "./components/faq";
 import Ecosystem from "./pages/EcoSystem";
 
 // admin 
-import AdminLogin from "./pages/AdminLogin";
-import Admin from "./pages/AdminDashboard";
+// import AdminLogin from "./pages/AdminLogin";
+// import Admin from "./pages/AdminDashboard";
+// supabase 
+import AdminLogin from "./pages/supabaseLogin";
+import Admin from "./pages/supabaseDashboard";
 
 import Cursor from "./components/CustomCursor";
 
@@ -59,6 +62,10 @@ export default function App() {
         <Route path="/ecosystem" element={<Ecosystem />} />
 
         {/* admin  */}
+        {/* <Route path="/admin" element={<AdminLogin />} /> */}
+        {/* <Route path="/admin/dashboard" element={<Admin />} /> */}
+        
+        {/* supabase  */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Admin />} />
 

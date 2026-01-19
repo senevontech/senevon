@@ -1,22 +1,18 @@
 
-
-// import React, { useEffect, useRef, useState } from "react";
+// // node js backend 
+// import React, { useEffect, useMemo, useRef, useState } from "react";
 // import { createPortal } from "react-dom";
-
-// // const API_BASE = import.meta.env.VITE_API_BASE_URL || ""; 
-// // Example: https://your-backend.onrender.com
-// // If proxy/local, can be empty and you call "/api/contact"
-
-
-// const API_BASE = useMemo(() => {
-//   const fromEnv = import.meta.env.VITE_API_URL; // ✅ matches Render env
-//   if (fromEnv) return fromEnv.replace(/\/+$/, "");
-//   return import.meta.env.PROD ? "" : "http://localhost:5000";
-// }, []);
-
 
 // export default function ContactModal({ open, onClose }) {
 //   const panelRef = useRef(null);
+
+//   // ✅ Hooks must be INSIDE component
+//   const API_BASE = useMemo(() => {
+//     const fromEnv = import.meta.env.VITE_API_URL; // ✅ Render env key
+//     if (fromEnv) return fromEnv.replace(/\/+$/, "");
+//     // local fallback only for dev
+//     return import.meta.env.PROD ? "" : "http://localhost:5000";
+//   }, []);
 
 //   const [form, setForm] = useState({
 //     name: "",
@@ -26,7 +22,7 @@
 //   });
 
 //   const [loading, setLoading] = useState(false);
-//   const [status, setStatus] = useState({ type: "", message: "" }); // type: success|error
+//   const [status, setStatus] = useState({ type: "", message: "" });
 
 //   // ESC close + scroll lock
 //   useEffect(() => {
@@ -66,12 +62,17 @@
 //     setLoading(true);
 
 //     try {
+//       // ✅ Guard: if PROD and env missing, show clear message
+//       if (import.meta.env.PROD && !API_BASE) {
+//         throw new Error("API URL missing. Set VITE_API_URL in Render frontend env.");
+//       }
+
 //       const res = await fetch(`${API_BASE}/api/contact`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({
 //           ...form,
-//           source: window.location.pathname, // optional
+//           source: window.location.pathname,
 //         }),
 //       });
 
@@ -83,9 +84,6 @@
 
 //       setStatus({ type: "success", message: data.message || "Message sent!" });
 //       setForm({ name: "", email: "", phone: "", message: "" });
-
-//       // optional: auto-close after success
-//       // setTimeout(() => onClose?.(), 800);
 //     } catch (err) {
 //       setStatus({
 //         type: "error",
@@ -100,14 +98,12 @@
 
 //   return createPortal(
 //     <div className="fixed inset-0 z-[999]">
-//       {/* Backdrop */}
 //       <button
 //         aria-label="Close contact modal"
 //         onClick={onClose}
 //         className="absolute inset-0 bg-black/40"
 //       />
 
-//       {/* Modal wrapper */}
 //       <div className="relative z-[1000] flex min-h-full items-center justify-center p-4 sm:p-6">
 //         <div
 //           ref={panelRef}
@@ -129,7 +125,6 @@
 //           <span className="pointer-events-none absolute -right-3 -bottom-3 h-6 w-6 border-r-2 border-b-2 border-black/80" />
 
 //           <div className="p-5 sm:p-8">
-//             {/* Header */}
 //             <div className="mb-5 flex items-start justify-between gap-4">
 //               <h2
 //                 id="contact-title"
@@ -141,17 +136,12 @@
 //               <button
 //                 onClick={onClose}
 //                 aria-label="Close"
-//                 className="
-//                   grid h-9 w-9 place-items-center
-//                   bg-white/20 text-white
-//                   hover:bg-white/30 transition
-//                 "
+//                 className="grid h-9 w-9 place-items-center bg-white/20 text-white hover:bg-white/30 transition"
 //               >
 //                 ✕
 //               </button>
 //             </div>
 
-//             {/* Status */}
 //             {status.message ? (
 //               <div
 //                 className={[
@@ -165,14 +155,12 @@
 //               </div>
 //             ) : null}
 
-//             {/* Form */}
 //             <form onSubmit={submit} className="grid gap-4">
 //               <Field label="Full Name" name="name" type="text" value={form.name} onChange={update("name")} />
 //               <Field label="Email Address" name="email" type="email" value={form.email} onChange={update("email")} />
 //               <Field label="Phone Number" name="phone" type="tel" value={form.phone} onChange={update("phone")} />
-//               <Field label="Message" name="message" type="text" value={form.message} onChange={update("message")} />
+//               <Field label="Message" name="message" value={form.message} onChange={update("message")} />
 
-//               {/* Send button */}
 //               <div className="pt-2">
 //                 <button
 //                   type="submit"
@@ -203,6 +191,11 @@
 //                 >
 //                   {loading ? "SENDING..." : "SEND"}
 //                 </button>
+//               </div>
+
+//               {/* (optional) show which API it uses */}
+//               <div className="text-[11px] font-semibold text-white/80">
+//                 API: <span className="font-black">{API_BASE || "(not set)"}</span>
 //               </div>
 //             </form>
 //           </div>
@@ -307,21 +300,13 @@
 
 
 
-
-
-import React, { useEffect, useMemo, useRef, useState } from "react";
+// supabase backend 
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { supabase } from "../../lib/supabaseClient"; // ✅ adjust path if needed
 
 export default function ContactModal({ open, onClose }) {
   const panelRef = useRef(null);
-
-  // ✅ Hooks must be INSIDE component
-  const API_BASE = useMemo(() => {
-    const fromEnv = import.meta.env.VITE_API_URL; // ✅ Render env key
-    if (fromEnv) return fromEnv.replace(/\/+$/, "");
-    // local fallback only for dev
-    return import.meta.env.PROD ? "" : "http://localhost:5000";
-  }, []);
 
   const [form, setForm] = useState({
     name: "",
@@ -329,6 +314,9 @@ export default function ContactModal({ open, onClose }) {
     phone: "",
     message: "",
   });
+
+  // ✅ optional: lightweight anti-spam honeypot (doesn't change UI)
+  const honeypotRef = useRef("");
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" });
@@ -371,27 +359,36 @@ export default function ContactModal({ open, onClose }) {
     setLoading(true);
 
     try {
-      // ✅ Guard: if PROD and env missing, show clear message
-      if (import.meta.env.PROD && !API_BASE) {
-        throw new Error("API URL missing. Set VITE_API_URL in Render frontend env.");
+      // ✅ basic guard
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        throw new Error("Supabase env missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
       }
 
-      const res = await fetch(`${API_BASE}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          source: window.location.pathname,
-        }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok || !data?.success) {
-        throw new Error(data?.message || "Failed to send message.");
+      // ✅ silent anti-spam (if a bot fills hidden field)
+      if (honeypotRef.current && honeypotRef.current.trim().length > 0) {
+        // pretend success (don’t teach bots)
+        setStatus({ type: "success", message: "Message sent!" });
+        setForm({ name: "", email: "", phone: "", message: "" });
+        return;
       }
 
-      setStatus({ type: "success", message: data.message || "Message sent!" });
+      const payload = {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        message: form.message.trim(),
+        source: window.location.pathname,
+        user_agent: navigator.userAgent,
+      };
+
+      // ✅ Supabase insert
+      const { error } = await supabase.from("contact_messages").insert([payload]);
+
+      if (error) {
+        throw new Error(error.message || "Failed to send message.");
+      }
+
+      setStatus({ type: "success", message: "Message sent!" });
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
       setStatus({
@@ -470,6 +467,22 @@ export default function ContactModal({ open, onClose }) {
               <Field label="Phone Number" name="phone" type="tel" value={form.phone} onChange={update("phone")} />
               <Field label="Message" name="message" value={form.message} onChange={update("message")} />
 
+              {/* ✅ invisible honeypot (no UI change) */}
+              <input
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: "1px",
+                  height: "1px",
+                  opacity: 0,
+                }}
+                value={honeypotRef.current}
+                onChange={(e) => (honeypotRef.current = e.target.value)}
+              />
+
               <div className="pt-2">
                 <button
                   type="submit"
@@ -490,7 +503,8 @@ export default function ContactModal({ open, onClose }) {
                     before:transition-all before:duration-300
 
                     after:absolute after:bottom-1.5 after:right-1.5
-                    after:h-3 after:w-3 after:border-r-2 after:border-b-2
+                    after:h-3 after:w-3 before:rounded-none
+                    after:border-r-2 after:border-b-2
                     after:border-black after:content-['']
                     after:transition-all after:duration-300
 
@@ -502,10 +516,10 @@ export default function ContactModal({ open, onClose }) {
                 </button>
               </div>
 
-              {/* (optional) show which API it uses */}
-              <div className="text-[11px] font-semibold text-white/80">
-                API: <span className="font-black">{API_BASE || "(not set)"}</span>
-              </div>
+              {/* same place as your API line (kept minimal) */}
+              {/* <div className="text-[11px] font-semibold text-white/80">
+                Storage: <span className="font-black">Supabase</span>
+              </div> */}
             </form>
           </div>
 
@@ -557,4 +571,3 @@ function Field({ label, name, type = "text", value, onChange }) {
     </label>
   );
 }
-
