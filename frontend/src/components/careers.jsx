@@ -543,149 +543,6 @@ function Pill({ children }) {
 
 
 
-// function ApplyModal({ role, onClose }) {
-//   // optional: animate modal content (lightweight)
-//   useEffect(() => {
-//     const reduceMotion =
-//       typeof window !== "undefined" &&
-//       window.matchMedia &&
-//       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-//     if (reduceMotion) return;
-
-//     const root = document.querySelector("[data-career-modal]");
-//     if (!root) return;
-
-//     const textEls = root.querySelectorAll('[data-animate="text"]');
-//     const splitTargets = [];
-//     const simpleTargets = [];
-
-//     textEls.forEach((el) => {
-//       const { words, skipped } = splitWords(el, { maxWords: 55 });
-//       if (!skipped && words.length) splitTargets.push({ el, words });
-//       else simpleTargets.push(el);
-//     });
-
-//     splitTargets.forEach(({ words }) => gsap.set(words, { opacity: 0, y: 10 }));
-//     if (simpleTargets.length) gsap.set(simpleTargets, { opacity: 0, y: 10 });
-
-//     gsap.to(root, { opacity: 1, duration: 0.18, ease: "linear" });
-
-//     splitTargets.forEach(({ words }, i) => {
-//       gsap.to(words, {
-//         opacity: 1,
-//         y: 0,
-//         duration: 0.42,
-//         ease: "power3.out",
-//         stagger: 0.018,
-//         delay: 0.05 + i * 0.03,
-//       });
-//     });
-
-//     if (simpleTargets.length) {
-//       gsap.to(simpleTargets, {
-//         opacity: 1,
-//         y: 0,
-//         duration: 0.35,
-//         ease: "power3.out",
-//         stagger: 0.03,
-//         delay: 0.08,
-//       });
-//     }
-//   }, []);
-
-//   return (
-//     <div
-//       data-career-modal
-//       className="fixed inset-0 z-[999] grid place-items-center p-4"
-//       role="dialog"
-//       aria-modal="true"
-//       aria-label="Apply for role"
-//       onMouseDown={(e) => {
-//         if (e.target === e.currentTarget) onClose();
-//       }}
-//       style={{ opacity: 0 }}
-//     >
-//       <div className="absolute inset-0 bg-black/50" />
-
-//       <div className="relative w-full max-w-[720px] overflow-hidden border border-white/30 bg-[#ff5a12] shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
-//         <div className="flex items-start justify-between border-b border-white/25 bg-white/10 px-6 py-5">
-//           <div>
-//             <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
-//               APPLYING FOR
-//             </div>
-//             <div data-animate="text" className="mt-2 text-[20px] font-black text-white">
-//               {role.title}
-//             </div>
-//             <div data-animate="text" className="mt-1 text-[13px] text-white/85">
-//               {role.type} • {role.location} • {role.level}
-//             </div>
-//           </div>
-
-//           <button
-//             onClick={onClose}
-//             className="grid h-11 w-11 place-items-center border border-white/30 bg-white/12 text-white/90 hover:bg-white/22"
-//             aria-label="Close"
-//           >
-//             ✕
-//           </button>
-//         </div>
-
-//         <form
-//           className="grid gap-4 p-6 md:grid-cols-2"
-//           onSubmit={(e) => {
-//             e.preventDefault();
-//             alert("Application submitted (demo). Connect to backend next.");
-//             onClose();
-//           }}
-//         >
-//           <Field label="Full Name">
-//             <input className="cr-input" required placeholder="Your name" />
-//           </Field>
-
-//           <Field label="Email">
-//             <input className="cr-input" type="email" required placeholder="you@email.com" />
-//           </Field>
-
-//           <Field label="Portfolio / LinkedIn">
-//             <input className="cr-input" placeholder="https://…" />
-//           </Field>
-
-//           <Field label="Location">
-//             <input className="cr-input" placeholder="City, Country" />
-//           </Field>
-
-//           <div className="md:col-span-2">
-//             <Field label="Message">
-//               <textarea
-//                 className="cr-input min-h-[120px] resize-none"
-//                 placeholder="Why are you a fit for this role?"
-//               />
-//             </Field>
-//           </div>
-
-//           <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:justify-end">
-//             <button
-//               type="button"
-//               onClick={onClose}
-//               className=" border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22"
-//             >
-//               <span data-animate="text">CANCEL</span>
-//             </button>
-//             <button
-//               type="submit"
-//               className=" bg-white px-6 py-3 text-[12px] font-black tracking-widest text-[#ff5a12] shadow-[0_18px_34px_rgba(255,255,255,0.18)] hover:brightness-[1.02]"
-//             >
-//               <span data-animate="text">SUBMIT</span>
-//             </button>
-//           </div>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
 
 
 function ApplyModal({ role, onClose }) {
@@ -766,25 +623,67 @@ function ApplyModal({ role, onClose }) {
       // ✅ optional: upload resume to Supabase Storage
       let resume_url = null;
 
+      
+
+ 
+
+
+
       if (resumeFile) {
-        const ext = resumeFile.name.split(".").pop() || "pdf";
-        const safeName = `${Date.now()}-${Math.random().toString(16).slice(2)}.${ext}`;
-        const filePath = `career/${role?.id || "role"}-${safeName}`;
+  // ✅ validate first
+  if (resumeFile.size > 5 * 1024 * 1024) {
+    throw new Error("Resume must be under 5MB.");
+  }
 
-        const { error: upErr } = await supabase.storage
-          .from("resumes")
-          .upload(filePath, resumeFile, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+  const allowedExt = ["pdf", "doc", "docx"];
+  const ext = (resumeFile.name.split(".").pop() || "").toLowerCase();
+  if (!allowedExt.includes(ext)) {
+    throw new Error("Only PDF / DOC / DOCX allowed.");
+  }
 
-        if (upErr) throw upErr;
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-        // If bucket is private, we store the path, and admins can open using signed URL later.
-        // If bucket is public, you can do getPublicUrl.
-        const { data: pub } = supabase.storage.from("resumes").getPublicUrl(filePath);
-        resume_url = pub?.publicUrl || filePath;
-      }
+  if (!cloudName || !preset) {
+    throw new Error("Cloudinary env missing. Set CLOUDINARY_CLOUD_NAME and CLOUDINARY_UPLOAD_PRESET.");
+  }
+
+  const safeBase = `${Date.now()}-${Math.allowRandomValues ? crypto.getRandomValues(new Uint32Array(1))[0] : Math.random().toString(16).slice(2)}`;
+  const publicId = `${role?.id || "role"}-${safeBase}`; // no extension here
+
+  const fd = new FormData();
+  fd.append("file", resumeFile);
+  fd.append("upload_preset", preset);
+  fd.append("folder", "senevon/careers");
+  fd.append("public_id", publicId);
+
+  // Optional: helps Cloudinary keep original name metadata
+  fd.append("filename_override", resumeFile.name);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+    method: "POST",
+    body: fd,
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    // Cloudinary returns useful error message here
+    throw new Error(data?.error?.message || "Resume upload failed.");
+  }
+
+  // ✅ Save secure URL in DB
+  resume_url = data.secure_url;
+}
+
+
+
+
+
+
+
+
+
 
       // ✅ insert into DB
       const { error } = await supabase.from("career_applications").insert([
