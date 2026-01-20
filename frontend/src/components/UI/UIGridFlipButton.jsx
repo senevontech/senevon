@@ -1,6 +1,6 @@
 // UIGridFlipButton.jsx
 import React, { forwardRef, useMemo } from "react";
-import "./UiFlipButton.css";
+import "./UIGridFlipButton.css";
 
 /**
  * UIGridFlipButton

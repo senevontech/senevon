@@ -398,19 +398,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import FlipButton from "../components/UI/UiFlipButton";
+
 import Logo from "../assets/logo/logo-black.png";
 import ContactModal from "../components/UI/ContactModal";
 import { Link, useLocation } from "react-router-dom";
-import Team from "../components/UI/teamModal"; // ✅ already present
+import Team from "../components/UI/teamModal"; 
+import UIGridFlipButton from "./UI/UiGridFlipButton";
 
-/**
- * Mobile-first Header with GSAP hamburger menu
- * - Keeps your desktop grid layout (md+)
- * - Adds a premium mobile header + slide-down panel (sm < md)
- * - Smooth GSAP open/close, staggered links, body scroll lock
- * - ESC + outside click to close
- */
+
 export default function Header() {
   const [open, setOpen] = useState(false);
 
@@ -553,7 +548,7 @@ export default function Header() {
 
           {/* right */}
           <div className="flex items-center gap-3 px-4">
-            <FlipButton
+            <UIGridFlipButton
               variant="primary"
               size="sm"
               onClick={() => {
@@ -562,7 +557,7 @@ export default function Header() {
               }}
             >
               Contact
-            </FlipButton>
+            </UIGridFlipButton>
 
             <button
               onClick={toggle}
@@ -782,13 +777,13 @@ export default function Header() {
 
           {/* Right: CTA */}
           <div className="flex items-center justify-end px-6">
-            <FlipButton
+            <UIGridFlipButton
               variant="primary"
               size="sm"
               onClick={() => setContactOpen(true)}
             >
               Contact
-            </FlipButton>
+            </UIGridFlipButton>
             <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
           </div>
         </div>
