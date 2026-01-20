@@ -403,7 +403,7 @@ import Logo from "../assets/logo/logo-black.png";
 import ContactModal from "../components/UI/ContactModal";
 import { Link, useLocation } from "react-router-dom";
 import Team from "../components/UI/teamModal"; 
-import UIGridFlipButton from "./UI/UiGridFlipButton";
+import UIGridFlipButton from "./UI/UIGridFlipButton";
 
 
 export default function Header() {
