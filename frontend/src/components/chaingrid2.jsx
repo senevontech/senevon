@@ -1,5 +1,5 @@
 
-import React, {useState} from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 // import SplineScene from "../components/UI/splineTile";
 import RobotGrid from "../components/robotGrid";
 
@@ -41,6 +41,30 @@ export default function ChainGptHeroSection() {
 
     const [incOpen, setIncOpen] = useState(false);
 
+    const [socialFabOpen, setSocialFabOpen] = useState(false);
+    const closeSocialFab = useCallback(() => setSocialFabOpen(false), []);
+const toggleSocialFab = useCallback(() => setSocialFabOpen((v) => !v), []);
+
+    useEffect(() => {
+  if (!socialFabOpen) return;
+
+  const onKeyDown = (e) => {
+    if (e.key === "Escape") closeSocialFab();
+  };
+  window.addEventListener("keydown", onKeyDown, { passive: true });
+
+  // Mobile scroll lock when open
+  const prevOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+
+  return () => {
+    window.removeEventListener("keydown", onKeyDown);
+    document.body.style.overflow = prevOverflow;
+  };
+}, [socialFabOpen, closeSocialFab]);
+
+
+
     const socials = [
         {
             label: "Facebook",
@@ -64,7 +88,7 @@ export default function ChainGptHeroSection() {
         },
         {
             label: "LinkedIn",
-            href: "https://www.instagram.com/senevon_tech/",
+            href: "https://www.linkedin.com/senevon_tech/",
             icon: FaLinkedinIn,
         },
     ];
@@ -138,6 +162,8 @@ export default function ChainGptHeroSection() {
             </div>
 
 
+
+
             {/* Main grid */}
             <main className="relative mx-auto w-full max-w-[1600px] px-3 py-4 sm:px-4 sm:py-6">
                 <div className="grid grid-cols-12 gap-0 border border-black/25 bg-[#d9d9d9]">
@@ -169,7 +195,7 @@ export default function ChainGptHeroSection() {
                                     Senevon.in
                                 </span>
                                 <span className="text-[11px] font-black tracking-[0.22em] text-black/55">
-                                    
+
                                 </span>
                             </div>
                         </div>
@@ -203,13 +229,13 @@ export default function ChainGptHeroSection() {
 
 
                                 <IncubationModal
-        open={incOpen}
-        onClose={() => setIncOpen(false)}
-        onSubmit={(data) => {
-          console.log("Incubation Application:", data);
-          // later: POST to API
-        }}
-      />
+                                    open={incOpen}
+                                    onClose={() => setIncOpen(false)}
+                                    onSubmit={(data) => {
+                                        console.log("Incubation Application:", data);
+                                        // later: POST to API
+                                    }}
+                                />
 
 
 
@@ -384,6 +410,15 @@ export default function ChainGptHeroSection() {
 
 
             </main>
+            {/* Floating Social FAB */}
+            <MobileSocialFabSharp
+  open={socialFabOpen}
+  onToggle={toggleSocialFab}
+  onClose={closeSocialFab}
+  socials={socials}
+/>
+
+
         </section>
     );
 }
@@ -433,25 +468,159 @@ function AccentDot({ className = "" }) {
 
 
 function CornerButton({ className = "", children, ...props }) {
-  return (
-    <button
-      {...props}
-      className={[
-        "group relative inline-flex items-center rounded-none bg-[#ff5a12] px-5 py-2.5",
-        "text-[12px] font-black tracking-widest text-white",
-        "shadow-[0_18px_34px_rgba(255,90,18,0.22)]",
-        "hover:brightness-[1.03] active:translate-y-[1px] transition",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#d9d9d9]",
-        className,
-      ].join(" ")}
-      type={props.type || "button"}
-    >
-      <span className="pointer-events-none absolute -left-2 -top-2 h-4 w-4 border-l-2 border-t-2 border-black/80" />
-      <span className="pointer-events-none absolute -right-2 -top-2 h-4 w-4 border-r-2 border-t-2 border-black/80" />
-      <span className="pointer-events-none absolute -left-2 -bottom-2 h-4 w-4 border-l-2 border-b-2 border-black/80" />
-      <span className="pointer-events-none absolute -right-2 -bottom-2 h-4 w-4 border-r-2 border-b-2 border-black/80" />
-      <span className="relative z-10">{children}</span>
-    </button>
-  );
+    return (
+        <button
+            {...props}
+            className={[
+                "group relative inline-flex items-center rounded-none bg-[#ff5a12] px-5 py-2.5",
+                "text-[12px] font-black tracking-widest text-white",
+                "shadow-[0_18px_34px_rgba(255,90,18,0.22)]",
+                "hover:brightness-[1.03] active:translate-y-[1px] transition",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#d9d9d9]",
+                className,
+            ].join(" ")}
+            type={props.type || "button"}
+        >
+            <span className="pointer-events-none absolute -left-2 -top-2 h-4 w-4 border-l-2 border-t-2 border-black/80" />
+            <span className="pointer-events-none absolute -right-2 -top-2 h-4 w-4 border-r-2 border-t-2 border-black/80" />
+            <span className="pointer-events-none absolute -left-2 -bottom-2 h-4 w-4 border-l-2 border-b-2 border-black/80" />
+            <span className="pointer-events-none absolute -right-2 -bottom-2 h-4 w-4 border-r-2 border-b-2 border-black/80" />
+            <span className="relative z-10">{children}</span>
+        </button>
+    );
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+function MobileSocialFabSharp({ open, onToggle, onClose, socials }) {
+  return (
+    // ✅ mobile only
+    <div className="md:hidden">
+      {/* Backdrop */}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close social menu"
+        className={[
+          "fixed inset-0 z-[70] bg-black/25 backdrop-blur-[1px]",
+          "transition-opacity duration-150",
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        ].join(" ")}
+      />
+
+      {/* FAB + Menu */}
+      <div className="fixed bottom-5 right-5 z-[80]">
+        {/* Menu panel */}
+        <div
+          className={[
+            "absolute bottom-[70px] right-0 w-[240px]",
+            "border border-black/30 bg-white/90 backdrop-blur",
+            "shadow-[0_20px_60px_rgba(0,0,0,0.18)]",
+            "transition-all duration-150",
+            open
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 translate-y-1 pointer-events-none",
+          ].join(" ")}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Social links"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-black/15 px-3 py-2">
+            <div className="text-[11px] font-black tracking-[0.22em] text-black/70">
+              SOCIAL
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="border border-black/20 bg-white px-2 py-1 text-[12px] font-black text-black/70 active:translate-y-[1px]"
+              aria-label="Close social menu"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Items */}
+          <div className="p-2">
+            <div className="grid gap-2">
+              {socials.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={onClose}
+                    className={[
+                      "flex items-center gap-3",
+                      "border border-black/20 bg-white/80",
+                      "px-3 py-2",
+                      "text-black/80",
+                      "transition-colors duration-150",
+                      "hover:bg-white",
+                      "active:translate-y-[1px]",
+                    ].join(" ")}
+                    aria-label={item.label}
+                  >
+                    <span className="grid h-9 w-9 place-items-center border border-black/20 bg-white">
+                      <Icon className="text-[16px] text-black/70" />
+                    </span>
+
+                    <span className="flex-1 text-[12px] font-black tracking-[0.12em]">
+                      {item.label}
+                    </span>
+
+                    <span className="text-black/40">↗</span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Footer note */}
+          <div className="border-t border-black/15 px-3 py-2 text-[11px] font-semibold text-black/50">
+            Opens in a new tab
+          </div>
+        </div>
+
+        {/* Main FAB (sharp corners) */}
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-label={open ? "Close social menu" : "Open social menu"}
+          className={[
+            "grid h-14 w-14 place-items-center",
+            "border border-black/30 bg-white/90 backdrop-blur",
+            "shadow-[0_20px_60px_rgba(0,0,0,0.18)]",
+            "transition-transform duration-150",
+            "active:translate-y-[1px]",
+          ].join(" ")}
+        >
+          <span
+            className={[
+              "grid h-10 w-10 place-items-center",
+              "bg-[#ff5a12] text-white",
+              "shadow-[0_14px_40px_rgba(255,90,18,0.30)]",
+              "transition-transform duration-150",
+              open ? "rotate-45" : "rotate-0",
+            ].join(" ")}
+          >
+            <span className="text-[22px] font-black leading-none">+</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}
