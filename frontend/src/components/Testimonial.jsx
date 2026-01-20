@@ -38,20 +38,16 @@ function splitWords(el, { maxWords = 70 } = {}) {
 const Stars = React.memo(function Stars({ value = 5 }) {
   const v = Math.max(1, Math.min(5, Number(value || 5)));
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1" aria-label={`${v} out of 5`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <span
           key={i}
-          className={cn(
-            "text-[14px] leading-none",
-            i < v ? "text-[#ff5a12]" : "text-black/15"
-          )}
+          className={cn("text-[14px] leading-none", i < v ? "text-[#ff5a12]" : "text-black/15")}
           aria-hidden="true"
         >
           ★
         </span>
       ))}
-      <span className="sr-only">{v} out of 5</span>
     </div>
   );
 });
@@ -76,21 +72,10 @@ function Field({ label, children }) {
   );
 }
 
-function safeUrl(u) {
-  const s = String(u || "").trim();
-  if (!s) return "";
-  try {
-    const url = new URL(s.startsWith("http") ? s : `https://${s}`);
-    return url.toString();
-  } catch {
-    return "";
-  }
-}
-
 export default function TestimonialsSection({
   title = "TESTIMONIALS",
-  subtitle = "• Real feedback from real people using our systems",
-  limit = 12,
+  subtitle = "• Reviews shared by users — instantly visible",
+  limit = 18,
 }) {
   const sectionRef = useRef(null);
 
@@ -101,21 +86,17 @@ export default function TestimonialsSection({
     name: "",
     role: "",
     company: "",
-    website: "",
     rating: 5,
     message: "",
   });
 
   const [submitState, setSubmitState] = useState({ loading: false, ok: "", err: "" });
 
-  const update = (key) => (e) => {
-    const v = e.target.value;
-    setForm((s) => ({ ...s, [key]: v }));
-  };
+  const update = (key) => (e) => setForm((s) => ({ ...s, [key]: e.target.value }));
 
   const canSubmit = useMemo(() => {
     const nameOk = form.name.trim().length >= 2;
-    const msgOk = form.message.trim().length >= 12;
+    const msgOk = form.message.trim().length >= 8;
     const ratingOk = Number(form.rating) >= 1 && Number(form.rating) <= 5;
     return nameOk && msgOk && ratingOk && !submitState.loading;
   }, [form.name, form.message, form.rating, submitState.loading]);
@@ -125,8 +106,7 @@ export default function TestimonialsSection({
     try {
       const { data, error } = await supabase
         .from("testimonials")
-        .select("id,name,role,company,rating,message,website,created_at")
-        .eq("approved", true)
+        .select("id,name,role,company,rating,message,created_at")
         .order("created_at", { ascending: false })
         .limit(limit);
 
@@ -139,13 +119,12 @@ export default function TestimonialsSection({
     }
   };
 
-  // Fetch once
   useEffect(() => {
     fetchTestimonials();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [limit]);
 
-  // Animations (batched, reduced motion safe)
+  // animations (same approach, lightweight)
   useEffect(() => {
     const scope = sectionRef.current;
     if (!scope) return;
@@ -166,8 +145,7 @@ export default function TestimonialsSection({
       ScrollTrigger.batch(tiles, {
         start: "top 92%",
         once: true,
-        onEnter: (batch) =>
-          gsap.to(batch, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.06 }),
+        onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.06 }),
       });
 
       const textEls = gsap.utils.toArray(scope.querySelectorAll('[data-animate="text"]'));
@@ -202,8 +180,7 @@ export default function TestimonialsSection({
         ScrollTrigger.batch(simpleTargets, {
           start: "top 88%",
           once: true,
-          onEnter: (batch) =>
-            gsap.to(batch, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.04 }),
+          onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.04 }),
         });
       }
 
@@ -219,29 +196,46 @@ export default function TestimonialsSection({
 
     setSubmitState({ loading: true, ok: "", err: "" });
 
+    // optimistic card (instant UI)
+    const optimistic = {
+      id: `tmp-${Date.now()}`,
+      name: form.name.trim(),
+      role: form.role.trim() || null,
+      company: form.company.trim() || null,
+      rating: Number(form.rating || 5),
+      message: form.message.trim(),
+      created_at: new Date().toISOString(),
+      __optimistic: true,
+    };
+
+    setItems((prev) => [optimistic, ...prev].slice(0, limit));
+
     try {
       const payload = {
-        name: form.name.trim(),
-        role: form.role.trim() || null,
-        company: form.company.trim() || null,
-        rating: Number(form.rating || 5),
-        message: form.message.trim(),
-        website: safeUrl(form.website) || null,
-        approved: false, // moderation
+        name: optimistic.name,
+        role: optimistic.role,
+        company: optimistic.company,
+        rating: optimistic.rating,
+        message: optimistic.message,
       };
 
-      const { error } = await supabase.from("testimonials").insert([payload]);
+      const { data, error } = await supabase.from("testimonials").insert([payload]).select().single();
       if (error) throw error;
 
-      setSubmitState({
-        loading: false,
-        ok: "Thanks! Your testimonial was received and will appear after approval.",
-        err: "",
+      // replace optimistic with real row
+      setItems((prev) => {
+        const next = prev.map((x) => (x.id === optimistic.id ? data : x));
+        // keep newest first
+        next.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        return next.slice(0, limit);
       });
 
-      setForm({ name: "", role: "", company: "", website: "", rating: 5, message: "" });
+      setSubmitState({ loading: false, ok: "Thanks! Your review is now live.", err: "" });
+      setForm({ name: "", role: "", company: "", rating: 5, message: "" });
     } catch (err) {
-      setSubmitState({ loading: false, ok: "", err: err?.message || "Failed to submit testimonial." });
+      // rollback optimistic
+      setItems((prev) => prev.filter((x) => x.id !== optimistic.id));
+      setSubmitState({ loading: false, ok: "", err: err?.message || "Failed to submit review." });
     }
   };
 
@@ -263,10 +257,7 @@ export default function TestimonialsSection({
             <Tile className="col-span-12 md:col-span-7 min-h-[170px]">
               <div className="relative h-full p-6 md:p-10">
                 <span className="absolute left-6 top-6 h-3 w-3 bg-white/95" />
-                <h2
-                  data-animate="text"
-                  className="text-[40px] font-black tracking-[0.14em] text-white md:text-[72px]"
-                >
+                <h2 data-animate="text" className="text-[40px] font-black tracking-[0.14em] text-white md:text-[72px]">
                   {title}
                 </h2>
               </div>
@@ -283,7 +274,7 @@ export default function TestimonialsSection({
                   <button
                     data-animate="text"
                     onClick={fetchTestimonials}
-                    className="rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[12px] font-black tracking-widest text-white/90 hover:bg-white/25 active:translate-y-[1px]"
+                    className=" border border-white/40 bg-white/16 px-4 py-3 text-[12px] font-black tracking-widest text-white/90 hover:bg-white/25 active:translate-y-[1px]"
                   >
                     REFRESH
                   </button>
@@ -291,39 +282,36 @@ export default function TestimonialsSection({
                   <div className="ml-auto hidden items-center gap-2 md:flex">
                     <span className="h-3 w-3 bg-[#d9d9d9]" />
                     <span data-animate="text" className="text-[12px] font-black tracking-[0.22em] text-white/90">
-                      LIVE: {fetchState.loading ? "LOADING" : `${items.length} SHOWN`}
+                      {fetchState.loading ? "LOADING" : `${items.length} REVIEWS`}
                     </span>
                   </div>
                 </div>
               </div>
             </Tile>
 
-            {/* Testimonials list */}
+            {/* Cards */}
             <div className="col-span-12">
               <div className="grid grid-cols-12 gap-0">
                 {fetchState.loading ? (
-                  <>
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <Tile key={i} className="col-span-12 sm:col-span-6 lg:col-span-4 min-h-[360px]">
-                        <div className="h-full bg-white p-5">
-                          <div className="h-4 w-32 bg-black/10" />
-                          <div className="mt-4 h-3 w-44 bg-black/10" />
-                          <div className="mt-6 space-y-2">
-                            <div className="h-3 w-full bg-black/10" />
-                            <div className="h-3 w-[92%] bg-black/10" />
-                            <div className="h-3 w-[80%] bg-black/10" />
-                          </div>
-                          <div className="mt-6 h-9 w-24 bg-black/10" />
+                  Array.from({ length: 6 }).map((_, i) => (
+                    <Tile key={i} className="col-span-12 sm:col-span-6 lg:col-span-4 min-h-[360px]">
+                      <div className="h-full bg-white p-5">
+                        <div className="h-4 w-32 bg-black/10" />
+                        <div className="mt-4 h-3 w-44 bg-black/10" />
+                        <div className="mt-6 space-y-2">
+                          <div className="h-3 w-full bg-black/10" />
+                          <div className="h-3 w-[92%] bg-black/10" />
+                          <div className="h-3 w-[80%] bg-black/10" />
                         </div>
-                      </Tile>
-                    ))}
-                  </>
+                      </div>
+                    </Tile>
+                  ))
                 ) : fetchState.error ? (
                   <Tile className="col-span-12 min-h-[240px]">
                     <div className="grid h-full place-items-center p-10 text-center">
                       <div>
                         <div data-animate="text" className="text-[16px] font-black text-white">
-                          Couldn’t load testimonials.
+                          Couldn’t load reviews.
                         </div>
                         <div data-animate="text" className="mt-2 text-[13px] text-white/85">
                           {fetchState.error}
@@ -336,10 +324,10 @@ export default function TestimonialsSection({
                     <div className="grid h-full place-items-center p-10 text-center">
                       <div>
                         <div data-animate="text" className="text-[16px] font-black text-white">
-                          No approved testimonials yet.
+                          No reviews yet.
                         </div>
                         <div data-animate="text" className="mt-2 text-[13px] text-white/80">
-                          Be the first to share feedback below.
+                          Submit one below — it will show instantly.
                         </div>
                       </div>
                     </div>
@@ -351,14 +339,12 @@ export default function TestimonialsSection({
                         <div className="border-b border-[#ff5a12]/15 bg-white px-5 py-4">
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <div
-                                data-animate="text"
-                                className="text-[16px] font-black tracking-wide text-[#ff5a12]"
-                              >
+                              <div data-animate="text" className="text-[16px] font-black tracking-wide text-[#ff5a12]">
                                 {t.name}
                               </div>
                               <div data-animate="text" className="mt-1 text-[12px] font-semibold text-black/55">
                                 {(t.role || "User")}{t.company ? ` • ${t.company}` : ""}
+                                {t.__optimistic ? <span className="ml-2 text-[#ff5a12]/70">• posting…</span> : null}
                               </div>
                             </div>
                             <Stars value={t.rating} />
@@ -366,21 +352,10 @@ export default function TestimonialsSection({
                         </div>
 
                         <div className="flex-1 p-5">
-                          <div className="rounded-2xl bg-white p-4 shadow-[0_18px_40px_rgba(255,90,18,0.18)]">
+                          <div className=" bg-white p-4 shadow-[0_18px_40px_rgba(255,90,18,0.18)]">
                             <p data-animate="text" className="text-[13px] leading-relaxed text-black/75">
                               “{t.message}”
                             </p>
-
-                            {t.website ? (
-                              <a
-                                className="mt-4 inline-block text-[12px] font-black tracking-widest text-[#ff5a12] underline"
-                                href={t.website}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                VISIT
-                              </a>
-                            ) : null}
                           </div>
                         </div>
 
@@ -396,34 +371,22 @@ export default function TestimonialsSection({
               </div>
             </div>
 
-            {/* Submit form */}
+            {/* Form */}
             <Tile className="col-span-12">
               <div className="p-6 md:p-8">
-                <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
-                      SHARE YOUR EXPERIENCE
-                    </div>
-                    <div data-animate="text" className="mt-2 text-[18px] font-black text-white">
-                      Add a testimonial (quick form)
-                    </div>
-                    <div data-animate="text" className="mt-1 text-[13px] text-white/85">
-                      Submissions are reviewed before appearing publicly.
-                    </div>
+                <div>
+                  <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
+                    ADD A REVIEW
                   </div>
-
-                  <div className="mt-3 md:mt-0 flex items-center gap-2">
-                    <span className="h-3 w-3 bg-[#d9d9d9]" />
-                    <span data-animate="text" className="text-[12px] font-black tracking-[0.22em] text-white/90">
-                      MODERATED
-                    </span>
+                  <div data-animate="text" className="mt-2 text-[18px] font-black text-white">
+                    Share your feedback (shows instantly)
                   </div>
                 </div>
 
                 <form onSubmit={submit} className="mt-6 grid gap-4 md:grid-cols-2">
                   <Field label="Full Name">
                     <input
-                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-[#c24c11] outline-none placeholder:text-[#6b5e57]"
                       placeholder="Your name"
                       value={form.name}
                       onChange={update("name")}
@@ -433,7 +396,7 @@ export default function TestimonialsSection({
 
                   <Field label="Rating">
                     <select
-                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-[#c24c11] outline-none"
                       value={form.rating}
                       onChange={update("rating")}
                     >
@@ -447,7 +410,7 @@ export default function TestimonialsSection({
 
                   <Field label="Role (optional)">
                     <input
-                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
+                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-[#c24c11] outline-none placeholder:text-[#6b5e57]"
                       placeholder="Founder / Engineer / Student…"
                       value={form.role}
                       onChange={update("role")}
@@ -456,7 +419,7 @@ export default function TestimonialsSection({
 
                   <Field label="Company (optional)">
                     <input
-                      className="w-full  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
+                      className="w-full border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-[#c24c11] outline-none placeholder:text-[#6b5e57]"
                       placeholder="Company name"
                       value={form.company}
                       onChange={update("company")}
@@ -466,25 +429,14 @@ export default function TestimonialsSection({
                   <div className="md:col-span-2">
                     <Field label="Message">
                       <textarea
-                        className="w-full min-h-[140px] resize-none  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-black/90 outline-none placeholder:text-black/60"
-                        placeholder="What did you like? What improved your workflow? Keep it real."
+                        className="w-full min-h-[140px] resize-none  border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-[#c24c11]outline-none placeholder:text-[#6b5e57]"
+                        placeholder="What did you like? What improved your workflow?"
                         value={form.message}
                         onChange={update("message")}
                         required
                       />
                     </Field>
                   </div>
-
-                  {/* <div className="md:col-span-2">
-                    <Field label="Website (optional)">
-                      <input
-                        className="w-full rounded-xl border border-white/40 bg-white/16 px-4 py-3 text-[13px] font-semibold text-white/90 outline-none placeholder:text-white/60"
-                        placeholder="https://your-site.com"
-                        value={form.website}
-                        onChange={update("website")}
-                      />
-                    </Field>
-                  </div> */}
 
                   {(submitState.ok || submitState.err) ? (
                     <div className="md:col-span-2 border border-white/35 bg-white/10 px-4 py-3 text-[12px] font-semibold text-white/90">
@@ -497,7 +449,7 @@ export default function TestimonialsSection({
                       type="button"
                       onClick={() => {
                         setSubmitState({ loading: false, ok: "", err: "" });
-                        setForm({ name: "", role: "", company: "", website: "", rating: 5, message: "" });
+                        setForm({ name: "", role: "", company: "", rating: 5, message: "" });
                       }}
                       className="border border-white/50 bg-white/12 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/22 active:translate-y-[1px]"
                     >

@@ -36,7 +36,7 @@ export default function Hero() {
   const [isTouch, setIsTouch] = useState(false);
 
   const title = "SENEVON";
-  const subtitle = "Rectify your Online presence";
+  const subtitle = "Future Framed Engineering";
 
   const titleSpans = useMemo(() => splitToSpans(title), []);
   const subtitleSpans = useMemo(() => splitToSpans(subtitle), []);
