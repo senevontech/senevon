@@ -1,11 +1,12 @@
 
 // import React, { useEffect, useRef, useState } from "react";
 // import gsap from "gsap";
-// import FlipButton from "../components/UI/UiFlipButton";
+
 // import Logo from "../assets/logo/logo-black.png";
 // import ContactModal from "../components/UI/ContactModal";
-// import { Link, useLocation, useNavigate } from "react-router-dom";
-// import Team from "../components/UI/teamModal"; // ✅ already present
+// import { Link, useLocation } from "react-router-dom";
+// import Team from "../components/UI/teamModal"; 
+// import UIGridFlipButton from "./UI/UIGridFlipButton";
 
 
 // export default function Header() {
@@ -19,18 +20,37 @@
 //   // contact modal
 //   const [contactOpen, setContactOpen] = useState(false);
 
-//   // ✅ ADDED (already in your code)
+//   // ✅ already in your code
 //   const [teamOpen, setTeamOpen] = useState(false);
+
+//   const location = useLocation();
 
 //   const NAV = [
 //     { label: "Home", to: "/" },
 //     { label: "Products", to: "/products" },
 //     { label: "Services", to: "/services" },
 //     { label: "About Us", to: "/about" },
-//     { label: "Team", to: "/#team" },
-//     { label: "FAQ", to: "/FAQs" },
-//     { label: "Admin", to: "/admin" },
+//     // { label: "Team", to: "/#team" },
+//     { label: "Career", to: "/#careers" },
+//     { label: "FAQ", to: "/faq" },
+//     // { label: "Admin", to: "/admin" },
 //   ];
+
+//   // ✅ ACTIVE CHECK (kept simple + safe)
+//   const isActiveRoute = (to) => {
+//     if (!to) return false;
+//     // ignore hash targets
+//     if (to.includes("#")) return false;
+
+//     const path = (location?.pathname || "/").toLowerCase();
+//     const target = String(to).toLowerCase();
+
+//     // exact for home
+//     if (target === "/") return path === "/";
+
+//     // normal exact match (no prefix to avoid wrong matches)
+//     return path === target;
+//   };
 
 //   // init timeline once
 //   useEffect(() => {
@@ -107,15 +127,13 @@
 //   return (
 //     <header
 //       ref={rootRef}
-//       // className="sticky top-0 z-50 w-full border-b border-black/25 bg-[#d9d9d9]"
-//       className="sticky top-0 z-50 w-full border-b border-black/25 bg-white/30 backdrop-blur-md"
-
+//       className="sticky top-0 z-50 w-full border-b border-black/25 bg-[#d9d9d9]"
 //     >
 //       {/* ===== Mobile Header (sm) ===== */}
 //       <div className="md:hidden">
 //         <div className="flex h-[70px] items-stretch">
 //           {/* left */}
-//           <div className="flex flex-1 items-center px-4">
+//           <div className="flex flex-1 items-left px-0">
 //             <div className="flex h-full items-center">
 //               <img
 //                 src={Logo}
@@ -124,7 +142,7 @@
 //                   max-h-[85%]
 //                   w-auto
 //                   object-contain
-//                   scale-[1.08]
+//                   scale-[0.6]
 //                 "
 //                 draggable={false}
 //               />
@@ -133,7 +151,7 @@
 
 //           {/* right */}
 //           <div className="flex items-center gap-3 px-4">
-//             <FlipButton
+//             <UIGridFlipButton
 //               variant="primary"
 //               size="sm"
 //               onClick={() => {
@@ -142,7 +160,7 @@
 //               }}
 //             >
 //               Contact
-//             </FlipButton>
+//             </UIGridFlipButton>
 
 //             <button
 //               onClick={toggle}
@@ -194,8 +212,10 @@
 
 //             {/* nav links */}
 //             <nav className="grid gap-2">
-//               {/* ✅ CHANGED: Team item opens modal instead of routing */}
+//               {/* ✅ Team opens modal */}
 //               {NAV.map((item) => {
+//                 const active = isActiveRoute(item.to);
+
 //                 if (item.label === "Team") {
 //                   return (
 //                     <button
@@ -208,7 +228,14 @@
 //                       }}
 //                       className="group flex items-center justify-between border border-black/20 bg-white/35 px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black"
 //                     >
-//                       <span>{item.label}</span>
+//                       <span className="flex items-center gap-2">
+//                         {/* ✅ indicator placeholder (Team isn't route-active) */}
+//                         <span className="relative grid h-4 w-4 place-items-center">
+//                           <span className="h-1.5 w-1.5 bg-transparent" />
+//                         </span>
+//                         {item.label}
+//                       </span>
+
 //                       <span className="text-[#ff5a12] opacity-70 transition group-hover:opacity-100">
 //                         ↗
 //                       </span>
@@ -222,9 +249,25 @@
 //                     data-mnav
 //                     to={item.to}
 //                     onClick={() => setOpen(false)}
-//                     className="group flex items-center justify-between border border-black/20 bg-white/35 px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black"
+//                     className={[
+//                       "group flex items-center justify-between border border-black/20 bg-white/35 px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black",
+//                       // ✅ subtle active state (no redesign)
+//                       active ? "text-black" : "",
+//                     ].join(" ")}
 //                   >
-//                     <span>{item.label}</span>
+//                     <span className="flex items-center gap-2">
+//                       {/* ✅ ACTIVE INDICATOR (orange dot) */}
+//                       <span className="relative grid h-4 w-4 place-items-center">
+//                         <span
+//                           className={[
+//                             "h-1.5 w-1.5",
+//                             active ? "bg-[#ff5a12]" : "bg-black/20",
+//                           ].join(" ")}
+//                         />
+//                       </span>
+//                       {item.label}
+//                     </span>
+
 //                     <span className="text-[#ff5a12] opacity-70 transition group-hover:opacity-100">
 //                       ↗
 //                     </span>
@@ -276,24 +319,27 @@
 //             <img
 //               src={Logo}
 //               alt="Senevon Tech Logo"
-//               className="h-[75px] w-auto object-contain"
+//               className="h-[45px] w-auto object-contain"
 //               draggable={false}
 //             />
 //           </div>
 
 //           {/* Center: nav */}
 //           <nav className="flex items-center justify-center gap-10 border-r border-black/25 px-6 text-[13px] font-medium tracking-wide text-black/70">
-//             {/* ✅ CHANGED: Team item opens modal instead of routing */}
+//             {/* ✅ Desktop active indicator (tiny underline) */}
 //             {NAV.map((item) => {
+//               const active = isActiveRoute(item.to);
+
 //               if (item.label === "Team") {
 //                 return (
 //                   <button
 //                     key={item.label}
 //                     type="button"
 //                     onClick={() => setTeamOpen(true)}
-//                     className="transition-colors hover:text-black"
+//                     className="relative transition-colors hover:text-black"
 //                   >
 //                     {item.label}
+//                     {/* keep structure; no active indicator for Team */}
 //                   </button>
 //                 );
 //               }
@@ -302,9 +348,21 @@
 //                 <Link
 //                   key={item.label}
 //                   to={item.to}
-//                   className="transition-colors hover:text-black"
+//                   className={[
+//                     "relative transition-colors hover:text-black",
+//                     active ? "text-black" : "",
+//                   ].join(" ")}
 //                 >
 //                   {item.label}
+
+//                   {/* ✅ ACTIVE INDICATOR (underline bar) */}
+//                   <span
+//                     aria-hidden="true"
+//                     className={[
+//                       "pointer-events-none absolute left-0 -bottom-[10px] h-[2px] w-full bg-[#ff5a12] transition-opacity",
+//                       active ? "opacity-100" : "opacity-0",
+//                     ].join(" ")}
+//                   />
 //                 </Link>
 //               );
 //             })}
@@ -318,19 +376,17 @@
 //               </span>
 //               Our Ecosystem
 //             </a>
-
-            
 //           </nav>
 
 //           {/* Right: CTA */}
 //           <div className="flex items-center justify-end px-6">
-//             <FlipButton
+//             <UIGridFlipButton
 //               variant="primary"
 //               size="sm"
 //               onClick={() => setContactOpen(true)}
 //             >
 //               Contact
-//             </FlipButton>
+//             </UIGridFlipButton>
 //             <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 //           </div>
 //         </div>
@@ -338,7 +394,7 @@
 
 //       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
-//       {/* ✅ ADDED: Team Modal render */}
+//       {/* ✅ Team Modal */}
 //       <Team open={teamOpen} onClose={() => setTeamOpen(false)} />
 //     </header>
 //   );
@@ -396,15 +452,29 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
 
 import Logo from "../assets/logo/logo-black.png";
 import ContactModal from "../components/UI/ContactModal";
 import { Link, useLocation } from "react-router-dom";
-import Team from "../components/UI/teamModal"; 
+import Team from "../components/UI/teamModal";
 import UIGridFlipButton from "./UI/UIGridFlipButton";
-
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -412,7 +482,6 @@ export default function Header() {
   const rootRef = useRef(null);
   const panelRef = useRef(null);
   const backdropRef = useRef(null);
-  const tlRef = useRef(null);
 
   // contact modal
   const [contactOpen, setContactOpen] = useState(false);
@@ -449,64 +518,90 @@ export default function Header() {
     return path === target;
   };
 
-  // init timeline once
+  // ✅ NO GSAP: set initial "closed" state once
   useEffect(() => {
-    const root = rootRef.current;
     const panel = panelRef.current;
     const backdrop = backdropRef.current;
-    if (!root || !panel || !backdrop) return;
+    if (!panel || !backdrop) return;
 
-    const links = panel.querySelectorAll("[data-mnav]");
-    const chips = panel.querySelectorAll("[data-chip]");
-    const cta = panel.querySelectorAll("[data-cta]");
+    panel.style.height = "0px";
+    panel.style.overflow = "hidden";
+    panel.style.opacity = "1";
 
-    gsap.set(panel, { height: 0, opacity: 1 });
-    gsap.set(backdrop, { autoAlpha: 0 });
-    gsap.set([links, chips, cta], { autoAlpha: 0, y: 10 });
-
-    const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
-
-    tl.to(backdrop, { autoAlpha: 1, duration: 0.18 }, 0)
-      .to(panel, { height: "auto", duration: 0.34 }, 0)
-      .to(
-        links,
-        { autoAlpha: 1, y: 0, duration: 0.18, stagger: 0.035 },
-        0.09
-      )
-      .to(
-        chips,
-        { autoAlpha: 1, y: 0, duration: 0.16, stagger: 0.03 },
-        0.12
-      )
-      .to(
-        cta,
-        { autoAlpha: 1, y: 0, duration: 0.16, stagger: 0.04 },
-        0.14
-      );
-
-    tlRef.current = tl;
+    backdrop.style.opacity = "0";
+    backdrop.style.visibility = "hidden";
+    backdrop.style.pointerEvents = "none";
 
     return () => {
-      tl.kill();
-      tlRef.current = null;
+      // cleanup inline styles
+      panel.style.height = "";
+      panel.style.overflow = "";
+      panel.style.opacity = "";
+
+      backdrop.style.opacity = "";
+      backdrop.style.visibility = "";
+      backdrop.style.pointerEvents = "";
     };
   }, []);
 
-  // open/close animation + body lock
+  // ✅ NO GSAP: open/close with CSS transitions + body lock
   useEffect(() => {
-    const tl = tlRef.current;
-    if (!tl) return;
+    const panel = panelRef.current;
+    const backdrop = backdropRef.current;
+    if (!panel || !backdrop) return;
+
+    // ensure transitions exist without changing design
+    panel.style.transition = "height 340ms ease";
+    backdrop.style.transition = "opacity 180ms ease";
 
     if (open) {
-      tl.play(0);
+      // show backdrop
+      backdrop.style.visibility = "visible";
+      backdrop.style.pointerEvents = "auto";
+      backdrop.style.opacity = "1";
+
+      // expand panel
+      panel.style.height = "auto";
+      const target = panel.scrollHeight; // measure auto height
+      panel.style.height = "0px"; // reset to animate
+      // force reflow
+      panel.offsetHeight; // eslint-disable-line no-unused-expressions
+      panel.style.height = `${target}px`;
+
       document.documentElement.style.overflow = "hidden";
     } else {
-      tl.reverse();
+      // collapse panel smoothly from current height
+      const current = panel.scrollHeight;
+      panel.style.height = `${current}px`;
+      panel.offsetHeight; // eslint-disable-line no-unused-expressions
+      panel.style.height = "0px";
+
+      // hide backdrop
+      backdrop.style.opacity = "0";
+      backdrop.style.pointerEvents = "none";
+
       document.documentElement.style.overflow = "";
     }
+
     return () => {
       document.documentElement.style.overflow = "";
     };
+  }, [open]);
+
+  // ✅ When open completes, set height to auto (so content changes won't break)
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const onEnd = (e) => {
+      if (e.propertyName !== "height") return;
+      if (open) {
+        panel.style.height = "auto";
+      }
+    };
+
+    panel.addEventListener("transitionend", onEnd);
+    return () => panel.removeEventListener("transitionend", onEnd);
   }, [open]);
 
   // ESC close
@@ -784,7 +879,10 @@ export default function Header() {
             >
               Contact
             </UIGridFlipButton>
-            <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+            <ContactModal
+              open={contactOpen}
+              onClose={() => setContactOpen(false)}
+            />
           </div>
         </div>
       </div>
@@ -821,3 +919,4 @@ function HamburgerIcon({ open }) {
     </div>
   );
 }
+

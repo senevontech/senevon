@@ -151,6 +151,30 @@ button:focus-visible {
   font-display: swap;
 }
 
+@font-face {
+  font-family: "cubic";
+  src: url("./assets/fonts/cubic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "abnes";
+  src: url("./assets/fonts/abnes.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "d3";
+  src: url("./assets/fonts/d3.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 
 

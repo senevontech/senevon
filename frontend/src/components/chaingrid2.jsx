@@ -185,7 +185,7 @@ export default function ChainGptHeroSection() {
                             <AccentDot className="right-6 bottom-6" />
 
                             <div className="flex h-full items-center justify-center px-5 sm:px-8">
-                                <h1 className="text-center font-black tracking-[0.18em] text-black text-[44px] sm:text-[64px] md:text-[110px] lg:text-[140px] font-[blanka]">
+                                <h1 className="text-center font-black tracking-[0.18em] text-[#ff5a12] text-[44px] sm:text-[44px] md:text-[100px] lg:text-[140px] font-[d3]">
                                     BACKING TOMORROW
                                 </h1>
                             </div>
