@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./production.css";
+import leftArrow from "../assets/icons/arrow-l.png";
+import rightArrow from "../assets/icons/arrow-r.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,8 +65,8 @@ export default function ProductsSection({ products = demoProducts }) {
     return [0, 1, 2, 3].map((k) => products[clamp(index + k, n)]);
   }, [index, products]);
 
-  
-    // ✅ Animate ONLY the title "OUR PRODUCTS"
+
+  // ✅ Animate ONLY the title "OUR PRODUCTS"
   useEffect(() => {
     const ctx = gsap.context(() => {
       // target ONLY the main title (do not touch other elements)
@@ -130,7 +132,7 @@ export default function ProductsSection({ products = demoProducts }) {
                 shipping real systems
               </p>
 
-              <div className="flex items-center gap-3">
+              {/* <div className="flex items-center gap-3">
                 <button
                   onClick={() => setIndex((v) => v - 1)}
                   className="grid h-12 w-16 place-items-center border border-black/30 bg-white/25 text-lg font-black text-black/70 hover:bg-white/60 active:translate-y-[1px]"
@@ -145,7 +147,37 @@ export default function ProductsSection({ products = demoProducts }) {
                 >
                   ›
                 </button>
+              </div> */}
+
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setIndex((v) => v - 1)}
+                  className="grid h-12 w-16 place-items-center border border-black/30 bg-white/25 hover:bg-white/60 active:translate-y-[1px]"
+                  aria-label="Previous"
+                >
+                  <img
+                    src={leftArrow}
+                    alt="Previous"
+                    className="h-6 w-6 object-contain pointer-events-none"
+                  />
+                </button>
+
+                <button
+                  onClick={() => setIndex((v) => v + 1)}
+                  className="grid h-12 w-16 place-items-center border border-black/30 bg-white/25 hover:bg-white/60 active:translate-y-[1px]"
+                  aria-label="Next"
+                >
+                  <img
+                    src={rightArrow}
+                    alt="Next"
+                    className="h-6 w-6 object-contain pointer-events-none"
+                  />
+                </button>
               </div>
+
+
+
             </div>
           </Tile>
 

@@ -106,8 +106,10 @@ export default function ChainGptHeroSection() {
                 <div className="mx-auto flex w-full max-w-[1600px] items-stretch px-3 sm:px-4">
                     {/* Left brand */}
                     <div className="flex items-center gap-3 py-3 pr-3 sm:pr-6">
-                        <div className="grid h-10 w-10 place-items-center rounded-lg border border-black/25 bg-white/50 shadow-[0_10px_22px_rgba(0,0,0,0.06)]">
-                            <span className="text-lg font-black">⌁</span>
+                        <div className="grid h-10 w-10 place-items-center rounded-xl  border border-black/25 bg-black shadow-[0_10px_22px_rgba(0,0,0,0.06)]">
+                            <span className="text-lg font-black">
+                                <div className=" bg-[#ff5a12] h-3 w-3 rounded-xl"></div>
+                            </span>
                         </div>
                         <div className="leading-none">
                             <div className="text-[11px] font-semibold tracking-wide text-black/70">
