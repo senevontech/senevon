@@ -597,6 +597,7 @@
 
 import React, { useMemo, useRef, useState } from "react";
 import "./ourWorks.css";
+import ContactModal from "../components/UI/ContactModal";
 
 
 /** ✅ Add categories later easily */
@@ -697,6 +698,8 @@ export default function WorksSection({
   const [active, setActive] = useState(categories?.[0]?.key || "websites");
   const [query, setQuery] = useState("");
 
+  const [contactOpen, setContactOpen] = useState(false);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return works
@@ -718,7 +721,7 @@ export default function WorksSection({
 
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#d9d9d9]">
+    <section id="works" ref={sectionRef} className="relative w-full bg-[#d9d9d9]">
       {/* grid background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.55]
@@ -880,6 +883,7 @@ export default function WorksSection({
     hover:before:-translate-x-0.5 hover:before:-translate-y-0.5
     hover:after:translate-x-0.5 hover:after:translate-y-0.5
   "
+  onClick={() => setContactOpen(true)}
 >
   START A PROJECT
 </button>
@@ -896,6 +900,7 @@ export default function WorksSection({
           </Tile>
         </div>
       </div>
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   );
 }

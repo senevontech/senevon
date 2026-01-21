@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./about.css";
+import ContactModal from "../components/UI/ContactModal"; 
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -80,6 +82,9 @@ and performance-first architecture.`,
   const [open, setOpen] = useState(0);
   const heroTag = useMemo(() => tagline.split("\n"), [tagline]);
   const scopeRef = useRef(null);
+
+  const [contactOpen, setContactOpen] = useState(false);
+
 
   useEffect(() => {
     const scope = scopeRef.current;
@@ -249,6 +254,7 @@ and performance-first architecture.`,
 
                 <button
                   data-animate="text"
+                  onClick={() => setContactOpen(true)}
                   className="
     relative
     bg-[#ff5a12]
@@ -286,8 +292,11 @@ and performance-first architecture.`,
 
 
                 <button
+                  id="view-work"
                   data-animate="text"
                   className="border border-black/25 bg-white/25 px-4 py-2.5 text-[12px] font-black tracking-widest text-black/70 hover:bg-white/60 active:translate-y-[1px]"
+                   onClick={() => document.getElementById("works")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+
                 >
                   VIEW WORK
                 </button>
@@ -538,6 +547,7 @@ and performance-first architecture.`,
     hover:before:-translate-x-1 hover:before:-translate-y-1
     hover:after:translate-x-1 hover:after:translate-y-1
   "
+   onClick={() => setContactOpen(true)}
                 >
                   START A PROJECT
                 </button>
@@ -561,6 +571,8 @@ and performance-first architecture.`,
           </Tile>
         </div>
       </div>
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+
     </section>
   );
 }
