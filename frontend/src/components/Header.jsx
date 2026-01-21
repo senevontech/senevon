@@ -530,7 +530,7 @@ export default function Header() {
       <div className="md:hidden">
         <div className="flex h-[70px] items-stretch">
           {/* left */}
-          <div className="flex flex-1 items-center px-4">
+          <div className="flex flex-1 items-left px-0">
             <div className="flex h-full items-center">
               <img
                 src={Logo}
@@ -539,7 +539,7 @@ export default function Header() {
                   max-h-[85%]
                   w-auto
                   object-contain
-                  scale-[1.08]
+                  scale-[0.6]
                 "
                 draggable={false}
               />
@@ -716,7 +716,7 @@ export default function Header() {
             <img
               src={Logo}
               alt="Senevon Tech Logo"
-              className="h-[75px] w-auto object-contain"
+              className="h-[45px] w-auto object-contain"
               draggable={false}
             />
           </div>

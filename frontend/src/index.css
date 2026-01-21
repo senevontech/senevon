@@ -202,3 +202,20 @@ body {
 
 
 
+
+/* optimisation-07  */
+/* Skips rendering of off-screen sections until they approach viewport */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+/* Reduce jank from heavy transforms */
+.will-transform {
+  will-change: transform;
+}
+
+/* If you have smooth scrolling libraries, avoid double smoothing */
+html {
+  scroll-behavior: smooth;
+}

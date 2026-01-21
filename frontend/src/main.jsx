@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./styles/hero.css";
 import "./index.css";
-import "./styles/customCursor.css";
+// import "./styles/customCursor.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

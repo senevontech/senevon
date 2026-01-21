@@ -30,9 +30,9 @@
 /* ===== Sizes ===== */
 /* ===== Sizes (MOBILE-FIRST) ===== */
 .uiBtn--sm {
-  height: 30px;
+  height: 22px;
   min-width: 60px;
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .uiBtn--md {
@@ -69,7 +69,7 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: rgba(0, 0, 0, 0.85);
+  border-color: rgba(0, 0, 0, 0.288);
   border-style: solid;
   z-index: 4;
   pointer-events: none;
@@ -77,23 +77,23 @@
 
 /* offset corners outside the rectangle */
 .uiBtn__corner--tl {
-  left: -10px;
-  top: -10px;
+  left: -6px;
+  top: -6px;
   border-width: 2px 0 0 2px;
 }
 .uiBtn__corner--tr {
-  right: -10px;
-  top: -10px;
+  right: -6px;
+  top: -6px;
   border-width: 2px 2px 0 0;
 }
 .uiBtn__corner--bl {
-  left: -10px;
-  bottom: -10px;
+  left: -6px;
+  bottom: -6px;
   border-width: 0 0 2px 2px;
 }
 .uiBtn__corner--br {
-  right: -10px;
-  bottom: -10px;
+  right: -6px;
+  bottom: -6px;
   border-width: 0 2px 2px 0;
 }
 

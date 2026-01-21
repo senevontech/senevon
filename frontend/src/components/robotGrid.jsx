@@ -732,6 +732,10 @@ export default function RobotGrid({ url = "/models/robot.glb", className = "" })
           gl.setClearColor(new THREE.Color(0x000000), 0);
         }}
       >
+
+      
+
+
         <Suspense fallback={null}>
           <ambientLight intensity={0.28} />
 
