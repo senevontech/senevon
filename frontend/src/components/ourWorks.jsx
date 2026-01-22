@@ -644,7 +644,7 @@ const WORKS = [
     subtitle: "E-commerce platform",
     tags: ["MERN", "Role-based", "Analytics"],
     image:
-      "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1600&q=60",
+      "https://res.cloudinary.com/dktixqoek/image/upload/v1769075047/85895_mynmro.png",
   },
   {
     id: "w5",
