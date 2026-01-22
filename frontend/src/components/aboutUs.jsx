@@ -12,7 +12,7 @@ const defaultMetrics = [
   { label: "Products shipped", value: 18, suffix: "+" },
   { label: "Clients supported", value: 65, suffix: "+" },
   { label: "Avg. delivery cycle", value: 21, suffix: " days" },
-  { label: "Uptime focus", value: 99.9, suffix: "%" },
+  { label: "Uptime focus", value: 96.9, suffix: "%" },
 ];
 
 const defaultPillars = [
@@ -24,7 +24,7 @@ const defaultPillars = [
 
 const defaultTimeline = [
   { k: "01", title: "Discover", desc: "We map goals, constraints, and success metrics." },
-  { k: "02", title: "Design", desc: "Grid-based UI system + clickable prototypes." },
+  { k: "02", title: "Design", desc: "Modern/Clean UI system + prototypes." },
   { k: "03", title: "Build", desc: "Iterative releases with QA, reviews, and performance checks." },
   { k: "04", title: "Scale", desc: "Monitoring, optimizations, and long-term support." },
 ];
@@ -73,8 +73,7 @@ export default function AboutSection({
   tagline = "• Built for real businesses\n  shipping real systems",
   introTitle = "We build systems that feel premium and run reliably.",
   introBody = `From ERP and retail analytics to investor platforms — we design, engineer,
-and ship production-grade products with a grid-based UI language, measurable KPIs,
-and performance-first architecture.`,
+and ship production-grade products with performance-first architecture.`,
   metrics = defaultMetrics,
   pillars = defaultPillars,
   timeline = defaultTimeline,
@@ -453,8 +452,8 @@ and performance-first architecture.`,
               <div className="mt-4 divide-y divide-black/15 rounded-2xl border border-black/20 bg-white/18">
                 {[
                   {
-                    q: "Why this grid-based UI system?",
-                    a: "It enforces clarity. Every tile is a purpose-built unit: content, interaction, and data. It scales across dashboards, ERP modules, and consumer pages with consistency.",
+                    q: "Why Senevon?",
+                    a: "We enforces clarity. Every Module is a purpose-built unit: content, interaction, and data. It scales across dashboards, ERP modules, and consumer pages with consistency.",
                   },
                   {
                     q: "How do you keep performance high with effects?",
@@ -551,15 +550,15 @@ and performance-first architecture.`,
                 >
                   START A PROJECT
                 </button>
-                <button
+                {/* <button
                   data-animate="text"
                   className="w-full border border-black/25 bg-white/25 px-6 py-3 text-[12px] font-black tracking-widest text-black/70 hover:bg-white/60 active:translate-y-[1px]"
                 >
                   SEE CAPABILITIES
-                </button>
+                </button> */}
               </div>
 
-              <div className="mt-6 rounded-2xl border border-black/20 bg-white/18 p-4">
+              <div className="mt-6 border border-black/20 bg-white/18 p-4">
                 <div data-animate="text" className="text-[12px] font-black tracking-[0.22em] text-black/60">
                   RESPONSE TIME
                 </div>

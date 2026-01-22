@@ -60,7 +60,7 @@ export default function Hero() {
   const rippleSourceRef = useRef(null);
 
   const title = "SENEVON";
-  const subtitle = "Future framed Engineering";
+  const subtitle = "Engineering the Future";
 
   // "S E N E V O N" => O is index 5 (0-based)
   const titleSpans = useMemo(

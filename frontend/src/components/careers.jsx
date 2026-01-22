@@ -1525,7 +1525,7 @@ function ApplyModal({ role, onClose }) {
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative w-full max-w-[720px] overflow-hidden border border-white/30 bg-[#ff5a12] shadow-[0_40px_120px_rgba(0,0,0,0.45)]">
-        <div className="flex items-start justify-between border-b border-white/25 bg-white/10 px-6 py-5">
+        <div className="flex items-start justify-between border-b border-white/25 bg-white/10 px-6 py-0">
           <div>
             <div data-animate="text" className="text-[12px] font-black tracking-[0.24em] text-white/90">
               APPLYING FOR

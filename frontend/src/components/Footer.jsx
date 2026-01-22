@@ -310,15 +310,15 @@ export default function Footer({
               <a className="ft-link" href="/">
                 {mkLetters("Home")}
               </a>
-              <a className="ft-link" href="/works">
+              <a className="ft-link" href="/#works">
                 {mkLetters("Our Works")}
               </a>
-              <a className="ft-link" href="/careers">
+              <a className="ft-link" href="/#careers">
                 {mkLetters("Careers")}
               </a>
-              <a className="ft-link" href="/contact">
+              {/* <a className="ft-link" href="/contact">
                 {mkLetters("Contact")}
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -350,30 +350,43 @@ export default function Footer({
               </div>
             </div>
             <div className="ft-links">
+
               <a
                 className="ft-link"
-                href="https://x.com/senevon"
+                href="https://x.com/senevon_tech"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {mkLetters("X / TWITTER ↗")}
+                {mkLetters("X")}
               </a>
+
               <a
                 className="ft-link"
-                href="https://www.linkedin.com/company/senevon"
+                href="https://www.linkedin.com/company/senevon-tech/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {mkLetters("LINKEDIN ↗")}
+                {mkLetters("Linkedin")}
               </a>
+
               <a
                 className="ft-link"
-                href="https://medium.com/@senevon"
+                href="https://www.facebook.com/profile.php?id=61585962131769"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {mkLetters("MEDIUM ↗")}
+                {mkLetters("Facebook")}
               </a>
+
+              <a
+                className="ft-link"
+                href="https://www.instagram.com/senevon_tech/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {mkLetters("Instagram")}
+              </a>
+
             </div>
           </div>
 

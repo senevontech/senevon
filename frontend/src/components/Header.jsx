@@ -676,7 +676,7 @@ export default function Header() {
 
         {/* Slide panel */}
         <div
-          className="relative z-50 overflow-hidden border-t border-black/25 bg-[#d9d9d9]"
+          className="relative z-50 overflow-hidden border-t border-black/25 bg-[#ff5a12]"
           ref={panelRef}
         >
           {/* subtle grid only inside panel */}
@@ -695,7 +695,7 @@ export default function Header() {
                 onClick={close}
                 className="inline-flex items-center  gap-2 border border-black/25 bg-white/45 px-4 py-2 text-[11px] font-black tracking-widest text-black/70 hover:bg-white/70"
               >
-                <span className="grid h-5 w-5 place-items-center border border-black/25 bg-white/55">
+                <span className="grid h-5 w-5 place-items-center border border-black/25 bg-white/40">
                   <span className="h-1.5 w-1.5 bg-[#ff5a12]" />
                 </span>
                 OUR ECOSYSTEM
@@ -718,7 +718,7 @@ export default function Header() {
                         setOpen(false);
                         setTeamOpen(true);
                       }}
-                      className="group flex items-center justify-between border border-black/20 bg-white/35 px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black"
+                      className="group flex items-center justify-between border border-black/20 bg-white px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black"
                     >
                       <span className="flex items-center gap-2">
                         {/* ✅ indicator placeholder (Team isn't route-active) */}
@@ -729,7 +729,7 @@ export default function Header() {
                       </span>
 
                       <span className="text-[#ff5a12] opacity-70 transition group-hover:opacity-100">
-                        ↗
+                        
                       </span>
                     </button>
                   );
@@ -742,7 +742,7 @@ export default function Header() {
                     to={item.to}
                     onClick={() => setOpen(false)}
                     className={[
-                      "group flex items-center justify-between border border-black/20 bg-white/35 px-4 py-3 text-[13px] font-semibold tracking-wide text-black/75 hover:bg-white/70 hover:text-black",
+                      "group flex items-center justify-between border border-black/20 bg-black/80 px-4 py-3 text-[13px] font-semibold tracking-wide text-white/75 hover:bg-white/70 hover:text-white",
                       // ✅ subtle active state (no redesign)
                       active ? "text-black" : "",
                     ].join(" ")}
@@ -761,7 +761,7 @@ export default function Header() {
                     </span>
 
                     <span className="text-[#ff5a12] opacity-70 transition group-hover:opacity-100">
-                      ↗
+                      
                     </span>
                   </Link>
                 );
@@ -769,7 +769,7 @@ export default function Header() {
             </nav>
 
             {/* bottom CTA row */}
-            <div className="mt-4 grid gap-3">
+            {/* <div className="mt-4 grid gap-3">
               <button
                 data-cta
                 onClick={() => {
@@ -789,7 +789,7 @@ export default function Header() {
               >
                 REQUEST DEMO
               </button>
-            </div>
+            </div> */}
 
             {/* micro meta */}
             <div data-cta className="mt-4 flex items-center justify-between">

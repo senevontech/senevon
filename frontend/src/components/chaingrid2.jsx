@@ -17,10 +17,10 @@ import IncubationModal from "./UI/IncubationModal";
 const NAV = ["Our Programs", "Portfolio", "Media", "Reviews", "Team", "FAQ", "Blog"];
 
 const PARTNERS = [
-    { name: "Chainlink", mark: "⬡" },
-    { name: "TRON", mark: "△" },
-    { name: "BNB", mark: "⬢" },
-    { name: "0x", mark: "▦" },
+    { name: "JChain", mark: "⬡" },
+    { name: "PTRON", mark: "△" },
+    { name: "BHB", mark: "⬢" },
+    { name: "B0x", mark: "▦" },
 ];
 
 function MiniStat({ label, value }) {
@@ -330,7 +330,7 @@ export default function ChainGptHeroSection() {
 
                             {/* Header */}
                             <div className="text-[11px] font-black tracking-[0.22em] text-black/65">
-                                ECOSYSTEM PULSE
+                                ECOSYSTEM
                             </div>
 
                             <div className="mt-2 text-[13px] font-semibold text-black/60 leading-relaxed">
@@ -568,7 +568,7 @@ function MobileSocialFabSharp({ open, onToggle, onClose, socials }) {
                                         onClick={onClose}
                                         className={[
                                             "flex items-center gap-3",
-                                            "border border-black/20 bg-white/80",
+                                            "border border-black/20 bg-[#ff5a12]/80",
                                             "px-3 py-2",
                                             "text-black/80",
                                             "transition-colors duration-150",

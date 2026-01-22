@@ -12,31 +12,31 @@ gsap.registerPlugin(ScrollTrigger);
 const demoProducts = [
   {
     id: "p1",
-    name: "GMW",
+    name: "Retail-Rail",
     role: "RETAIL ANALYTICS",
     img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=60",
   },
   {
     id: "p2",
-    name: "G+ Inventory",
+    name: "K-Stock",
     role: "STOCK + GRN",
     img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=60",
   },
   {
     id: "p3",
-    name: "Hirot ERP",
+    name: "SNV-HR",
     role: "HR + PAYROLL",
     img: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=60",
   },
   {
     id: "p4",
-    name: "FundrOS",
-    role: "CROWD FUNDING",
+    name: "CodeMist",
+    role: "Cloud CODE EDITOR",
     img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=60",
   },
   {
     id: "p5",
-    name: "Touring",
+    name: "Travar",
     role: "Travel management system",
     img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=60",
   },
