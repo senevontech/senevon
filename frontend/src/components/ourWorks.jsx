@@ -613,41 +613,59 @@ const WORKS = [
   {
     id: "w1",
     category: "websites",
-    title: "Senevon",
-    subtitle: "Futuristic marketing site",
+    title: "Portfolios",
+    subtitle: "Futuristic Portfolio sites",
     tags: ["Next.js", "Tailwind", "GSAP"],
     image:
-      "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1600&q=60",
+      "https://res.cloudinary.com/dktixqoek/image/upload/v1769063204/85427_ngd0pl.jpg",
   },
   {
     id: "w2",
     category: "websites",
-    title: " Glm+",
-    subtitle: "Product + services web presence",
-    tags: ["React", "UI System", "SEO"],
+    title: "Toolit",
+    subtitle: "Online Tool system",
+    tags: ["Image compressor", "converters", "GSAP"],
     image:
-      "https://images.unsplash.com/photo-1519222970733-f546218fa6d7?auto=format&fit=crop&w=1600&q=60",
+      "https://res.cloudinary.com/dktixqoek/image/upload/v1769063205/85843_uzprdv.png",
   },
   {
     id: "w3",
+    category: "websites",
+    title: "Travar",
+    subtitle: "Tour and travel management system",
+    tags: ["React", "UI System", "Mongo db"],
+    image:
+      "https://res.cloudinary.com/dktixqoek/image/upload/v1769063204/85493_ethtct.jpg",
+  },
+  {
+    id: "w4",
     category: "webapps",
-    title: "SPorty",
-    subtitle: "Sports management system",
+    title: "Moon Walk",
+    subtitle: "E-commerce platform",
     tags: ["MERN", "Role-based", "Analytics"],
     image:
       "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1600&q=60",
   },
   {
-    id: "w4",
+    id: "w5",
     category: "webapps",
-    title: "Hsuit Platform",
-    subtitle: "HR + payroll SaaS",
-    tags: ["React", "Node", "Subscriptions"],
+    title: "Resturang",
+    subtitle: "Resturent website",
+    tags: ["MERN", "Role-based", "Analytics"],
     image:
-      "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=60",
+      "https://res.cloudinary.com/dktixqoek/image/upload/v1769063204/85426_lylyfg.jpg",
   },
   {
-    id: "w5",
+    id: "w6",
+    category: "webapps",
+    title: "Codemist",
+    subtitle: "Cloud Code editor",
+    tags: ["React", "Node", "SaaS"],
+    image:
+      " https://res.cloudinary.com/dktixqoek/image/upload/v1769063209/85844_a2nyje.png",
+  },
+  {
+    id: "w7",
     category: "datascience",
     title: "Vendor Priority Model",
     subtitle: "Minimal-column ranking engine",
@@ -656,7 +674,7 @@ const WORKS = [
       "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1600&q=60",
   },
   {
-    id: "w6",
+    id: "w8",
     category: "datascience",
     title: "Retail KPI Analytics",
     subtitle: "Conversion + anomaly insights",
@@ -665,7 +683,7 @@ const WORKS = [
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=60",
   },
   {
-    id: "w7",
+    id: "w9",
     category: "graphics",
     title: "Brand Identity Pack",
     subtitle: "Logo + brand kit + UI kit",
@@ -674,7 +692,7 @@ const WORKS = [
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=60",
   },
   {
-    id: "w8",
+    id: "w10",
     category: "graphics",
     title: "Social Creatives",
     subtitle: "Campaign posters and banners",
@@ -943,11 +961,11 @@ function WorkCard({ work }) {
                   </span>
                 ))}
               </div>
-              <button className="wk-view">
+              {/* <button className="wk-view">
                 <span data-animate="text">
                   VIEW <span className="wk-plus">+</span>
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
