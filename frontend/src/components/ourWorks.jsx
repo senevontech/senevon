@@ -608,7 +608,7 @@ const CATEGORIES = [
   { key: "graphics", label: "Graphics Designs" },
 ];
 
-/** ✅ Demo data (replace with your real works) */
+// works 
 const WORKS = [
   {
     id: "w1",
