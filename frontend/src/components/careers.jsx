@@ -1576,7 +1576,7 @@ function ApplyModal({ role, onClose }) {
         <form className="grid gap-4 p-6 md:grid-cols-2" onSubmit={submit}>
           <Field label="Full Name">
             <input
-              className="cr-input text-[#ff5a12]"
+              className="cr-input text-black"
               required
               placeholder="Your name"
               value={form.name}
@@ -1586,7 +1586,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Email">
             <input
-              className="cr-input text-[#ff5a12]"
+              className="cr-input text-black"
               type="email"
               required
               placeholder="you@email.com"
@@ -1597,7 +1597,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Portfolio / LinkedIn">
             <input
-              className="cr-input text-[#ff5a12]"
+              className="cr-input text-black"
               placeholder="https://…"
               value={form.portfolio}
               onChange={update("portfolio")}
@@ -1606,7 +1606,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Location">
             <input
-              className="cr-input text-[#ff5a12]"
+              className="cr-input text-black"
               placeholder="City, Country"
               value={form.location}
               onChange={update("location")}
@@ -1616,7 +1616,7 @@ function ApplyModal({ role, onClose }) {
           <div className="md:col-span-2">
             <Field label="Message">
               <textarea
-                className="cr-input min-h-[120px] resize-none text-[#ff5a12]"
+                className="cr-input min-h-[120px] resize-none text-black"
                 placeholder="Why are you a fit for this role?"
                 value={form.message}
                 onChange={update("message")}
