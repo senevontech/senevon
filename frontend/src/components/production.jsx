@@ -20,25 +20,25 @@ const demoProducts = [
     id: "p2",
     name: "K-Stock",
     role: "STOCK + GRN",
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=60",
+    img: "https://images.unsplash.com/photo-1607459726451-44808af96022?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: "p3",
     name: "SNV-HR",
     role: "HR + PAYROLL",
-    img: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=60",
+    img: "https://images.unsplash.com/photo-1698047681452-08eba22d0c64?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: "p4",
     name: "CodeMist",
     role: "Cloud CODE EDITOR",
-    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=60",
+    img: "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: "p5",
     name: "Travar",
     role: "Travel management system",
-    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=60",
+    img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 
@@ -185,7 +185,7 @@ export default function ProductsSection({ products = demoProducts }) {
           {visible.map((p) => (
             <Tile
               key={p?.id}
-              className="col-span-12 sm:col-span-6 md:col-span-3 min-h-[520px]"
+              className="col-span-12 sm:col-span-6 md:col-span-3 min-h-[20px]"
             >
               <ProductCard product={p} />
             </Tile>
@@ -227,12 +227,29 @@ function ProductCard({ product }) {
       </div>
 
       {/* Image area */}
-      <div className="relative flex-1 p-5">
+      {/* <div className="relative flex-1 p-5">
         <div className="prod-image fx-pixelate relative h-full w-full overflow-hidden border border-black/25 bg-black/10">
           <img
             src={product.img}
             alt={product.name}
             className="h-full w-full object-cover grayscale"
+            loading="lazy"
+          /> */}
+
+      <div className="relative p-5">
+        <div
+          className="
+      prod-image fx-pixelate
+      relative w-full
+      overflow-hidden
+      border border-black/25 bg-black/10
+      aspect-[4/3]
+    "
+        >
+          <img
+            src={product.img}
+            alt={product.name}
+            className="absolute inset-0 h-full w-full object-cover grayscale"
             loading="lazy"
           />
 
