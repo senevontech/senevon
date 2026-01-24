@@ -811,7 +811,7 @@ export default function Header() {
             <img
               src={Logo}
               alt="Senevon Tech Logo"
-              className="h-[45px] w-auto object-contain"
+              className="h-[25px] w-auto object-contain"
               draggable={false}
             />
           </div>
