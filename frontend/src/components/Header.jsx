@@ -811,9 +811,10 @@ export default function Header() {
             <img
               src={Logo}
               alt="Senevon Tech Logo"
-              className="h-[25px] w-auto object-contain"
+              className="h-[45px] w-auto object-contain"
               draggable={false}
             />
+            <p className="font-[invers] text-[33px]">SENEVON</p>
           </div>
 
           {/* Center: nav */}
