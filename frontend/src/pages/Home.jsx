@@ -11,6 +11,7 @@ import OurWorks from "../components/ourWorks";
 import Careers from "../components/careers";
 import Tools from "../components/Tools";
 import Testimonial from "../components/Testimonial";
+import Subs from "../pages/subs";
 import Footer from "../components/Footer";
 
 
@@ -33,6 +34,7 @@ export default function Home() {
 
       <Tools />
       <Testimonial />
+      <Subs/>
       <Footer />
 
       {/* <Hero2 /> */}
