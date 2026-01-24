@@ -1084,6 +1084,30 @@ export default function CareersSection({
       });
   }, [roles, team, query]);
 
+  // ✅ Simple mailto function (no backend needed)
+const sendEmail = () => {
+  const to = "careers@senevon.in"; // ✅ configured receiver email
+  const subject = "CV Submission - SENEVON";
+  const body = `Hi SENEVON Team,
+
+I would like to submit my CV for consideration.
+
+Name:
+Phone:
+Portfolio/LinkedIn:
+Message:
+
+Thanks,
+`;
+
+  const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailto;
+};
+
+
   /* ----------------------------- GSAP: ONLY TITLE ----------------------------- */
   useLayoutEffect(() => {
     const el = titleRef.current;
@@ -1264,6 +1288,7 @@ export default function CareersSection({
                 <div className="flex gap-3">
                   <button
                     data-animate="text"
+                    onClick={sendEmail}
                     className="
     relative
     bg-white
@@ -1308,6 +1333,7 @@ export default function CareersSection({
 
                   <button
                     data-animate="text"
+                    onClick={sendEmail}
                     className="border border-white/55 bg-white/16 px-6 py-3 text-[12px] font-black tracking-widest text-white hover:bg-white/24 active:translate-y-[1px]"
                   >
                     EMAIL US
@@ -1550,7 +1576,7 @@ function ApplyModal({ role, onClose }) {
         <form className="grid gap-4 p-6 md:grid-cols-2" onSubmit={submit}>
           <Field label="Full Name">
             <input
-              className="cr-input"
+              className="cr-input text-[#ff5a12]"
               required
               placeholder="Your name"
               value={form.name}
@@ -1560,7 +1586,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Email">
             <input
-              className="cr-input"
+              className="cr-input text-[#ff5a12]"
               type="email"
               required
               placeholder="you@email.com"
@@ -1571,7 +1597,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Portfolio / LinkedIn">
             <input
-              className="cr-input"
+              className="cr-input text-[#ff5a12]"
               placeholder="https://…"
               value={form.portfolio}
               onChange={update("portfolio")}
@@ -1580,7 +1606,7 @@ function ApplyModal({ role, onClose }) {
 
           <Field label="Location">
             <input
-              className="cr-input"
+              className="cr-input text-[#ff5a12]"
               placeholder="City, Country"
               value={form.location}
               onChange={update("location")}
@@ -1590,7 +1616,7 @@ function ApplyModal({ role, onClose }) {
           <div className="md:col-span-2">
             <Field label="Message">
               <textarea
-                className="cr-input min-h-[120px] resize-none"
+                className="cr-input min-h-[120px] resize-none text-[#ff5a12]"
                 placeholder="Why are you a fit for this role?"
                 value={form.message}
                 onChange={update("message")}

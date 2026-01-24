@@ -403,8 +403,8 @@ export default function Footer({
             <span className="ft-bigCorner tl" />
             <span className="ft-bigCorner tr" />
 
-            <div className="ft-bigClean" aria-label={bigWord}>
-              <div className="ft-bigWord font-brand is-base">
+            <div className="ft-bigClean " aria-label={bigWord}>
+              <div className="ft-bigWord font-invers is-base text-[#ff5a12]">
                 {bigSpans}
               </div>
             </div>

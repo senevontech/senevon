@@ -293,7 +293,7 @@ export default function ProductsPage() {
                         className={[
                           "h-10 border border-black/25 bg-white/45 px-3 text-[12px] font-black tracking-widest text-black/70 transition",
                           "hover:bg-[#ff5a12] active:translate-y-[1px]",
-                          active ? "bg-black- text-white hover:bg-[#ff5a12]" : "",
+                          active ? "bg-black/90 text-[#ff5a12]/90 hover:bg-[#ff5a12]" : "",
                         ].join(" ")}
                         type="button"
                       >

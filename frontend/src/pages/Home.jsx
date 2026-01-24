@@ -2,7 +2,7 @@
 // import About from "../components/About";
 // import Hero2 from "../components/hero2";
 import Header from "../components/Header";
-import Hero from "../components/Hero";
+import Hero from "../components/Hero4";
 // import ChainGrids from "../components/ChainGrids";
 import ChainGrids from "../components/chaingrid2";
 import Products from "../components/production";

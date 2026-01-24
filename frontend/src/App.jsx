@@ -46,13 +46,13 @@ import ScrollToHash from "./utils/ScrollToHash";
 import AdminLogin from "./pages/supabaseLogin";
 import Admin from "./pages/supabaseDashboard";
 
-import Cursor from "./components/CustomCursor";
+// import Cursor from "./components/CustomCursor";
 
 export default function App() {
   return (
     <>
       {/* Global custom cursor */}
-      <Cursor />
+      {/* <Cursor /> */}
       <ScrollToHash />
 
       {/* Routes */}

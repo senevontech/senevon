@@ -175,6 +175,30 @@ button:focus-visible {
   font-display: swap;
 }
 
+@font-face {
+  font-family: "invers";
+  src: url("./assets/fonts/Inversionz.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "square";
+  src: url("./assets/fonts/square.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "hexa";
+  src: url("./assets/fonts/hexa.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 
 

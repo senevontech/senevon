@@ -56,6 +56,7 @@ body {
   letter-spacing: -0.03em;
   font-size: clamp(64px, 10vw, 128px);
   color: rgb(255, 94, 0) !important;
+  font-family: "square";
 }
 
 .hero-subtitle {
@@ -413,6 +414,7 @@ body {
   animation: none !important;
   display: none !important;
 }
+
 
 
 

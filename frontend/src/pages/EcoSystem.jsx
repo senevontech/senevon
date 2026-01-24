@@ -282,7 +282,7 @@ export default function EcosystemPage() {
                         className={[
                           "h-10 border border-black/30 bg-[#d9d9d9] px-3 text-[12px] font-black tracking-widest text-black/75 transition",
                           "hover:brightness-[1.02] active:translate-y-[1px]",
-                          isActive ? "bg-black text-[#ff5a12]" : "",
+                          isActive ? "bg-[#ff5a12] text-[#ff5a12]" : "",
                         ].join(" ")}
                       >
                         {t.toUpperCase()}

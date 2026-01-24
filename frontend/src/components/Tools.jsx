@@ -741,7 +741,7 @@ export default function ToolsStackSection({
             </div>
 
             <div className="ts-footBtns">
-              <button
+              {/* <button
                 className="
                   relative
                   bg-[#ff5a12]
@@ -753,7 +753,7 @@ export default function ToolsStackSection({
                   hover:brightness-[1.05]
                   active:translate-y-[1px]
 
-                  /* TOP-LEFT BRACKET */
+                  
                   before:absolute before:top-2 before:left-2
                   before:h-3 before:w-3
                   before:border-l-2 before:border-t-2
@@ -761,7 +761,7 @@ export default function ToolsStackSection({
                   before:content-['']
                   before:transition-all before:duration-300
 
-                  /* BOTTOM-RIGHT BRACKET */
+                  
                   after:absolute after:bottom-2 after:right-2
                   after:h-3 after:w-3
                   after:border-r-2 after:border-b-2
@@ -769,16 +769,17 @@ export default function ToolsStackSection({
                   after:content-['']
                   after:transition-all after:duration-300
 
-                  /* PRIMARY HOVER MOTION */
+                  
                   hover:before:-translate-x-1 hover:before:-translate-y-1
                   hover:after:translate-x-1 hover:after:translate-y-1
                 "
               >
                 DISCUSS YOUR STACK
-              </button>
+              </button>  */}
 
-              <button className="ts-btnGhost">REQUEST CAPABILITIES</button>
+              {/* <button className="ts-btnGhost">REQUEST CAPABILITIES</button> */}
             </div>
+            
           </div>
         </div>
       </div>
