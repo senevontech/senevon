@@ -36,6 +36,7 @@ import Services from "./pages/Services";
 import About from "./pages/About";
 import FAQ from "./components/faq";
 import Ecosystem from "./pages/EcoSystem";
+// import Ecosystem from "./pages/ecoSystem2";
 import ScrollToHash from "./utils/ScrollToHash";
 
 

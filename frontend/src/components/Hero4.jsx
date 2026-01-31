@@ -403,7 +403,7 @@ export default function Hero() {
     <section ref={wrapRef} className={"hero" + (reduce ? " reduce-motion" : "")}>
       <video
         className="hero-video"
-        src="/video/robot3.mp4"
+        src="/video/gene.mp4"
         autoPlay
         muted
         loop
