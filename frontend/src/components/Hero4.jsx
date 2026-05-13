@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
+import useLowEndDevice from "../hooks/useLowEndDevice";
 
 /**
  * Split text into spans and attach a ref to a specific index ("O" in SENEVON).
@@ -25,6 +26,7 @@ function splitToSpans(text, opts = {}) {
 }
 
 export default function Hero() {
+  const lowEndDevice = useLowEndDevice();
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
@@ -102,7 +104,7 @@ export default function Hero() {
 
     // --- FAST ERASE GRID SETUP ---
     // Choose a cell size that is stable across screens (bigger = faster)
-    const cell = rect.width < 520 ? 28 : 34; // mobile: tighter, desktop: faster
+    const cell = lowEndDevice ? (rect.width < 520 ? 38 : 48) : rect.width < 520 ? 28 : 34;
     const cols = Math.max(10, Math.floor(rect.width / cell));
     const rows = Math.max(10, Math.floor(rect.height / cell));
     const total = cols * rows;
@@ -184,7 +186,13 @@ export default function Hero() {
       strokeQueueRef.current = [];
 
       // Big radius = expensive, but OK if we batch per RAF
-      const radius = wrap.getBoundingClientRect().width < 520 ? 78 : 102;
+      const radius = lowEndDevice
+        ? wrap.getBoundingClientRect().width < 520
+          ? 54
+          : 70
+        : wrap.getBoundingClientRect().width < 520
+        ? 78
+        : 102;
 
       for (const seg of queue) {
         const { from, to } = seg;
@@ -276,6 +284,7 @@ export default function Hero() {
   };
 
   const onPointerDown = (e) => {
+    if (lowEndDevice) return;
     isDownRef.current = true;
     const p = getPoint(e);
     lastPointRef.current = p;
@@ -283,6 +292,7 @@ export default function Hero() {
   };
 
   const onPointerMove = (e) => {
+    if (lowEndDevice) return;
     if (!isTouch) updateCursorTargetFromEvent(e);
     if (!isDownRef.current) return;
 
@@ -318,10 +328,10 @@ export default function Hero() {
 
     setIsTouch(!!touchCapable);
 
-    setupCanvas();
+    if (!lowEndDevice) setupCanvas();
 
     const onResize = () => {
-      setupCanvas();
+      if (!lowEndDevice) setupCanvas();
       updateRippleVars();
     };
 
@@ -397,17 +407,18 @@ export default function Hero() {
   }, [isFullyErased]);
 
   // reduce motion: disable ripple animation via class
-  const reduce = prefersReduceMotion();
+  const reduce = prefersReduceMotion() || lowEndDevice;
 
   return (
     <section ref={wrapRef} className={"hero" + (reduce ? " reduce-motion" : "")}>
       <video
         className="hero-video"
         src="/video/gene.mp4"
-        autoPlay
+        autoPlay={!lowEndDevice}
         muted
         loop
         playsInline
+        preload={lowEndDevice ? "metadata" : "auto"}
       />
 
       {/* ✅ Fullscreen ripple (slow + cyclic) */}
@@ -417,25 +428,27 @@ export default function Hero() {
         <span className="hero-ripple r3" />
       </div>
 
-      <canvas
-        ref={canvasRef}
-        className="hero-canvas"
-        onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
-        onPointerDown={(e) => {
-          e.currentTarget.setPointerCapture?.(e.pointerId);
-          onPointerDown(e);
-        }}
-        onPointerMove={onPointerMove}
-        onPointerUp={(e) => {
-          onPointerUp();
-          e.currentTarget.releasePointerCapture?.(e.pointerId);
-        }}
-        onPointerCancel={(e) => {
-          onPointerUp();
-          e.currentTarget.releasePointerCapture?.(e.pointerId);
-        }}
-      />
+      {!lowEndDevice && (
+        <canvas
+          ref={canvasRef}
+          className="hero-canvas"
+          onPointerEnter={onPointerEnter}
+          onPointerLeave={onPointerLeave}
+          onPointerDown={(e) => {
+            e.currentTarget.setPointerCapture?.(e.pointerId);
+            onPointerDown(e);
+          }}
+          onPointerMove={onPointerMove}
+          onPointerUp={(e) => {
+            onPointerUp();
+            e.currentTarget.releasePointerCapture?.(e.pointerId);
+          }}
+          onPointerCancel={(e) => {
+            onPointerUp();
+            e.currentTarget.releasePointerCapture?.(e.pointerId);
+          }}
+        />
+      )}
 
       {!isTouch && (
         <div

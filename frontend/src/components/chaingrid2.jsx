@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-// import SplineScene from "../components/UI/splineTile";
-import RobotGrid from "../components/robotGrid";
+import React, { Suspense, lazy, useState, useEffect, useCallback } from "react";
+import useLowEndDevice from "../hooks/useLowEndDevice";
 
 import {
     FaFacebookF,
@@ -12,6 +11,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import IncubationModal from "./UI/IncubationModal";
 
+const RobotGrid = lazy(() => import("../components/robotGrid"));
 
 
 const NAV = ["Our Programs", "Portfolio", "Media", "Reviews", "Team", "FAQ", "Blog"];
@@ -38,6 +38,7 @@ function MiniStat({ label, value }) {
 
 
 export default function ChainGptHeroSection() {
+    const lowEndDevice = useLowEndDevice();
 
     const [incOpen, setIncOpen] = useState(false);
 
@@ -288,7 +289,22 @@ export default function ChainGptHeroSection() {
     </div> */}
 
                             <div className="absolute inset-0">
-                                <RobotGrid url="/models/robot2.glb" className="h-full w-full" />
+                                {lowEndDevice ? (
+                                    <div className="grid h-full w-full place-items-center border border-black/15 bg-white/25 p-6">
+                                        <div className="max-w-[260px] text-center">
+                                            <div className="text-[11px] font-black tracking-[0.22em] text-black/70">
+                                                PERFORMANCE MODE
+                                            </div>
+                                            <p className="mt-3 text-[13px] font-semibold leading-relaxed text-black/60">
+                                                3D model rendering is disabled on this device to keep scrolling smooth.
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <Suspense fallback={<div className="h-full w-full bg-white/20" />}>
+                                        <RobotGrid url="/models/robot2.glb" className="h-full w-full" />
+                                    </Suspense>
+                                )}
                             </div>
 
                         </div>

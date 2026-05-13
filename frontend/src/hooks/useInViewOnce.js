@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function useInViewOnce(ref, options = { rootMargin: "200px" }) {
   const [inView, setInView] = useState(false);
+  const optionsRef = useRef(options);
 
   useEffect(() => {
     if (!ref?.current || inView) return;
@@ -12,11 +13,11 @@ export default function useInViewOnce(ref, options = { rootMargin: "200px" }) {
         setInView(true);
         io.disconnect();
       }
-    }, options);
+    }, optionsRef.current);
 
     io.observe(el);
     return () => io.disconnect();
-  }, [ref, inView, options]);
+  }, [ref, inView]);
 
   return inView;
 }

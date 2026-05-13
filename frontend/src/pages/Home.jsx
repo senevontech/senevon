@@ -1,44 +1,77 @@
-
-// import About from "../components/About";
-// import Hero2 from "../components/hero2";
+import { Suspense, lazy } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero4";
-// import ChainGrids from "../components/ChainGrids";
-import ChainGrids from "../components/chaingrid2";
-import Products from "../components/production";
-import AboutUs from "../components/aboutUs";
-import OurWorks from "../components/ourWorks";
-import Careers from "../components/careers";
-import Tools from "../components/Tools";
-import Testimonial from "../components/Testimonial";
-import Subs from "../pages/subs";
-import Footer from "../components/Footer";
+import DeferredMount from "../components/performance/DeferredMount";
 
+const ChainGrids = lazy(() => import("../components/chaingrid2"));
+const Products = lazy(() => import("../components/production"));
+const AboutUs = lazy(() => import("../components/aboutUs"));
+const OurWorks = lazy(() => import("../components/ourWorks"));
+const Careers = lazy(() => import("../components/careers"));
+const Tools = lazy(() => import("../components/Tools"));
+const Testimonial = lazy(() => import("../components/Testimonial"));
+const Subs = lazy(() => import("../pages/subs"));
+const Footer = lazy(() => import("../components/Footer"));
 
+function SectionFallback({ minHeight = 380 }) {
+  return <div aria-hidden="true" style={{ minHeight: `${minHeight}px` }} />;
+}
+
+function LazySection({ children, minHeight = 380, rootMargin = "400px" }) {
+  return (
+    <DeferredMount
+      minHeight={minHeight}
+      rootMargin={rootMargin}
+      fallback={<SectionFallback minHeight={minHeight} />}
+    >
+      <Suspense fallback={<SectionFallback minHeight={minHeight} />}>{children}</Suspense>
+    </DeferredMount>
+  );
+}
 
 export default function Home() {
   return (
     <div>
       <Header />
       <Hero />
-      
-      <ChainGrids />
-      <Products />
-      <AboutUs />
-      <OurWorks />
 
-      {/* <Careers /> */}
+      <LazySection minHeight={640}>
+        <ChainGrids />
+      </LazySection>
+
+      <LazySection minHeight={560}>
+        <Products />
+      </LazySection>
+
+      <LazySection minHeight={620}>
+        <AboutUs />
+      </LazySection>
+
+      <LazySection minHeight={620}>
+        <OurWorks />
+      </LazySection>
+
       <section id="careers">
-        <Careers />
+        <LazySection minHeight={680}>
+          <Careers />
+        </LazySection>
       </section>
 
-      <Tools />
-      <Testimonial />
-      <Subs/>
-      <Footer />
+      <LazySection minHeight={620}>
+        <Tools />
+      </LazySection>
 
-      {/* <Hero2 /> */}
-      {/* <About /> */}
+      <LazySection minHeight={640}>
+        <Testimonial />
+      </LazySection>
+
+      <LazySection minHeight={420}>
+        <Subs />
+      </LazySection>
+
+      <LazySection minHeight={280} rootMargin="250px">
+        <Footer />
+      </LazySection>
     </div>
   );
 }

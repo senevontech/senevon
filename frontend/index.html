@@ -3,16 +3,20 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#d9d9d9" />
 
-  <!-- <link rel="icon" type="image/svg+xml" sizes="48x48" href="/favicon.png" /> -->
+  <!-- Preconnect to external origins -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
 
+  <!-- Icons -->
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Senevon - It Company | Consultancy </title>
 
   <meta name="description"
@@ -35,7 +39,6 @@
     content="Modern websites, UI/UX, branding, SEO, and e-commerce solutions built for growth." />
   <meta name="twitter:image" content="https://www.senevon.in/og-image.jpg" />
 
-
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -50,17 +53,15 @@
       }
     </script>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CMQ30J1D8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1CMQ30J1D8');
+  </script>
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1CMQ30J1D8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1CMQ30J1D8');
-</script>
 
 <body>
   <div id="root"></div>
